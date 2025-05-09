@@ -1,0 +1,3 @@
+class NewTeamEvent {
+  NewTeamEvent();
+}

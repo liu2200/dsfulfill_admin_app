@@ -1,0 +1,3 @@
+class EditCustomEvent {
+  EditCustomEvent();
+}
