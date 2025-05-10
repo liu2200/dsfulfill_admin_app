@@ -203,7 +203,7 @@ class ClientListView extends GetView<ClientListController> {
                       child: AppText(
                         text: '${'剩余额度'.tr}：${customer.residualCredit}',
                         fontSize: 14.sp,
-                        textAlign: TextAlign.center,
+                        textAlign: TextAlign.right,
                       ),
                     ),
                   ],

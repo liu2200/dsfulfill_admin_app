@@ -16,19 +16,27 @@ class AnalysisController extends GetxController {
   ].obs;
   final RxString dateType = 'today'.obs;
   final orderTotalStatistics = Rxn<List<OrderStatisticsModel>>();
+  final orderRevenueStatistics = Rxn<List<OrderStatisticsModel>>();
+  final customerRechargeStatistics = Rxn<List<OrderStatisticsModel>>();
   final token = Get.find<AppState>().token.obs;
 
   @override
   void onInit() {
     super.onInit();
-    getOrderTotalStatistics();
+    loadData();
     ApplicationEvent.getInstance().event.on<LoginedEvent>().listen((event) {
       token.value = Get.find<AppState>().token;
-      // loadData();
+      loadData();
     });
     ApplicationEvent.getInstance().event.on<SetTeamEvent>().listen((event) {
-      getOrderTotalStatistics();
+      loadData();
     });
+  }
+
+  loadData() {
+    getOrderTotalStatistics();
+    getOrderRevenueStatistics();
+    getCustomerRechargeStatistics();
   }
 
   getOrderTotalStatistics() async {
@@ -41,5 +49,29 @@ class AnalysisController extends GetxController {
           '${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}',
     });
     orderTotalStatistics.value = result;
+  }
+
+  getOrderRevenueStatistics() async {
+    final now = DateTime.now();
+    final sevenDaysAgo = now.subtract(const Duration(days: 6));
+    var result = await HomeService.getOrderRevenueStatistics({
+      'start_date':
+          '${sevenDaysAgo.year}-${sevenDaysAgo.month.toString().padLeft(2, '0')}-${sevenDaysAgo.day.toString().padLeft(2, '0')}',
+      'end_date':
+          '${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}',
+    });
+    orderRevenueStatistics.value = result;
+  }
+
+  getCustomerRechargeStatistics() async {
+    final now = DateTime.now();
+    final sevenDaysAgo = now.subtract(const Duration(days: 6));
+    var result = await HomeService.getCustomerRechargeStatistics({
+      'start_date':
+          '${sevenDaysAgo.year}-${sevenDaysAgo.month.toString().padLeft(2, '0')}-${sevenDaysAgo.day.toString().padLeft(2, '0')}',
+      'end_date':
+          '${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}',
+    });
+    customerRechargeStatistics.value = result;
   }
 }

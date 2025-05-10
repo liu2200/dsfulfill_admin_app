@@ -92,7 +92,7 @@ class _MyAppState extends State<MyApp> {
           translations: I10N(),
           locale: _locale,
           getPages: Routers.pages,
-          initialRoute: Routers.home,
+          initialRoute: CommonStorage.getGuide() ? Routers.guide : Routers.home,
           builder: EasyLoading.init(builder: (context, child) {
             return MediaQuery(
               data: MediaQuery.of(context).copyWith(

@@ -1,3 +1,5 @@
+import 'package:dsfulfill_cient_app/views/guide_page/guide_binding.dart';
+import 'package:dsfulfill_cient_app/views/guide_page/guide_view.dart';
 import 'package:dsfulfill_cient_app/views/login/login_binding.dart';
 import 'package:dsfulfill_cient_app/views/login/login_view.dart';
 import 'package:dsfulfill_cient_app/views/tabbar/tabbar_binding.dart';
@@ -49,6 +51,7 @@ import 'package:dsfulfill_cient_app/views/me/modify_password/modify_password_vie
 
 class Routers {
   static const String home = '/'; // 首页
+  static const String guide = '/guide'; // 引导页
   static const String login = '/login'; // 登录
   static const String productDetail = '/productDetail'; // 商品详情
   static const String shopList = '/shopList'; // 店铺列表
@@ -81,6 +84,11 @@ class Routers {
   ];
 
   static List<GetPage> pages = [
+    GetPage(
+      name: guide,
+      page: () => const GuideView(),
+      binding: GuideBinding(),
+    ),
     GetPage(
       name: login,
       page: () => const LoginView(),

@@ -1,5 +1,3 @@
-import 'package:dsfulfill_cient_app/events/application_event.dart';
-import 'package:dsfulfill_cient_app/events/list_refresh_event.dart';
 import 'package:dsfulfill_cient_app/models/customer_model.dart';
 import 'package:dsfulfill_cient_app/services/finance_service.dart';
 import 'package:dsfulfill_cient_app/services/marketing_service.dart';
@@ -25,12 +23,6 @@ class TransactionController extends GetxController {
   void onInit() {
     super.onInit();
     getCustomList();
-    ApplicationEvent.getInstance().event.on<ListRefreshEvent>().listen((event) {
-      if (event.type == 'refresh') {
-        pageIndex = 0;
-        loadList();
-      }
-    });
   }
 
   @override

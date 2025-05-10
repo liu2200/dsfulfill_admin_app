@@ -6,6 +6,7 @@ class CommonStorage {
   static String languageKey = "language";
   static String userInfoKey = "userInfo";
   static String teamKey = "team";
+  static String guideKey = "guide";
 
   static Locale? getLanguage() {
     String? code = GetStorage().read(languageKey);
@@ -53,5 +54,13 @@ class CommonStorage {
 
   static void setTeam(Map<String, dynamic> data) {
     GetStorage().write(teamKey, data);
+  }
+
+  static void setGuide(bool data) {
+    GetStorage().write(guideKey, data);
+  }
+
+  static bool getGuide() {
+    return GetStorage().read(guideKey) ?? false;
   }
 }

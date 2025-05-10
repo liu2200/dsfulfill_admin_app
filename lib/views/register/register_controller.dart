@@ -149,7 +149,6 @@ class RegisterController extends BaseController {
         'type': isEmailRegister.value ? 'email' : 'phone',
         'verification_code': codeController.text,
       };
-      print(map);
       var res = await UserService.register(map);
       if (res['ok']) {
         EasyLoading.showSuccess(res['msg']);

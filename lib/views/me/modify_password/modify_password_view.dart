@@ -71,6 +71,7 @@ class ModifyPasswordView extends GetView<ModifyPasswordController> {
                 controller: controller.newPasswordController,
                 hintText: '请输入新密码'.tr,
                 obscureText: true,
+                togglePasswordVisibility: true,
               ),
               SizedBox(height: 16.h),
               _buildLabelText('确认密码'.tr),
@@ -78,6 +79,7 @@ class ModifyPasswordView extends GetView<ModifyPasswordController> {
                 controller: controller.confirmPasswordController,
                 hintText: '请输入确认密码'.tr,
                 obscureText: true,
+                togglePasswordVisibility: true,
               ),
               SizedBox(height: 16.h),
               AppText(

@@ -14,7 +14,9 @@ class SetBrandView extends GetView<SetBrandController> {
   @override
   Widget build(BuildContext context) {
     return BaseScafflod(
-      title: controller.type.value == 'new' ? '创建专属客户端'.tr : '客户端设置'.tr,
+      title: controller.type.value == 'new' || controller.type.value == 'login'
+          ? '创建专属客户端'.tr
+          : '客户端设置'.tr,
       hasBack: true,
       backgroundColor: AppStyles.white,
       body: SingleChildScrollView(

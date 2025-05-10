@@ -13,10 +13,14 @@ class CompanyController extends BaseController {
   final RxInt selectedCompanyId = RxInt(-1);
   final RxBool isLoading = false.obs;
   final appState = Get.find<AppState>();
+  final RxString type = ''.obs;
 
   @override
   void onInit() {
     super.onInit();
+    if (Get.arguments != null) {
+      type.value = Get.arguments['type'];
+    }
     getCompanyList();
     ApplicationEvent.getInstance().event.on<NewTeamEvent>().listen((event) {
       getCompanyList();
@@ -53,6 +57,10 @@ class CompanyController extends BaseController {
         'team_code': item.teamCode,
       });
       ApplicationEvent.getInstance().event.fire(SetTeamEvent());
+      if (type.value == 'login') {
+        Routers.pop();
+        Routers.pop();
+      }
     }
   }
 

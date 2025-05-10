@@ -7,6 +7,8 @@ import 'package:dsfulfill_cient_app/views/components/image/load_network_image.da
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class MeView extends GetView<MeController> {
   const MeView({super.key});
@@ -299,7 +301,7 @@ class MeView extends GetView<MeController> {
                       ),
                       child: Column(
                         children: [
-                          _buildSimpleMenuItem('前往电脑版'.tr, ''),
+                          _buildSimpleMenuItem('前往电脑版'.tr, 'web'),
                           const Divider(height: 1, color: AppStyles.line),
                           _buildSimpleMenuItem('教程中心'.tr, ''),
                           const Divider(height: 1, color: AppStyles.line),
@@ -324,6 +326,55 @@ class MeView extends GetView<MeController> {
       onTap: () {
         if (route == 'modifyPassword') {
           Routers.push(Routers.modifyPassword);
+        } else if (route == 'web') {
+          // 显示确认弹窗
+          showDialog(
+            context: Get.context!,
+            builder: (context) {
+              return AlertDialog(
+                title: AppText(
+                  text: '前往电脑端网页'.tr,
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.bold,
+                  textAlign: TextAlign.center,
+                ),
+                content: AppText(
+                  text: '转到dsfulfill网页。在电脑端访问网页(erp.dsfulfill.com)可以更加方便的进行管理。'
+                      .tr,
+                  fontSize: 14.sp,
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12.r),
+                ),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop(); // 关闭弹窗
+                    },
+                    child: AppText(
+                      text: '取消'.tr,
+                      color: Colors.grey,
+                      fontSize: 14.sp,
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop(); // 关闭弹窗
+                      // 前往电脑版
+                      launchUrl(Uri.parse('https://erp.dsfulfill.com'),
+                          mode: LaunchMode.externalApplication);
+                    },
+                    child: AppText(
+                      text: '确定'.tr,
+                      color: AppStyles.primary,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14.sp,
+                    ),
+                  ),
+                ],
+              );
+            },
+          );
         }
       },
       child: Container(

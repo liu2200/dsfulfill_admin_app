@@ -5,6 +5,7 @@ import 'package:dsfulfill_cient_app/events/application_event.dart';
 import 'package:dsfulfill_cient_app/events/logined_event.dart';
 import 'package:dsfulfill_cient_app/models/token_model.dart';
 import 'package:dsfulfill_cient_app/state/app_state.dart';
+import 'package:dsfulfill_cient_app/storage/common_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:dsfulfill_cient_app/config/base_controller.dart';
 import 'package:dsfulfill_cient_app/services/user_service.dart';
@@ -67,7 +68,7 @@ class LoginController extends BaseController {
         'password': passwordController.text,
         'invite_company_code': null,
         'invite_member_code': null,
-        'verification_code': codeController.text,
+        'phone_verification_code': codeController.text,
         'type': isEmailRegister.value ? 'password' : 'sms',
       });
       if (tokenModel != null) {
@@ -96,6 +97,15 @@ class LoginController extends BaseController {
     AppState userInfo = Get.find<AppState>();
     userInfo.saveToken('${tokenModel.tokenType} ${tokenModel.accessToken}');
     ApplicationEvent.getInstance().event.fire(LoginedEvent());
-    Routers.pop();
+    if (tokenModel.companyId == 0) {
+      Routers.push(Routers.newTeam, {'type': 'login'});
+    } else {
+      if (CommonStorage.getGuide()) {
+        CommonStorage.setGuide(false);
+        Routers.push(Routers.home);
+      } else {
+        Routers.pop();
+      }
+    }
   }
 }

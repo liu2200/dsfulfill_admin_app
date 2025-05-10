@@ -8,9 +8,14 @@ import 'package:get/get.dart';
 
 class NewTeamController extends BaseController {
   final TextEditingController teamNameController = TextEditingController();
+  final RxString type = ''.obs;
   @override
   void onInit() {
     super.onInit();
+    if (Get.arguments != null) {
+      print('login');
+      type.value = 'login'; //如果是登录
+    }
   }
 
   createCompany() async {
@@ -24,9 +29,16 @@ class NewTeamController extends BaseController {
       "invoice_info": ""
     });
     if (result) {
-      Routers.push(Routers.setBrand, {
-        'type': 'new',
-      });
+      if (type.value == 'login') {
+        Routers.pop();
+        Routers.push(Routers.setBrand, {
+          'type': 'login',
+        });
+      } else {
+        Routers.push(Routers.setBrand, {
+          'type': 'new',
+        });
+      }
       ApplicationEvent.getInstance().event.fire(NewTeamEvent());
     }
   }

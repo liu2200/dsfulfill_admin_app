@@ -1,4 +1,5 @@
 import 'package:dsfulfill_cient_app/config/base_controller.dart';
+import 'package:dsfulfill_cient_app/config/routers.dart';
 import 'package:dsfulfill_cient_app/events/application_event.dart';
 import 'package:dsfulfill_cient_app/events/change_page_index_event.dart';
 import 'package:dsfulfill_cient_app/events/logined_event.dart';
@@ -6,6 +7,7 @@ import 'package:dsfulfill_cient_app/events/set_team_event.dart';
 import 'package:dsfulfill_cient_app/models/home_model.dart';
 import 'package:dsfulfill_cient_app/services/home_service.dart';
 import 'package:dsfulfill_cient_app/state/app_state.dart';
+import 'package:dsfulfill_cient_app/storage/common_storage.dart';
 import 'package:get/get.dart';
 
 class HomeController extends BaseController {
@@ -64,6 +66,7 @@ class HomeController extends BaseController {
     ApplicationEvent.getInstance().event.on<SetTeamEvent>().listen((event) {
       loadData();
     });
+
     loadData();
   }
 

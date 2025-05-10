@@ -1,5 +1,3 @@
-import 'package:dsfulfill_cient_app/events/application_event.dart';
-import 'package:dsfulfill_cient_app/events/list_refresh_event.dart';
 import 'package:dsfulfill_cient_app/services/workbench_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -15,11 +13,6 @@ class ProductController extends GetxController
   void onInit() {
     super.onInit();
     tabController = TabController(length: 3, vsync: this);
-    ApplicationEvent.getInstance().event.on<ListRefreshEvent>().listen((event) {
-      if (event.type == 'refresh') {
-        loadList();
-      }
-    });
   }
 
   loadList({type}) async {

@@ -246,26 +246,28 @@ class _SmsCodeButtonState extends State<SmsCodeButton> {
       final data = jsonDecode(message.message) as Map<String, dynamic>;
       if (data['captchaVerifyParam'] != null) {
         bool success = false;
-        await UserService.getSendSmsCode(
-          {
-            'captchaVerifyParam': data['captchaVerifyParam'],
-            widget.smsType: widget.account!,
-            'type': widget.type,
-          },
-          (msg) {
+        var params = {
+          'captchaVerifyParam': data['captchaVerifyParam'],
+          widget.smsType: widget.account!,
+          'type': widget.type,
+        };
+        if (widget.smsType == 'phone') {
+          await UserService.getSendSmsCode(params, (msg) {
             success = true;
+            _startCountdown();
             Navigator.of(context).pop(); // 关闭验证码对话框
-          },
-          (error) {
+          }, (error) {
             success = false;
-            // 重新加载验证码以重置状态
-            _webViewController.reload();
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('发送失败: $error')),
-            );
-          },
-        );
-
+          });
+        } else {
+          await UserService.getSendEmailCode(params, (msg) {
+            success = true;
+            _startCountdown();
+            Navigator.of(context).pop(); // 关闭验证码对话框
+          }, (error) {
+            success = false;
+          });
+        }
         // 执行回调，通知验证码结果
         if (data['resolveCallback'] != null) {
           await _webViewController
@@ -282,7 +284,6 @@ class _SmsCodeButtonState extends State<SmsCodeButton> {
   }
 
   void _handleError(JavaScriptMessage message) {
-    print('验证码错误: ${message.message}');
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('验证失败: ${message.message}')),
@@ -302,9 +303,9 @@ class _SmsCodeButtonState extends State<SmsCodeButton> {
     // 验证 account 是否为空
     final isAccountEmpty = widget.account == null || widget.account!.isEmpty;
     final isDisabled = _countdown > 0 || isAccountEmpty;
-
     return SizedBox(
       height: 48.h,
+      width: 130.w,
       child: ElevatedButton(
         onPressed: isDisabled ? null : _showCaptchaDialog,
         style: ElevatedButton.styleFrom(

@@ -110,7 +110,7 @@ class ForgetPasswordController extends BaseController {
       },
     );
     if (result) {
-      Routers.push(Routers.login);
+      Routers.pop();
     }
     hideLoading();
   }

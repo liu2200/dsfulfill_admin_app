@@ -8,8 +8,8 @@ class ClientDomainModel {
   });
 
   ClientDomainModel.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    domain = json['domain'];
+    id = json['id'] ?? 0;
+    domain = json['domain'] ?? '';
   }
 
   Map<String, dynamic> toJson() {

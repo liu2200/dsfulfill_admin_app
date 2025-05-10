@@ -186,7 +186,7 @@ class _ProductCardWidgetState extends State<ProductCardWidget> {
   Widget _buildRelatedProducts(item, index) {
     final related = item.mapping?.goodsSku;
     if (related == null) return const SizedBox();
-    final hasImage = related.images != null && related.images.isNotEmpty;
+    final hasImage = related.images[0] != null && related.images[0].isNotEmpty;
     final profitN = related.profit ?? '';
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,

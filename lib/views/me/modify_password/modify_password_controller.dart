@@ -39,7 +39,7 @@ class ModifyPasswordController extends BaseController {
       return showToast('请输入确认密码'.tr);
     }
     if (newPasswordController.text != confirmPasswordController.text) {
-      return showToast('两次密码不一致');
+      return showToast('两次密码不一致'.tr);
     }
     showLoading();
     var result = await UserService.forgotPassword({

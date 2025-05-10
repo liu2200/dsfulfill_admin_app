@@ -1,6 +1,7 @@
 import 'package:dsfulfill_cient_app/config/base_controller.dart';
 import 'package:dsfulfill_cient_app/config/routers.dart';
 import 'package:dsfulfill_cient_app/events/application_event.dart';
+import 'package:dsfulfill_cient_app/events/client_list_event.dart';
 import 'package:dsfulfill_cient_app/events/list_refresh_event.dart';
 import 'package:dsfulfill_cient_app/models/area_code_model.dart';
 import 'package:dsfulfill_cient_app/models/custom_group_model.dart';
@@ -113,9 +114,7 @@ class ClientDetailController extends BaseController {
         await CustomService.updateCustom(customerDetail.value?.id, params);
     if (result) {
       showToast('修改成功'.tr);
-      ApplicationEvent.getInstance()
-          .event
-          .fire(ListRefreshEvent(type: 'refresh'));
+      ApplicationEvent.getInstance().event.fire(ClientListEvent());
       Get.back();
       Get.back();
     }

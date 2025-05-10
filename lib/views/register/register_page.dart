@@ -95,12 +95,20 @@ class RegisterPage extends GetView<RegisterController> {
                             controller: controller.passwordController,
                             hintText: '密码'.tr,
                             obscureText: true,
+                            togglePasswordVisibility: true,
                           ),
                           SizedBox(height: 16.h),
                           BaseInput(
                             controller: controller.confirmPasswordController,
                             hintText: '确认密码'.tr,
                             obscureText: true,
+                            togglePasswordVisibility: true,
+                          ),
+                          SizedBox(height: 16.h),
+                          AppText(
+                            text: '请输入8-16位，且带有 字母、数字、特殊符号三种字符组合的密码！'.tr,
+                            fontSize: 10.sp,
+                            color: AppStyles.textGrey,
                           ),
                         ],
                       )

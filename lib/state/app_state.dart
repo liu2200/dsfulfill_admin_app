@@ -22,10 +22,13 @@ class AppState {
 
   final networkDisconnect = false.obs;
 
+  final guide = true.obs; //是否第一次进入
+
   AppState() {
     token.value = CommonStorage.getToken();
     userInfo.value = CommonStorage.getUserInfo();
     team.value = CommonStorage.getTeam();
+    guide.value = CommonStorage.getGuide();
   }
 
   judgeNetWork() async {
@@ -63,6 +66,15 @@ class AppState {
   saveToken(String t) {
     token.value = t;
     CommonStorage.setToken(t);
+  }
+
+  saveGuide(bool data) {
+    guide.value = data;
+    CommonStorage.setGuide(data);
+  }
+
+  getGuide() {
+    guide.value = CommonStorage.getGuide();
   }
 
   clear() {

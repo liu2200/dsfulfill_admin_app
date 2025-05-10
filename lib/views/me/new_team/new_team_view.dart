@@ -14,7 +14,7 @@ class NewTeamView extends GetView<NewTeamController> {
   Widget build(BuildContext context) {
     return BaseScafflod(
       title: '创建团队'.tr,
-      hasBack: true,
+      hasBack: controller.type.value == 'login' ? false : true,
       backgroundColor: AppStyles.background,
       body: Container(
         width: double.infinity,

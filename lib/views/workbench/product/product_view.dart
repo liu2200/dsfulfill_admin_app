@@ -40,7 +40,8 @@ class ProductView extends GetView<ProductController> {
                         .fire(ListRefreshEvent(type: 'refresh'));
                   },
                 ),
-                buildTabs(),
+                const SizedBox(height: 10),
+                // buildTabs(),
               ],
             ),
           ),

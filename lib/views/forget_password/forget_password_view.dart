@@ -83,12 +83,20 @@ class ForgetPasswordView extends GetView<ForgetPasswordController> {
                   controller: controller.passwordController,
                   hintText: '新密码'.tr,
                   obscureText: true,
+                  togglePasswordVisibility: true,
                 ),
                 20.verticalSpaceFromWidth,
                 BaseInput(
                   controller: controller.confirmPasswordController,
                   hintText: '确认密码'.tr,
                   obscureText: true,
+                  togglePasswordVisibility: true,
+                ),
+                16.verticalSpaceFromWidth,
+                AppText(
+                  text: '请输入8-16位，且带有 字母、数字、特殊符号三种字符组合的密码！'.tr,
+                  fontSize: 10.sp,
+                  color: AppStyles.textGrey,
                 ),
                 20.verticalSpaceFromWidth,
                 Obx(

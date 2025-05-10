@@ -22,6 +22,7 @@ class BaseInput extends StatefulWidget {
       this.maxLines = 1,
       this.minLines,
       this.enabled = true,
+      this.togglePasswordVisibility = false,
       this.keyboardType});
   final TextEditingController controller;
   final FocusNode? focusNode;
@@ -39,6 +40,7 @@ class BaseInput extends StatefulWidget {
   final int? maxLines;
   final int? minLines;
   final bool enabled;
+  final bool togglePasswordVisibility;
   final TextInputType? keyboardType;
   final Color? borderColor;
   @override
@@ -47,6 +49,7 @@ class BaseInput extends StatefulWidget {
 
 class _BaseInputState extends State<BaseInput> {
   bool _showClearButton = false;
+  bool _obscureText = false;
   FocusNode? _focusNode;
 
   @override
@@ -55,6 +58,7 @@ class _BaseInputState extends State<BaseInput> {
     if (widget.clearable) {
       widget.controller.addListener(onInput);
     }
+    _obscureText = widget.obscureText;
   }
 
   onInput() {
@@ -76,14 +80,13 @@ class _BaseInputState extends State<BaseInput> {
 
   @override
   Widget build(BuildContext context) {
-    // 在build中初始化或获取focusNode
     final focusNode = widget.focusNode ?? (_focusNode ??= FocusNode());
 
     return TextField(
       cursorColor: AppStyles.primary,
       controller: widget.controller,
       focusNode: focusNode,
-      obscureText: widget.obscureText,
+      obscureText: _obscureText,
       enabled: widget.enabled,
       style: TextStyle(
         color: widget.enabled
@@ -132,22 +135,46 @@ class _BaseInputState extends State<BaseInput> {
           minHeight: 20,
           minWidth: 20,
         ),
-        suffixIcon: widget.clearable && _showClearButton
-            ? GestureDetector(
-                onTap: () {
-                  widget.controller.clear();
-                },
-                child: Icon(
-                  Icons.cancel,
-                  color: AppStyles.grey9,
-                  size: 16.sp,
-                ),
-              )
-            : 0.horizontalSpace,
+        suffixIcon: _buildSuffixIcon(),
       ),
       onTapOutside: (event) {
         FocusScope.of(context).unfocus();
       },
     );
+  }
+
+  Widget? _buildSuffixIcon() {
+    if (widget.togglePasswordVisibility) {
+      return Padding(
+        padding: EdgeInsets.only(right: 10.sp),
+        child: GestureDetector(
+          onTap: () {
+            setState(() {
+              _obscureText = !_obscureText;
+            });
+          },
+          child: Icon(
+            _obscureText ? Icons.visibility_off : Icons.visibility,
+            color: AppStyles.grey9,
+            size: 18.sp,
+          ),
+        ),
+      );
+    }
+
+    if (widget.clearable && _showClearButton) {
+      return GestureDetector(
+        onTap: () {
+          widget.controller.clear();
+        },
+        child: Icon(
+          Icons.cancel,
+          color: AppStyles.grey9,
+          size: 16.sp,
+        ),
+      );
+    }
+
+    return 0.horizontalSpace;
   }
 }

@@ -176,9 +176,7 @@ class OrderListController extends GetxController
     tabController = TabController(length: 7, vsync: this);
     ApplicationEvent.getInstance().event.on<ListRefreshEvent>().listen((event) {
       if (event.type == 'refresh') {
-        pageIndex = 0;
         getOrderCount();
-        loadMoreList();
       }
     });
   }

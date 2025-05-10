@@ -1,6 +1,6 @@
 class OrderStatisticsModel {
   late String date;
-  late int num;
+  late double num;
 
   OrderStatisticsModel({
     required this.date,
@@ -9,7 +9,15 @@ class OrderStatisticsModel {
 
   OrderStatisticsModel.fromJson(Map<String, dynamic> json) {
     date = json['date'];
-    num = json['num'];
+
+    var numRaw = json['num'];
+    if (numRaw is int) {
+      num = numRaw.toDouble();
+    } else if (numRaw is String) {
+      num = double.parse(numRaw);
+    } else {
+      num = 0;
+    }
   }
 
   Map<String, dynamic> toJson() {

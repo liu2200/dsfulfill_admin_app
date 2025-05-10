@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:dsfulfill_cient_app/config/app_config.dart';
 import 'package:dsfulfill_cient_app/config/base_controller.dart';
+import 'package:dsfulfill_cient_app/config/routers.dart';
 import 'package:dsfulfill_cient_app/events/application_event.dart';
 import 'package:dsfulfill_cient_app/events/edit_custom_event.dart';
 import 'package:dsfulfill_cient_app/services/common_service.dart';
@@ -32,7 +33,6 @@ class SetBrandController extends BaseController {
   void _loadInitialData() async {
     var res = await MeService.getCustomClient();
     if (res != null) {
-      print(res.name);
       siteNameController.text = res.name;
       logoUrl.value = res.logo;
       iconUrl.value = res.tabIcon;
@@ -71,6 +71,11 @@ class SetBrandController extends BaseController {
       if (type.value == 'new') {
         Get.back();
         Get.back();
+      } else if (type.value == 'login') {
+        Get.back();
+        Routers.push(Routers.company, {
+          'type': 'login',
+        });
       } else {
         Get.back();
       }

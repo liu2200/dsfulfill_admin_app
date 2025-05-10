@@ -57,7 +57,7 @@ class CompanyView extends GetView<CompanyController> {
                 }
 
                 if (controller.companyList.isEmpty) {
-                  return Center(
+                  Center(
                     child: AppText(
                       text: '暂无团队'.tr,
                       fontSize: 14.sp,

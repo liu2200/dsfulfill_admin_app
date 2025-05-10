@@ -1,5 +1,3 @@
-import 'package:dsfulfill_cient_app/events/application_event.dart';
-import 'package:dsfulfill_cient_app/events/list_refresh_event.dart';
 import 'package:dsfulfill_cient_app/models/custom_group_model.dart';
 import 'package:dsfulfill_cient_app/models/customer_model.dart';
 import 'package:dsfulfill_cient_app/models/staff_model.dart';
@@ -32,11 +30,6 @@ class ClientListController extends GetxController {
     super.onInit();
     getCustomGroupList();
     getStaffList();
-    ApplicationEvent.getInstance().event.on<ListRefreshEvent>().listen((event) {
-      if (event.type == 'refresh') {
-        loadList();
-      }
-    });
   }
 
   loadList({type}) async {

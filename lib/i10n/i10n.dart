@@ -294,7 +294,25 @@ class I10N extends Translations {
           "请输入确认密码": "请输入确认密码",
           "注意事项": "注意事项",
           "请输入8-16位，且带有 字母、数字、特殊符号三种字符组合的密码！":
-              "请输入8-16位，且带有 字母、数字、特殊符号三种字符组合的密码！"
+              "请输入8-16位，且带有 字母、数字、特殊符号三种字符组合的密码！",
+          "两次密码不一致": "两次密码不一致",
+          "专为 Dropshipping 履约服务商，重新设计Dropshipping agent 系统":
+              "专为 Dropshipping 履约服务商，重新设计Dropshipping agent 系统",
+          "DSFulfill 是什么": "DSFulfill 是什么",
+          "DSFulfill 为 Dropshipping agent 提供一站式软件管理服务，一套系统从履约、报价、仓储、物流、帐单都能轻松解决":
+              "DSFulfill 为 Dropshipping agent 提供一站式软件管理服务，一套系统从履约、报价、仓储、物流、帐单都能轻松解决",
+          "自动生成客户端": "自动生成客户端",
+          "自动为您生成个性化域名的客户端，Dropshipper通过客户端可以进行自助绑定店铺、同步网店订单、铺货到众多网店平台、发起寻源代采、物流轨迹查询、查询帐单、切换多语言模式等操作":
+              "自动为您生成个性化域名的客户端，Dropshipper通过客户端可以进行自助绑定店铺、同步网店订单、铺货到众多网店平台、发起寻源代采、物流轨迹查询、查询帐单、切换多语言模式等操作",
+          "专业的管理端": "专业的管理端",
+          "0 门槛使用、专为Dropshipping agent而生": "0 门槛使用、专为Dropshipping agent而生",
+          "下一步": "下一步",
+          "开始体验": "开始体验",
+          "已有账户?": "已有账户?",
+          "这里登录": "这里登录",
+          "转到dsfulfill网页": "转到dsfulfill网页",
+          "转到dsfulfill网页。在电脑端访问网页(erp.dsfulfill.com)可以更加方便的进行管理。":
+              "转到dsfulfill网页。在电脑端访问网页(erp.dsfulfill.com)可以更加方便的进行管理。",
         },
         'en_US': {
           '注册 DSFulfill': 'Register DSFulfill',
@@ -585,7 +603,26 @@ class I10N extends Translations {
           "请输入确认密码": "Please enter confirm password",
           "注意事项": "Note",
           "请输入8-16位，且带有 字母、数字、特殊符号三种字符组合的密码！":
-              "Please enter a password of 8-16 characters, including letters, numbers, and special characters."
+              "Please enter a password of 8-16 characters, including letters, numbers, and special characters.",
+          "两次密码不一致": "Two passwords do not match",
+          "专为 Dropshipping 履约服务商，重新设计Dropshipping agent 系统":
+              "Empowering Dropshipping Agents With Seamless SaaS Solutions",
+          "DSFulfill 是什么": "What is DSFulfill?",
+          "DSFulfill 为 Dropshipping agent 提供一站式软件管理服务，一套系统从履约、报价、仓储、物流、帐单都能轻松解决":
+              "DSFulfill is a management system tailored for dropshipping agents and suppliers",
+          "自动生成客户端": "DSFulfill Client Portal",
+          "自动为您生成个性化域名的客户端，Dropshipper通过客户端可以进行自助绑定店铺、同步网店订单、铺货到众多网店平台、发起寻源代采、物流轨迹查询、查询帐单、切换多语言模式等操作":
+              "Designed for e-commerce sellers, serving as a terminal for product listing, selection, order synchronization, and quotation fulfillment.",
+          "专业的管理端": "DSFulfill Admin Dashboard",
+          "0 门槛使用、专为Dropshipping agent而生":
+              "Designed for dropshipping fulfillment service providers, dedicated to managing product quotations, logistics quotations, procurement, and order fulfillment.",
+          "下一步": "Next",
+          "开始体验": "Start experience",
+          "已有账户?": "Already have an account?",
+          "这里登录": "Here login",
+          "转到dsfulfill网页": "Go to dsfulfill website",
+          "转到dsfulfill网页。在电脑端访问网页(erp.dsfulfill.com)可以更加方便的进行管理。":
+              "Go to the dsfulfill website. Access the website (erp.dsfulfill.com) on the computer to manage it more conveniently.",
         },
       };
 }

@@ -63,6 +63,7 @@ class LoginView extends GetView<LoginController> {
                           controller: controller.passwordController,
                           hintText: '密码'.tr,
                           obscureText: true,
+                          togglePasswordVisibility: true,
                         )
                       : Row(
                           children: [
