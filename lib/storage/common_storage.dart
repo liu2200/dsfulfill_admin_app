@@ -61,6 +61,6 @@ class CommonStorage {
   }
 
   static bool getGuide() {
-    return GetStorage().read(guideKey) ?? false;
+    return GetStorage().read(guideKey) ?? true;
   }
 }
