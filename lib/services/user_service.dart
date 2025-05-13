@@ -126,14 +126,16 @@ class UserService {
 
   // 注册
   static Future<Map> register(Map<String, dynamic> params) async {
-    Map res = {'ok': false, 'msg': ''};
+    Map res = {'ok': false, 'msg': '', 'data': null};
     await ApiConfig.instance
         .post(UserService.registerApi, data: params)
         .then((response) {
       res = {
         'ok': response.ok,
+        'data': response.data,
         'msg': response.msg ?? response.error?.message ?? ''
       };
+      _loginResult(response);
     });
 
     return res;
@@ -161,7 +163,7 @@ class UserService {
       Get.find<AppState>().saveUserInfo({
         'name': tokenModel.name,
         'email': tokenModel.email,
-        'avatar': tokenModel.avatar,
+        'avatar': tokenModel.avatar ?? '',
       });
       Get.find<AppState>().saveTeam({
         'team_name': tokenModel.teamName,

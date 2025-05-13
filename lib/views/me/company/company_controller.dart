@@ -57,10 +57,6 @@ class CompanyController extends BaseController {
         'team_code': item.teamCode,
       });
       ApplicationEvent.getInstance().event.fire(SetTeamEvent());
-      if (type.value == 'login') {
-        Routers.pop();
-        Routers.pop();
-      }
     }
   }
 

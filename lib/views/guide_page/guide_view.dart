@@ -79,7 +79,7 @@ class GuideView extends GetView<GuideController> {
                           child: Obx(() => AppText(
                                 text: controller.currentPage.value ==
                                         controller.guidePages.length - 1
-                                    ? '开始体验'.tr
+                                    ? '免费体验'.tr
                                     : '下一步'.tr,
                                 color: Colors.white,
                                 fontSize: 16.sp,

@@ -46,7 +46,7 @@ class GuideController extends GetxController {
     } else {
       // 最后一页，跳转到登录页
       Routers.pop();
-      Get.offAllNamed(Routers.login);
+      Get.offAllNamed(Routers.restLogin);
       // Routers.push(Routers.login);
     }
   }

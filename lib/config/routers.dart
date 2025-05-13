@@ -2,6 +2,8 @@ import 'package:dsfulfill_cient_app/views/guide_page/guide_binding.dart';
 import 'package:dsfulfill_cient_app/views/guide_page/guide_view.dart';
 import 'package:dsfulfill_cient_app/views/login/login_binding.dart';
 import 'package:dsfulfill_cient_app/views/login/login_view.dart';
+import 'package:dsfulfill_cient_app/views/me/set_theme/set_theme_binding.dart';
+import 'package:dsfulfill_cient_app/views/me/set_theme/set_theme_view.dart';
 import 'package:dsfulfill_cient_app/views/tabbar/tabbar_binding.dart';
 import 'package:dsfulfill_cient_app/views/tabbar/tabbar_view.dart';
 import 'package:dsfulfill_cient_app/views/workbench/collect_products/collect_binding.dart';
@@ -48,6 +50,16 @@ import 'package:dsfulfill_cient_app/views/me/set_brand/set_brand_binding.dart';
 import 'package:dsfulfill_cient_app/views/me/set_brand/set_brand_view.dart';
 import 'package:dsfulfill_cient_app/views/me/modify_password/modify_password_binding.dart';
 import 'package:dsfulfill_cient_app/views/me/modify_password/modify_password_view.dart';
+import 'package:dsfulfill_cient_app/views/rests_login/rests_login_binding.dart';
+import 'package:dsfulfill_cient_app/views/rests_login/rests_login_view.dart';
+import 'package:dsfulfill_cient_app/views/email_login/email_login_binding.dart';
+import 'package:dsfulfill_cient_app/views/email_login/email_login_view.dart';
+import 'package:dsfulfill_cient_app/views/email_login/email_verify/email_verify_binding.dart';
+import 'package:dsfulfill_cient_app/views/email_login/email_verify/email_verify_view.dart';
+import 'package:dsfulfill_cient_app/views/me/about/about_binding.dart';
+import 'package:dsfulfill_cient_app/views/me/about/about_view.dart';
+import 'package:dsfulfill_cient_app/views/me/set_brand_logo/set_brand_logo_binding.dart';
+import 'package:dsfulfill_cient_app/views/me/set_brand_logo/set_brand_logo_view.dart';
 
 class Routers {
   static const String home = '/'; // 首页
@@ -75,12 +87,21 @@ class Routers {
   static const String newTeam = '/newTeam'; // 新建团队
   static const String setBrand = '/setBrand'; // 设置品牌
   static const String modifyPassword = '/modifyPassword'; // 修改密码
-
+  static const String restLogin = '/restLogin'; // 第三方登录
+  static const String emailLogin = '/emailLogin'; // 邮箱登录
+  static const String emailVerify = '/emailVerify'; // 邮箱验证
+  static const String about = '/about'; // 关于
+  static const String setBrandLogo = '/setBrandLogo'; // 设置品牌logo
+  static const String setTheme = '/setTheme'; // 设置主题
   static List filterList = [
     login,
     register,
     forgetPassword,
     areaCode,
+    restLogin,
+    emailLogin,
+    emailVerify,
+    about,
   ];
 
   static List<GetPage> pages = [
@@ -204,6 +225,36 @@ class Routers {
       page: () => const ModifyPasswordView(),
       binding: ModifyPasswordBinding(),
     ),
+    GetPage(
+      name: restLogin,
+      page: () => const RestLoginView(),
+      binding: RestLoginBinding(),
+    ),
+    GetPage(
+      name: emailLogin,
+      page: () => const EmailLoginView(),
+      binding: EmailLoginBinding(),
+    ),
+    GetPage(
+      name: emailVerify,
+      page: () => const EmailVerifyView(),
+      binding: EmailVerifyBinding(),
+    ),
+    GetPage(
+      name: about,
+      page: () => const AboutView(),
+      binding: AboutBinding(),
+    ),
+    GetPage(
+      name: setBrandLogo,
+      page: () => const SetBrandLogoView(),
+      binding: SetBrandLogoBinding(),
+    ),
+    GetPage(
+      name: setTheme,
+      page: () => const SetThemeView(),
+      binding: SetThemeBinding(),
+    ),
   ];
 
   static Future<dynamic>? push(String route, [dynamic args]) {
@@ -217,7 +268,7 @@ class Routers {
     if (filterList.contains(route) || userInfo.token.isNotEmpty) {
       return Get.toNamed(route, arguments: args);
     } else {
-      return Get.toNamed(login);
+      return Get.toNamed(restLogin);
     }
   }
 

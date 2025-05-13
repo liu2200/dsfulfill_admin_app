@@ -6,6 +6,7 @@ class CustomClientModel {
   late String name;
   late String tabIcon;
   late String privacyPolicy;
+  Map<String, dynamic>? color;
 
   CustomClientModel({
     required this.id,
@@ -15,6 +16,7 @@ class CustomClientModel {
     required this.name,
     required this.tabIcon,
     required this.privacyPolicy,
+    this.color,
   });
 
   CustomClientModel.fromJson(Map<String, dynamic> json) {
@@ -25,6 +27,7 @@ class CustomClientModel {
     name = json['name'];
     tabIcon = json['tab_icon'];
     privacyPolicy = json['privacy_policy'];
+    color = json['color'];
   }
 
   Map<String, dynamic> toJson() {
@@ -36,6 +39,7 @@ class CustomClientModel {
       'name': name,
       'tab_icon': tabIcon,
       'privacy_policy': privacyPolicy,
+      'color': color,
     };
   }
 }

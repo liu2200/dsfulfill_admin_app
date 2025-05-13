@@ -16,7 +16,7 @@ class HomeView extends GetView<HomeController> {
     return Scaffold(
       backgroundColor: AppStyles.background,
       appBar: AppBar(
-        backgroundColor: AppStyles.background,
+        backgroundColor: AppStyles.white,
         elevation: 0,
         automaticallyImplyLeading: false,
         title: Row(
@@ -55,11 +55,6 @@ class HomeView extends GetView<HomeController> {
           Padding(
             padding: EdgeInsets.only(right: 16.w),
             child: const LanguagePicker(),
-            //  LoadAssetImage(
-            //   image: 'home/language',
-            //   width: 24.w,
-            //   height: 24.w,
-            // ),
           ),
         ],
       ),
@@ -144,15 +139,15 @@ class HomeView extends GetView<HomeController> {
                       child: Row(
                         children: [
                           _buildTab(
-                              '${'订单总数'.tr}${controller.homeModel.value.orderCount ?? 0}',
+                              '${'订单总数'.tr} (${controller.homeModel.value.orderCount ?? 0})',
                               true),
                           SizedBox(width: 12.w),
                           _buildTab(
-                              '${'商品总数'.tr}${controller.homeModel.value.goodsCount ?? 0}',
+                              '${'商品总数'.tr} (${controller.homeModel.value.goodsCount ?? 0})',
                               false),
                           SizedBox(width: 12.w),
                           _buildTab(
-                              '${'物流渠道'.tr}${controller.homeModel.value.expressLinesCount ?? 0}',
+                              '${'物流渠道'.tr} (${controller.homeModel.value.expressLinesCount ?? 0})',
                               false),
                         ],
                       ),

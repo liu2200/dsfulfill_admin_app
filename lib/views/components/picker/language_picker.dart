@@ -3,6 +3,7 @@ import 'package:dsfulfill_cient_app/config/styles.dart';
 import 'package:dsfulfill_cient_app/storage/common_storage.dart';
 import 'package:dsfulfill_cient_app/views/components/action_sheet.dart';
 import 'package:dsfulfill_cient_app/views/components/base_text.dart';
+import 'package:dsfulfill_cient_app/views/components/image/load_asset_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/route_manager.dart';
@@ -50,31 +51,10 @@ class _LanguagePickerState extends State<LanguagePicker> {
             ),
           );
         },
-        child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 8.h),
-          decoration: BoxDecoration(
-            border: Border.all(color: AppStyles.line),
-            borderRadius: BorderRadius.circular(9.r),
-          ),
-          child: Row(
-            children: [
-              CountryFlag.fromCountryCode(
-                CommonStorage.getLanguage()?.countryCode ?? 'US',
-                height: 25.h,
-                width: 25.w,
-                borderRadius: 4,
-              ),
-              SizedBox(width: 8.w),
-              AppText(
-                text: CommonStorage.getLanguage()?.countryCode == null ||
-                        CommonStorage.getLanguage()?.countryCode == 'US'
-                    ? 'English'
-                    : '简体中文',
-                fontSize: 14.sp,
-              ),
-              Icon(Icons.keyboard_arrow_down, size: 20.w),
-            ],
-          ),
+        child: LoadAssetImage(
+          image: 'home/language',
+          width: 24.w,
+          height: 24.w,
         ),
       ),
     );

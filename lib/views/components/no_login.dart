@@ -20,7 +20,7 @@ Widget NoLogin() {
           width: 200.w,
           hight: 40.h,
           text: '登录'.tr,
-          onPressed: () => Routers.push(Routers.login),
+          onPressed: () => Routers.push(Routers.restLogin),
         ),
       ],
     ),

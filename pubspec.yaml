@@ -66,6 +66,8 @@ dependencies:
   crypto: ^3.0.3
   uuid: ^3.0.7
   device_info_plus: ^9.1.0
+  http: ^1.1.0
+  package_info_plus: 4.2.0
 
 
 dev_dependencies:
@@ -95,7 +97,6 @@ flutter:
     - assets/images/home/
     - assets/images/center/
     - assets/images/workbench/
-    - assets/images/order/
     - assets/images/tab/
     - assets/html/captcha.html
 

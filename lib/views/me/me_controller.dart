@@ -17,14 +17,14 @@ import 'package:get/get.dart';
 class MeController extends BaseController {
   final currencyModel = Get.find<AppState>().currencyModel;
   final userInfo = Get.find<AppState>().userInfo.obs;
+  final teamInfo = Get.find<AppState>().team.obs;
   final userAvatar = ''.obs;
   final userName = ''.obs;
+  final userEmail = ''.obs;
   final token = Get.find<AppState>().token.obs;
   AppState userInfoModel = Get.find<AppState>();
   AppState teamModel = Get.find<AppState>();
   final balance = 0.0.obs;
-  final customClient = Rxn<CustomClientModel>();
-  final clientDomain = Rxn<ClientDomainModel>();
   @override
   void onInit() {
     super.onInit();
@@ -32,6 +32,7 @@ class MeController extends BaseController {
     if (token.value != '') {
       userAvatar.value = Get.find<AppState>().userInfo['avatar'];
       userName.value = Get.find<AppState>().userInfo['name'];
+      userEmail.value = Get.find<AppState>().userInfo['email'];
     }
     ApplicationEvent.getInstance()
         .event
@@ -43,38 +44,14 @@ class MeController extends BaseController {
     ApplicationEvent.getInstance().event.on<LoginedEvent>().listen((event) {
       userAvatar.value = Get.find<AppState>().userInfo['avatar'];
       userName.value = Get.find<AppState>().userInfo['name'];
+      userEmail.value = Get.find<AppState>().userInfo['email'];
       loadData();
-    });
-    ApplicationEvent.getInstance().event.on<EditCustomEvent>().listen((event) {
-      getCustomClient();
-    });
-    ApplicationEvent.getInstance().event.on<NewTeamEvent>().listen((event) {
-      getCustomClient();
-    });
-    ApplicationEvent.getInstance().event.on<SetTeamEvent>().listen((event) {
-      getCustomClient();
     });
     loadData();
   }
 
   loadData() async {
     getBalance();
-    getCustomClient();
-    getClientDomain();
-  }
-
-  getCustomClient() async {
-    var res = await MeService.getCustomClient();
-    if (res != null) {
-      customClient.value = res;
-    }
-  }
-
-  getClientDomain() async {
-    var res = await MeService.getClientDomain();
-    if (res != null) {
-      clientDomain.value = res;
-    }
   }
 
   getBalance() async {}
@@ -88,13 +65,5 @@ class MeController extends BaseController {
     ApplicationEvent.getInstance()
         .event
         .fire(ChangePageIndexEvent(pageName: 'home'));
-  }
-
-  void copyDomainToClipboard() {
-    if (clientDomain.value != null && clientDomain.value!.domain.isNotEmpty) {
-      final domainText = 'https://${clientDomain.value!.domain}';
-      Clipboard.setData(ClipboardData(text: domainText));
-      showToast('域名已复制到剪贴板'.tr);
-    }
   }
 }

@@ -36,11 +36,16 @@ class MeService {
     return result;
   }
 
-  static Future<bool> createCompany(Map<String, dynamic> params) async {
-    bool result = false;
+  static Future<Map<String, dynamic>> createCompany(
+      Map<String, dynamic> params) async {
+    Map<String, dynamic> result = {'ok': false, 'msg': '', 'data': null};
     await ApiConfig.instance.post(getCompanyApi, data: params).then((response) {
       if (response.ok) {
-        result = true;
+        result = {
+          'ok': true,
+          'msg': response.msg,
+          'data': response.data,
+        };
       }
     });
     return result;

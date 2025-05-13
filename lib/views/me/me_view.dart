@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 
 class MeView extends GetView<MeController> {
   const MeView({super.key});
@@ -16,306 +15,274 @@ class MeView extends GetView<MeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: AppStyles.primary,
-        elevation: 0,
-        automaticallyImplyLeading: false,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            Container(),
-            Container(
-              padding: EdgeInsets.only(left: 30.w),
-              child: AppText(
-                text: '我的'.tr,
-                color: Colors.white,
-                fontSize: 16.sp,
-              ),
-            ),
-            Obx(() {
-              if (controller.token.value != '') {
-                return Container(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 12.w, vertical: 4.h),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(6.r),
-                  ),
-                  child: GestureDetector(
-                    onTap: () {
-                      Routers.push(Routers.company);
-                    },
-                    child: Row(
-                      children: [
-                        LoadAssetImage(
-                          image: 'center/arrow_forward',
-                          width: 16.w,
-                          height: 16.w,
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              }
-              return Container(
-                padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 4.h),
-                child: const AppText(text: ''),
-              );
-            }),
-          ],
-        ),
-      ),
       backgroundColor: AppStyles.background,
       body: SafeArea(
-        child: Stack(
-          children: [
-            Column(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16.w),
+            child: Column(
               children: [
-                // Green header with user info
-                Container(
-                  width: double.infinity,
-                  color: AppStyles.primary,
-                  padding: EdgeInsets.only(bottom: 24.h),
-                  child: Column(
-                    children: [
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                Column(
+                  children: [
+                    // Green header with user info
+                    Container(
+                      width: double.infinity,
+                      padding: EdgeInsets.only(bottom: 24.h, top: 25.h),
+                      child: Column(
                         children: [
-                          SizedBox(width: 24.w),
-                          // 动态头像
-                          Obx(() => Container(
-                                width: 60.w,
-                                height: 60.w,
-                                decoration: const BoxDecoration(
-                                  color: Colors.white,
-                                  shape: BoxShape.circle,
-                                ),
-                                child: Center(
-                                  child: controller.token.value != ''
-                                      ? ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(60.r),
-                                          child:
-                                              controller.userAvatar.value == ''
-                                                  ? LoadAssetImage(
-                                                      image: 'center/logo',
-                                                      width: 60.w,
-                                                      height: 60.w,
-                                                    )
-                                                  : LoadNetworkImage(
-                                                      url: controller
-                                                          .userAvatar.value,
-                                                      width: 60.w,
-                                                      height: 60.w,
-                                                      fit: BoxFit.cover,
-                                                    ),
-                                        )
-                                      : ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(60.r),
-                                          child: LoadAssetImage(
-                                            image: 'center/logo',
-                                            width: 60.w,
-                                            height: 60.w,
+                          Obx(() => controller.token.value != ''
+                              ? Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    // 动态头像
+                                    Obx(() => Container(
+                                          width: 60.w,
+                                          height: 60.w,
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            shape: BoxShape.circle,
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.black
+                                                    .withOpacity(0.05),
+                                                spreadRadius: 2,
+                                                blurRadius: 5,
+                                                offset: const Offset(0, 1),
+                                              ),
+                                            ],
+                                          ),
+                                          child: Center(
+                                              child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(60.r),
+                                            child:
+                                                controller.userAvatar.value ==
+                                                        ''
+                                                    ? LoadAssetImage(
+                                                        image: 'center/logo',
+                                                        width: 60.w,
+                                                        height: 60.w,
+                                                      )
+                                                    : LoadNetworkImage(
+                                                        url: controller
+                                                            .userAvatar.value,
+                                                        width: 60.w,
+                                                        height: 60.w,
+                                                        fit: BoxFit.cover,
+                                                      ),
+                                          )),
+                                        )),
+                                    SizedBox(width: 16.w),
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          AppText(
+                                            text: controller.teamInfo
+                                                    .value['team_name'] ??
+                                                '',
+                                            fontSize: 16.sp,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                          SizedBox(height: 4.h),
+                                          AppText(
+                                            text: controller.userName.value,
+                                            fontSize: 13.sp,
+                                            color: Colors.grey[600]!,
+                                          ),
+                                          SizedBox(height: 3.h),
+                                          AppText(
+                                            text: controller.userEmail.value,
+                                            fontSize: 13.sp,
+                                            color: AppStyles.primary,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Container(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 10.w, vertical: 8.h),
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius:
+                                            BorderRadius.circular(6.r),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color:
+                                                Colors.black.withOpacity(0.03),
+                                            spreadRadius: 1,
+                                            blurRadius: 2,
+                                            offset: const Offset(0, 1),
+                                          ),
+                                        ],
+                                      ),
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          Routers.push(Routers.company);
+                                        },
+                                        child: LoadAssetImage(
+                                          image: 'center/arrow_forward',
+                                          width: 16.w,
+                                          height: 16.w,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              : Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    AppText(
+                                      text:
+                                          'Empowering Dropshipping Agents with Seamless SaaS Solutions'
+                                              .tr,
+                                      fontSize: 20.sp,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    SizedBox(height: 16.h),
+                                    AppText(
+                                      text:
+                                          'Digitize your dropshipping business management in three minutes'
+                                              .tr,
+                                      fontSize: 14.sp,
+                                      color: AppStyles.textBlack,
+                                    ),
+                                    SizedBox(height: 16.h),
+                                    SizedBox(
+                                      width: double.infinity,
+                                      height: 42.h,
+                                      child: ElevatedButton(
+                                        onPressed: () {
+                                          Routers.push(Routers.restLogin);
+                                        },
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: AppStyles.primary,
+                                          elevation: 0,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(8.r),
                                           ),
                                         ),
-                                ),
-                              )),
-                          SizedBox(width: 16.w),
-                          Expanded(
+                                        child: AppText(
+                                          text: '免费开始'.tr,
+                                          color: Colors.white,
+                                          fontSize: 15.sp,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(height: 16.h),
+                                    AppText(
+                                      text: 'How to start dropshipping agent ?'
+                                          .tr,
+                                      fontSize: 14.sp,
+                                      color: const Color(0xFFFE5C73),
+                                    ),
+                                  ],
+                                )),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+
+                Obx(() => controller.token.value != ''
+                    ? Column(
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              border: Border.all(color: AppStyles.line),
+                              borderRadius: BorderRadius.circular(12.r),
+                            ),
                             child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                SizedBox(height: 10.h),
-                                Obx(
-                                  () => AppText(
-                                    text: controller.token.value != ''
-                                        ? controller.userName.value
-                                        : '请登录'.tr,
-                                    color: Colors.white,
-                                    fontSize: 14.sp,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                                _buildSimpleMenuItem('品牌介绍'.tr, 'setBrand'),
+                                Container(
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 16.w),
+                                  child: const Divider(
+                                      height: 1, color: AppStyles.line),
                                 ),
-                                SizedBox(height: 6.h),
-                                Obx(() {
-                                  if (controller.token.value != '') {
-                                    return Container(
-                                      padding: EdgeInsets.symmetric(
-                                        horizontal: 8.w,
-                                        vertical: 2.h,
-                                      ),
-                                      decoration: BoxDecoration(
-                                          color: AppStyles.primary,
-                                          borderRadius:
-                                              BorderRadius.circular(6.r),
-                                          border: Border.all(
-                                            width: 1.w,
-                                            color: Colors.white,
-                                          )),
-                                      child: AppText(
-                                        text: '管理员'.tr,
-                                        color: Colors.white,
-                                        fontSize: 12.sp,
-                                      ),
-                                    );
-                                  }
-                                  ;
-                                  return Container();
-                                }),
+                                _buildSimpleMenuItem('客户端主题'.tr, 'setTheme'),
                               ],
                             ),
                           ),
-                          // Team button
-
-                          SizedBox(height: 100.h),
+                          SizedBox(height: 16.h),
                         ],
+                      )
+                    : const SizedBox()),
+
+                Obx(() => controller.token.value != ''
+                    ? Column(
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              border: Border.all(color: AppStyles.line),
+                              borderRadius: BorderRadius.circular(12.r),
+                            ),
+                            child: Column(
+                              children: [
+                                _buildSimpleMenuItem(
+                                    '修改密码'.tr, 'modifyPassword'),
+                                Container(
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 16.w),
+                                  child: const Divider(
+                                      height: 1, color: AppStyles.line),
+                                ),
+                                _buildSimpleMenuItem('前往电脑版'.tr, 'web'),
+                              ],
+                            ),
+                          ),
+                          SizedBox(height: 16.h),
+                        ],
+                      )
+                    : const SizedBox()),
+
+                // 悬浮的专属客户端卡片
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border.all(color: AppStyles.line),
+                    borderRadius: BorderRadius.circular(12.r),
+                  ),
+                  child: Column(
+                    children: [
+                      _buildSimpleMenuItem('帮助中心'.tr, 'web'),
+                      Container(
+                        padding: EdgeInsets.symmetric(horizontal: 16.w),
+                        child: const Divider(height: 1, color: AppStyles.line),
                       ),
+                      _buildSimpleMenuItem('联系我们'.tr, ''),
+                      Container(
+                        padding: EdgeInsets.symmetric(horizontal: 16.w),
+                        child: const Divider(height: 1, color: AppStyles.line),
+                      ),
+                      _buildSimpleMenuItem('语言'.tr, 'modifyPassword'),
+                      Container(
+                        padding: EdgeInsets.symmetric(horizontal: 16.w),
+                        child: const Divider(height: 1, color: AppStyles.line),
+                      ),
+                      _buildSimpleMenuItem('关于DSFulfill'.tr, 'about'),
+                      Container(
+                        padding: EdgeInsets.symmetric(horizontal: 16.w),
+                        child: const Divider(height: 1, color: AppStyles.line),
+                      ),
+                      _buildSimpleMenuItem('隐私策略'.tr, 'modifyPassword'),
                     ],
                   ),
                 ),
+                SizedBox(height: 16.h),
+                Obx(() => controller.token.value != ''
+                    ? buildLogoutButton()
+                    : const SizedBox()),
+                SizedBox(height: 16.h),
               ],
             ),
-            // 悬浮的专属客户端卡片
-            Obx(() {
-              return Positioned(
-                left: 16.w,
-                right: 16.w,
-                top: 80.h,
-                child: Column(
-                  children: [
-                    if (controller.token.value != '')
-                      Container(
-                        padding: EdgeInsets.all(12.w),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(16.r),
-                          border: Border.all(color: AppStyles.line),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                AppText(
-                                  text: '专属客户端'.tr,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 15.sp,
-                                ),
-                                const Spacer(),
-                                GestureDetector(
-                                  onTap: () {
-                                    Routers.push(Routers.setBrand, {
-                                      'type': 'edit',
-                                    });
-                                  },
-                                  child: Icon(
-                                    Icons.settings_outlined,
-                                    color: AppStyles.textGrey,
-                                    size: 20.w,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: 8.h),
-                            GestureDetector(
-                              onTap: () => controller.copyDomainToClipboard(),
-                              child: Row(
-                                children: [
-                                  Flexible(
-                                    child: AppText(
-                                      text:
-                                          '${'域名'.tr}：https://${controller.clientDomain.value?.domain ?? ''}',
-                                      fontSize: 13.sp,
-                                      maxLines: 2,
-                                      overflow: TextOverflow.visible,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            SizedBox(height: 8.h),
-                            AppText(
-                              text:
-                                  '${'品牌'.tr}：${controller.customClient.value?.name ?? ''}',
-                              fontSize: 13.sp,
-                            ),
-                            SizedBox(height: 8.h),
-                            Row(
-                              children: [
-                                AppText(
-                                  text: 'LOGO：',
-                                  fontSize: 13.sp,
-                                ),
-                                controller.customClient.value?.logo != null
-                                    ? LoadNetworkImage(
-                                        url: controller
-                                                .customClient.value?.logo ??
-                                            '',
-                                        width: 60.w,
-                                        fit: BoxFit.cover,
-                                      )
-                                    : Container(
-                                        width: 48.w,
-                                        height: 20.h,
-                                        decoration: BoxDecoration(
-                                          color: AppStyles.textGrey
-                                              .withOpacity(0.3),
-                                          borderRadius:
-                                              BorderRadius.circular(6.r),
-                                        ),
-                                      ),
-                              ],
-                            ),
-                            SizedBox(height: 10.h),
-                            SizedBox(
-                              width: double.infinity,
-                              child: OutlinedButton.icon(
-                                onPressed: () {},
-                                icon: const Icon(Icons.remove_red_eye,
-                                    color: AppStyles.primary),
-                                label: AppText(
-                                  text: '预览'.tr,
-                                  color: AppStyles.primary,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 15.sp,
-                                ),
-                                style: OutlinedButton.styleFrom(
-                                  side: const BorderSide(
-                                      color: AppStyles.primary),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8.r),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    SizedBox(height: 16.h),
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(12.r),
-                      ),
-                      child: Column(
-                        children: [
-                          _buildSimpleMenuItem('前往电脑版'.tr, 'web'),
-                          const Divider(height: 1, color: AppStyles.line),
-                          _buildSimpleMenuItem('教程中心'.tr, ''),
-                          const Divider(height: 1, color: AppStyles.line),
-                          _buildSimpleMenuItem('修改密码'.tr, 'modifyPassword'),
-                        ],
-                      ),
-                    ),
-                    SizedBox(height: 16.h),
-                    Obx(() => buildLogoutButton()),
-                  ],
-                ),
-              );
-            })
-          ],
+          ),
         ),
       ),
     );
@@ -324,9 +291,7 @@ class MeView extends GetView<MeController> {
   Widget _buildSimpleMenuItem(String title, String route) {
     return InkWell(
       onTap: () {
-        if (route == 'modifyPassword') {
-          Routers.push(Routers.modifyPassword);
-        } else if (route == 'web') {
+        if (route == 'web') {
           // 显示确认弹窗
           showDialog(
             context: Get.context!,
@@ -375,10 +340,12 @@ class MeView extends GetView<MeController> {
               );
             },
           );
+        } else {
+          Routers.push(route);
         }
       },
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 18.h),
+        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
         child: Row(
           children: [
             Expanded(

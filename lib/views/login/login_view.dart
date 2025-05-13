@@ -1,5 +1,6 @@
 import 'package:dsfulfill_cient_app/config/routers.dart';
 import 'package:dsfulfill_cient_app/config/styles.dart';
+import 'package:dsfulfill_cient_app/views/components/login_type.dart';
 import 'package:dsfulfill_cient_app/views/components/picker/language_picker.dart';
 import 'package:dsfulfill_cient_app/views/components/sms_code_btn.dart';
 import 'package:flutter/material.dart';
@@ -23,12 +24,12 @@ class LoginView extends GetView<LoginController> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    LanguagePicker(),
-                  ],
-                ),
+                // const Row(
+                //   mainAxisAlignment: MainAxisAlignment.end,
+                //   children: [
+                //     LanguagePicker(),
+                //   ],
+                // ),
                 SizedBox(height: 32.h),
                 Center(
                   child: AppText(
@@ -147,7 +148,7 @@ class LoginView extends GetView<LoginController> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       AppText(
-                        text: "还没有账号?",
+                        text: "还没有账号?".tr,
                         fontSize: 14.sp,
                         color: AppStyles.textBlack,
                       ),
@@ -164,7 +165,8 @@ class LoginView extends GetView<LoginController> {
                     ],
                   ),
                 ),
-                // SizedBox(height: 24.h),
+                SizedBox(height: 24.h),
+                LoginType(),
                 // Center(
                 //   child: AppText(
                 //     text: 'OR',

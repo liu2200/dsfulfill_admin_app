@@ -313,6 +313,12 @@ class I10N extends Translations {
           "转到dsfulfill网页": "转到dsfulfill网页",
           "转到dsfulfill网页。在电脑端访问网页(erp.dsfulfill.com)可以更加方便的进行管理。":
               "转到dsfulfill网页。在电脑端访问网页(erp.dsfulfill.com)可以更加方便的进行管理。",
+          "免费体验": "免费体验",
+          "验证码登录": "验证码登录",
+          "账号登录": "账号登录",
+          "开启您的代发服务商之旅": "开启您的代发服务商之旅",
+          "您可以使用邮箱或使用您的社交媒体账号登录": "您可以使用邮箱或使用您的社交媒体账号登录",
+          "请输入您的品牌名称": "请输入您的品牌名称",
         },
         'en_US': {
           '注册 DSFulfill': 'Register DSFulfill',
@@ -332,8 +338,8 @@ class I10N extends Translations {
           "请输入邮箱": "Please enter email",
           "请输入手机号": "Please enter phone number",
           "请输入验证码": "Please enter verification code",
-          "订单总数": "Order Total",
-          "商品总数": "Goods Total",
+          "订单总数": "Order",
+          "商品总数": "Product",
           "物流渠道": "Express Lines",
           "请先登录": "Please log in first.",
           "加载中": "Loading",
@@ -395,7 +401,7 @@ class I10N extends Translations {
           "首页": "Home",
           "工作台": "Dashboard",
           "分析": "Analysis",
-          "我的": "My",
+          "我的": "Me",
           "产品": "Product",
           "订单": "Order",
           "财务": "Finance",
@@ -623,6 +629,13 @@ class I10N extends Translations {
           "转到dsfulfill网页": "Go to dsfulfill website",
           "转到dsfulfill网页。在电脑端访问网页(erp.dsfulfill.com)可以更加方便的进行管理。":
               "Go to the dsfulfill website. Access the website (erp.dsfulfill.com) on the computer to manage it more conveniently.",
+          "免费体验": "Free trial",
+          "验证码登录": "Verification code login",
+          "账号登录": "Account login",
+          "开启您的代发服务商之旅": "Start your drop shipping service provider journey",
+          "您可以使用邮箱或使用您的社交媒体账号登录":
+              "You can log in using email or using your social media outlets",
+          "请输入您的品牌名称": "Enter Your business Brand name",
         },
       };
 }

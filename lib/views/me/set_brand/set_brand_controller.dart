@@ -24,10 +24,7 @@ class SetBrandController extends BaseController {
   @override
   void onInit() {
     super.onInit();
-    type.value = Get.arguments['type'];
-    if (type.value == 'edit') {
-      _loadInitialData();
-    }
+    _loadInitialData();
   }
 
   void _loadInitialData() async {
@@ -68,17 +65,7 @@ class SetBrandController extends BaseController {
     });
     if (result) {
       ApplicationEvent.getInstance().event.fire(EditCustomEvent());
-      if (type.value == 'new') {
-        Get.back();
-        Get.back();
-      } else if (type.value == 'login') {
-        Get.back();
-        Routers.push(Routers.company, {
-          'type': 'login',
-        });
-      } else {
-        Get.back();
-      }
+      Routers.push(Routers.setBrandLogo);
     }
   }
 }

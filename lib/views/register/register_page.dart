@@ -49,6 +49,7 @@ class RegisterPage extends GetView<RegisterController> {
                         text: '开启您的代发服务商之旅'.tr,
                         fontSize: 14.sp,
                         color: AppStyles.textGrey,
+                        textAlign: TextAlign.center,
                       ),
                     ],
                   ),
