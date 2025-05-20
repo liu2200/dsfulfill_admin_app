@@ -105,6 +105,7 @@ class LoginController extends BaseController {
         Routers.push(Routers.home);
       } else {
         Routers.pop();
+        Routers.pop();
       }
     }
   }

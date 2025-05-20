@@ -1,5 +1,7 @@
 import 'package:dsfulfill_cient_app/config/routers.dart';
 import 'package:dsfulfill_cient_app/config/styles.dart';
+import 'package:dsfulfill_cient_app/storage/common_storage.dart';
+import 'package:dsfulfill_cient_app/views/components/action_sheet.dart';
 import 'package:dsfulfill_cient_app/views/me/me_controller.dart';
 import 'package:dsfulfill_cient_app/views/components/base_text.dart';
 import 'package:dsfulfill_cient_app/views/components/image/load_asset_image.dart';
@@ -135,16 +137,14 @@ class MeView extends GetView<MeController> {
                                   children: [
                                     AppText(
                                       text:
-                                          'Empowering Dropshipping Agents with Seamless SaaS Solutions'
+                                          '专注于 Dropshipping Agent 业务，为 Dropshipping行业打造量身定制 ERP 系统'
                                               .tr,
                                       fontSize: 20.sp,
                                       fontWeight: FontWeight.bold,
                                     ),
                                     SizedBox(height: 16.h),
                                     AppText(
-                                      text:
-                                          'Digitize your dropshipping business management in three minutes'
-                                              .tr,
+                                      text: '三分钟开启订单之履'.tr,
                                       fontSize: 14.sp,
                                       color: AppStyles.textBlack,
                                     ),
@@ -173,11 +173,16 @@ class MeView extends GetView<MeController> {
                                       ),
                                     ),
                                     SizedBox(height: 16.h),
-                                    AppText(
-                                      text: 'How to start dropshipping agent ?'
-                                          .tr,
-                                      fontSize: 14.sp,
-                                      color: const Color(0xFFFE5C73),
+                                    GestureDetector(
+                                      onTap: () {
+                                        launchUrl(Uri.parse(
+                                            'https://www.youtube.com/@DSFulfill'));
+                                      },
+                                      child: AppText(
+                                        text: '如何做Dropshipping agent生意?'.tr,
+                                        fontSize: 14.sp,
+                                        color: const Color(0xFFFE5C73),
+                                      ),
                                     ),
                                   ],
                                 )),
@@ -251,17 +256,17 @@ class MeView extends GetView<MeController> {
                   ),
                   child: Column(
                     children: [
-                      _buildSimpleMenuItem('帮助中心'.tr, 'web'),
+                      _buildSimpleMenuItem('帮助中心'.tr, 'contactus'),
                       Container(
                         padding: EdgeInsets.symmetric(horizontal: 16.w),
                         child: const Divider(height: 1, color: AppStyles.line),
                       ),
-                      _buildSimpleMenuItem('联系我们'.tr, ''),
+                      _buildSimpleMenuItem('联系我们'.tr, 'contactus'),
                       Container(
                         padding: EdgeInsets.symmetric(horizontal: 16.w),
                         child: const Divider(height: 1, color: AppStyles.line),
                       ),
-                      _buildSimpleMenuItem('语言'.tr, 'modifyPassword'),
+                      _buildSimpleMenuItem('语言'.tr, 'language'),
                       Container(
                         padding: EdgeInsets.symmetric(horizontal: 16.w),
                         child: const Divider(height: 1, color: AppStyles.line),
@@ -271,7 +276,7 @@ class MeView extends GetView<MeController> {
                         padding: EdgeInsets.symmetric(horizontal: 16.w),
                         child: const Divider(height: 1, color: AppStyles.line),
                       ),
-                      _buildSimpleMenuItem('隐私策略'.tr, 'modifyPassword'),
+                      _buildSimpleMenuItem('隐私条款'.tr, 'privacypolicy'),
                     ],
                   ),
                 ),
@@ -340,6 +345,25 @@ class MeView extends GetView<MeController> {
               );
             },
           );
+        } else if (route == '') {
+          return;
+        } else if (route == 'contactus') {
+          launchUrl(Uri.parse('https://dsfulfill.com'));
+        } else if (route == 'privacypolicy') {
+          launchUrl(Uri.parse('https://dsfulfill.com/privacy-policy'));
+        } else if (route == 'language') {
+          Get.bottomSheet(
+            ActionSheet(
+              datas: controller.languageList,
+              onSelected: (index) async {
+                var code = controller.languageList[index]['code']!;
+                if (code == CommonStorage.getLanguage()?.countryCode) return;
+                CommonStorage.setLanguage(code);
+                Get.updateLocale(
+                    Locale(code.split('_').first, code.split('_').last));
+              },
+            ),
+          );
         } else {
           Routers.push(route);
         }
@@ -367,31 +391,63 @@ class MeView extends GetView<MeController> {
   }
 
   Widget buildLogoutButton() {
-    return SizedBox(
-      width: double.infinity,
-      height: 42.h,
-      child: ElevatedButton(
-        onPressed: () {
-          if (controller.token.value != '') {
-            controller.onLogout();
-          } else {
-            Routers.push(Routers.login);
-          }
-        },
-        style: ElevatedButton.styleFrom(
-          backgroundColor: AppStyles.primary,
-          elevation: 0,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8.r),
+    return Column(
+      children: [
+        SizedBox(
+          width: double.infinity,
+          height: 42.h,
+          child: ElevatedButton(
+            onPressed: () {
+              if (controller.token.value != '') {
+                controller.onLogout(1);
+              } else {
+                Routers.push(Routers.login);
+              }
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppStyles.primary,
+              elevation: 0,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8.r),
+              ),
+            ),
+            child: AppText(
+              text: controller.token.value != '' ? '退出登录'.tr : '登录'.tr,
+              color: Colors.white,
+              fontSize: 15.sp,
+              fontWeight: FontWeight.w500,
+            ),
           ),
         ),
-        child: AppText(
-          text: controller.token.value != '' ? '退出登录'.tr : '登录'.tr,
-          color: Colors.white,
-          fontSize: 15.sp,
-          fontWeight: FontWeight.w500,
-        ),
-      ),
+        SizedBox(height: 10.h),
+        Obx(
+          () => controller.isShow.value
+              ? SizedBox(
+                  width: double.infinity,
+                  height: 42.h,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      controller.onLogout(0);
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppStyles.white,
+                      elevation: 0,
+                      side: const BorderSide(color: AppStyles.line),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8.r),
+                      ),
+                    ),
+                    child: AppText(
+                      text: '注销账号'.tr,
+                      color: Colors.black,
+                      fontSize: 15.sp,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                )
+              : const SizedBox(),
+        )
+      ],
     );
   }
 }

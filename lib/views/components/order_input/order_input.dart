@@ -41,7 +41,7 @@ class _OrderInputState extends State<OrderInput> {
     return GestureDetector(
       onTap: () {
         // 点击空白处时失去焦点
-        FocusScope.of(context).unfocus();
+        // FocusScope.of(context).unfocus();
       },
       child: Container(
         height: 34.h,

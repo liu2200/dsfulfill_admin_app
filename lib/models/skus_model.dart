@@ -35,6 +35,11 @@ class SkusModel {
     quotePrice = json['quote_price'];
     salePrice = json['sale_price'];
     specName = json['spec_name'];
+    if (json['price'] != null) {
+      price = json['price'];
+    } else {
+      price = '0';
+    }
     if (json['profit'] != null) {
       profit = json['profit'];
     } else {

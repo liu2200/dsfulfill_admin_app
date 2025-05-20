@@ -101,7 +101,7 @@ class Routers {
     restLogin,
     emailLogin,
     emailVerify,
-    about,
+    'about',
   ];
 
   static List<GetPage> pages = [

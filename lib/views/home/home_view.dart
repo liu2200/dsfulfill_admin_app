@@ -1,3 +1,4 @@
+import 'package:dsfulfill_cient_app/config/routers.dart';
 import 'package:dsfulfill_cient_app/state/app_state.dart';
 import 'package:dsfulfill_cient_app/views/components/base_text.dart';
 import 'package:dsfulfill_cient_app/views/components/image/load_asset_image.dart';
@@ -7,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:dsfulfill_cient_app/config/styles.dart';
+import 'package:share_plus/share_plus.dart';
 
 class HomeView extends GetView<HomeController> {
   const HomeView({super.key});
@@ -21,34 +23,45 @@ class HomeView extends GetView<HomeController> {
         automaticallyImplyLeading: false,
         title: Row(
           children: [
-            Container(
-              width: 43.w,
-              height: 40.w,
-              decoration: BoxDecoration(
-                color: const Color(0xFF34A853),
-                borderRadius: BorderRadius.circular(40.r),
-              ),
-              child: Center(
-                child: Text(
-                  (Get.find<AppState>().team['team_name'] ?? '-')[0],
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w600,
+            Obx(() {
+              return Container(
+                width: 43.w,
+                height: 40.w,
+                decoration: BoxDecoration(
+                  color: const Color(0xFF34A853),
+                  borderRadius: BorderRadius.circular(40.r),
+                ),
+                child: Center(
+                  child: Text(
+                    (Get.find<AppState>().team['team_name'] ?? '-')[0],
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
-              ),
-            ),
+              );
+            }),
             SizedBox(width: 8.w),
-            Expanded(
-              child: AppText(
-                text: Get.find<AppState>().team['team_name'] ?? '请先登录'.tr,
-                fontSize: 16.sp,
-                fontWeight: FontWeight.w600,
-                overflow: TextOverflow.ellipsis,
-                maxLines: 1,
-              ),
-            )
+            Obx(() {
+              return GestureDetector(
+                onTap: () {
+                  if (controller.token.value == '') {
+                    Routers.push(Routers.restLogin);
+                  }
+                },
+                child: Expanded(
+                  child: AppText(
+                    text: Get.find<AppState>().team['team_name'] ?? '请先登录'.tr,
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w600,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                  ),
+                ),
+              );
+            }),
           ],
         ),
         actions: [
@@ -135,20 +148,23 @@ class HomeView extends GetView<HomeController> {
                   children: [
                     // Tab
                     SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
                       child: Row(
                         children: [
                           _buildTab(
-                              '${'订单总数'.tr} (${controller.homeModel.value.orderCount ?? 0})',
+                              '${'订单'.tr} (${controller.homeModel.value.orderCount ?? 0})',
                               true),
                           SizedBox(width: 12.w),
                           _buildTab(
-                              '${'商品总数'.tr} (${controller.homeModel.value.goodsCount ?? 0})',
+                              '${'充值'.tr} (${controller.homeModel.value.rechargeCount ?? 0})',
                               false),
-                          SizedBox(width: 12.w),
-                          _buildTab(
-                              '${'物流渠道'.tr} (${controller.homeModel.value.expressLinesCount ?? 0})',
-                              false),
+                          // SizedBox(width: 12.w),
+                          // _buildTab(
+                          //     '${'商品总数'.tr} (${controller.homeModel.value.goodsCount ?? 0})',
+                          //     false),
+                          // SizedBox(width: 12.w),
+                          // _buildTab(
+                          //     '${'物流渠道'.tr} (${controller.homeModel.value.expressLinesCount ?? 0})',
+                          //     false),
                         ],
                       ),
                     ),
@@ -157,6 +173,7 @@ class HomeView extends GetView<HomeController> {
                     ...controller.orderListStatus.map((item) => _buildTaskItem(
                           (item['label'] ?? '').toString().tr,
                           (item['count'] ?? 0).toString(),
+                          item['index'] as int,
                           isLast: controller.orderListStatus.last == item,
                         ))
                   ],
@@ -197,10 +214,23 @@ class HomeView extends GetView<HomeController> {
                       ],
                     ),
                   ),
-                  Icon(
-                    Icons.copy,
-                    color: AppStyles.primary,
-                    size: 24.w,
+                  GestureDetector(
+                    onTap: () {
+                      if (Get.find<AppState>().team['team_code'] != null) {
+                        // 获取分享的邀请码
+                        final shareText =
+                            '${controller.clientUrl.value}/invite/${Get.find<AppState>().team['team_code']}';
+                        // 使用Share.share打开iOS分享菜单
+                        Share.share(shareText, subject: 'DSFulfill'.tr);
+                      } else {
+                        Get.snackbar('提示'.tr, '请先登录'.tr);
+                      }
+                    },
+                    child: Icon(
+                      Icons.copy,
+                      color: AppStyles.primary,
+                      size: 24.w,
+                    ),
                   ),
                 ],
               ),
@@ -267,58 +297,62 @@ class HomeView extends GetView<HomeController> {
     );
   }
 
-  Widget _buildTaskItem(String title, String count, {bool isLast = false}) {
-    return Column(
-      children: [
-        SizedBox(
-          height: 44.h,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              AppText(
-                text: title,
-                fontSize: 14.sp,
-                fontWeight: FontWeight.w500,
-              ),
-              Row(
-                children: [
-                  Container(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 7.w, vertical: 1.5.h),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: AppStyles.primary, width: 1),
-                      borderRadius: BorderRadius.circular(5.r),
-                      color: Colors.white,
+  Widget _buildTaskItem(String title, String count, int index,
+      {bool isLast = false}) {
+    return GestureDetector(
+      onTap: () {
+        Routers.push(Routers.orderList, {'status': index});
+      },
+      child: Column(
+        children: [
+          SizedBox(
+            height: 44.h,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                AppText(
+                  text: title,
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.w500,
+                ),
+                Row(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 7.w, vertical: 1.5.h),
+                      decoration: BoxDecoration(
+                        border: Border.all(color: AppStyles.primary, width: 1),
+                        borderRadius: BorderRadius.circular(5.r),
+                        color: Colors.white,
+                      ),
+                      child: AppText(
+                        text: count,
+                        fontSize: 12.sp,
+                        color: AppStyles.primary,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
-                    child: AppText(
-                      text: count,
-                      fontSize: 12.sp,
-                      color: AppStyles.primary,
-                      fontWeight: FontWeight.w600,
+                    SizedBox(width: 14.w),
+                    Icon(
+                      Icons.arrow_forward_ios,
+                      size: 14.w,
+                      color: AppStyles.textGrey,
                     ),
-                  ),
-                  SizedBox(width: 14.w),
-                  Icon(
-                    Icons.arrow_forward_ios,
-                    size: 14.w,
-                    color: AppStyles.textGrey,
-                  ),
-                ],
-              ),
-            ],
+                  ],
+                ),
+              ],
+            ),
           ),
-        ),
-        if (!isLast)
-          Divider(
-            height: 1,
-            color: AppStyles.line,
-            thickness: 1,
-            indent: 0,
-            endIndent: 0,
-          ),
-      ],
+          if (!isLast)
+            const Divider(
+              height: 1,
+              color: AppStyles.line,
+              thickness: 1,
+              indent: 0,
+              endIndent: 0,
+            ),
+        ],
+      ),
     );
   }
 }
-
-class $ {}

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">DSFulfill</string>
+    <string name="facebook_app_id">6745731047</string>
+    <string name="fb_login_protocol_scheme">fb6745731047</string>
+    <string name="facebook_client_token">c59ee422afbfc67202a3a231511a27ad</string>
+</resources> 

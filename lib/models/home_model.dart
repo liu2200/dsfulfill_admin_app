@@ -4,6 +4,7 @@ class HomeModel {
   int? expressLinesCount;
   int? goodsCount;
   int? orderCount;
+  int? rechargeCount;
 
   OrderStatistics? orderStatistics;
 
@@ -12,6 +13,7 @@ class HomeModel {
     required this.expressLinesCount,
     required this.goodsCount,
     required this.orderCount,
+    required this.rechargeCount,
   });
 
   factory HomeModel.fromJson(Map<String, dynamic> json) {
@@ -20,6 +22,7 @@ class HomeModel {
       expressLinesCount: json['express_lines_count'] ?? 0,
       goodsCount: json['goods_count'] ?? 0,
       orderCount: json['order_count'] ?? 0,
+      rechargeCount: json['recharge_count'] ?? 0,
     );
   }
 }

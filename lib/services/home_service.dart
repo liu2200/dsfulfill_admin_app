@@ -28,7 +28,7 @@ class HomeService {
           result.add(OrderStatisticsModel.fromJson(data));
         });
       } else {
-        throw Exception(response.error!.message);
+        // throw Exception(response.error!.message);
       }
     });
     return result;
@@ -44,8 +44,6 @@ class HomeService {
         response.data.forEach((data) {
           result.add(OrderStatisticsModel.fromJson(data));
         });
-      } else {
-        throw Exception(response.error!.message);
       }
     });
     return result;
@@ -61,8 +59,6 @@ class HomeService {
         response.data.forEach((data) {
           result.add(OrderStatisticsModel.fromJson(data));
         });
-      } else {
-        throw Exception(response.error!.message);
       }
     });
     return result;
@@ -97,6 +93,7 @@ class HomeService {
       expressLinesCount: 0,
       goodsCount: 0,
       orderCount: 0,
+      rechargeCount: 0,
     );
     await ApiConfig.instance.get(getHomeDataApi).then((response) {
       if (response.ok) {
@@ -105,10 +102,11 @@ class HomeService {
           expressLinesCount: list['express_lines_count'],
           goodsCount: list['goods_count'],
           orderCount: list['order_count'],
+          rechargeCount: list['recharge_count'],
           orderStatistics: OrderStatistics.fromJson(list['order_statistics']),
         );
       } else {
-        throw Exception(response.error!.message);
+        // throw Exception(response.error!.message);
       }
     });
     return result;

@@ -54,7 +54,6 @@ class GuideController extends GetxController {
   void skipGuide() {
     // 跳过引导页，直接进入登录页
     Routers.pop();
-    Get.offAllNamed(Routers.login);
-    // Routers.push(Routers.login);
+    Get.offAllNamed(Routers.restLogin);
   }
 }

@@ -262,8 +262,8 @@ class _ListRefreshState extends State<RefreshView> {
           return false;
         },
         child: SmartRefresher(
-            enablePullDown: true,
-            enablePullUp: true,
+            enablePullDown: !_isLoading,
+            enablePullUp: !_isLoading,
             header: ClassicHeader(
               refreshingIcon: const CupertinoActivityIndicator(),
               height: 45.0,
@@ -271,7 +271,7 @@ class _ListRefreshState extends State<RefreshView> {
               refreshingText: '加载中'.tr,
               completeText: '加载完成'.tr,
               failedText: '加载失败'.tr,
-              idleText: '空闲'.tr,
+              idleText: '下拉'.tr,
             ),
             footer: CustomFooter(
               height: _items.length < 10 ? 0 : 60,

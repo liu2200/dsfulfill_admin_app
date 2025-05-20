@@ -32,11 +32,10 @@ class EmailVerifyView extends GetView<EmailVerifyController> {
                 ),
               ),
               SizedBox(height: 24.h),
-              // 描述文字
+              // 描述文字  We email a verification code to xxxx@xxx.com . Enter the code to complete registeration
               AppText(
                 text:
-                    'We email a verification code to xxxx@xxx.com . Enter the code to complete registeration'
-                        .tr,
+                    '${'我们向'.tr} ${controller.email.value} ${'发送验证码。请输入验证码完成注册。'.tr}',
                 fontSize: 20.sp,
                 color: AppStyles.textBlack,
                 textAlign: TextAlign.center,

@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -14,12 +15,15 @@ import 'package:dsfulfill_cient_app/storage/common_storage.dart';
 import 'package:event_bus/event_bus.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/route_manager.dart';
+import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   await GetStorage.init();
   await GlobalInject.init();
-
   runApp(const MyApp());
 }
 
@@ -53,7 +57,6 @@ class _MyAppState extends State<MyApp> {
   initPayObserver() {
     paySub = uriLinkStream.listen((Uri? uri) {
       if (uri == null) return;
-
       if (uri.query.isNotEmpty) {
         Map<String, String> query = {};
         uri.query.split('&').forEach((e) {
@@ -75,7 +78,7 @@ class _MyAppState extends State<MyApp> {
   initLoadingConfig() {
     EasyLoading.instance
       ..displayDuration = const Duration(milliseconds: 2000)
-      ..indicatorType = EasyLoadingIndicatorType.pouringHourGlass;
+      ..indicatorType = EasyLoadingIndicatorType.circle;
   }
 
   @override

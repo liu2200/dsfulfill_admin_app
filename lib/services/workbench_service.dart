@@ -12,7 +12,7 @@ import 'package:dsfulfill_cient_app/models/supplier_model.dart';
 class WorkbenchService {
   static const String goodsApi = 'goods'; //商品列表
   static const String collectApi = 'collect-goods/collect-claim'; //产品收集
-  static const String goodsCategoryApi = 'goods-category'; //商品分类API
+  static const String goodsCategoryApi = 'goods-category/tree'; //商品分类API
   static const String supplierApi = 'supplier'; //获取供应商列表
   static const String orderApi = 'order'; //获取订单列表
   static const String shopApi = 'shop';
@@ -121,7 +121,11 @@ class WorkbenchService {
   //订单报价信息
   static Future<Map<String, dynamic>?> orderQuoteInfo(id) async {
     Map<String, dynamic>? result;
-    await ApiConfig.instance.get('$orderQuoteInfoApi/$id').then((response) {
+    await ApiConfig.instance
+        .get(
+      '$orderQuoteInfoApi/$id',
+    )
+        .then((response) {
       if (response.ok) {
         result = response.data;
       }

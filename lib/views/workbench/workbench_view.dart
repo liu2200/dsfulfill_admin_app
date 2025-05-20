@@ -1,6 +1,7 @@
 import 'package:dsfulfill_cient_app/config/routers.dart';
 import 'package:dsfulfill_cient_app/config/styles.dart';
 import 'package:dsfulfill_cient_app/views/components/base_scaffold.dart';
+import 'package:dsfulfill_cient_app/views/components/base_text.dart';
 import 'package:dsfulfill_cient_app/views/components/image/load_asset_image.dart';
 import 'package:dsfulfill_cient_app/views/workbench/workbench_controller.dart';
 import 'package:flutter/material.dart';
@@ -77,9 +78,10 @@ class WorkbenchView extends GetView<WorkbenchController> {
               ),
               SizedBox(width: 16.w),
               Expanded(
-                child: Text(
-                  title,
-                  style: TextStyle(fontSize: 15.sp, color: Colors.black87),
+                child: AppText(
+                  text: title,
+                  fontSize: 15.sp,
+                  color: Colors.black87,
                 ),
               ),
               Icon(Icons.arrow_forward_ios, size: 16.w, color: Colors.black26),

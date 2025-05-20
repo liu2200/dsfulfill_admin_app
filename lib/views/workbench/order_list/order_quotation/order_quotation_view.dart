@@ -32,50 +32,88 @@ class OrderQuotationView extends GetView<OrderQuotationController> {
                     color: Colors.black.withOpacity(0.10), blurRadius: 16),
               ],
             ),
-            child: Row(
+            child: Column(
               mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    AppText(
+                      text: '编辑'.tr,
+                      fontSize: 15.sp,
+                      color: AppStyles.textBlack,
+                    ),
+                    SizedBox(width: 16.w),
+                    IconButton(
+                      icon: const Icon(Icons.close),
+                      onPressed: () => Navigator.pop(context),
+                      padding: EdgeInsets.zero,
+                      constraints: const BoxConstraints(),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 5.h),
+                AppText(
+                  text: type == 'favourable' ? '折扣金额'.tr : '其他补价'.tr,
+                  fontSize: 13.sp,
+                  color: AppStyles.textBlack,
+                  textAlign: TextAlign.left,
+                ),
+                SizedBox(height: 10.h),
                 SizedBox(
-                  width: 90.w,
                   child: BaseInput(
                     controller: textController,
                     hintText: '改价'.tr,
                     keyboardType: TextInputType.number,
                   ),
                 ),
-                SizedBox(width: 8.w),
-                TextButton(
-                  onPressed: () => Navigator.of(context).pop(),
-                  child: AppText(
-                    text: '取消'.tr,
-                    color: AppStyles.primary,
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w600,
+                SizedBox(height: 20.h),
+                SizedBox(
+                  width: double.infinity,
+                  height: 42.h,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppStyles.primary,
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 12, vertical: 4),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(6)),
+                    ),
+                    onPressed: () {
+                      var bool = true;
+                      controller.editPrice.value = textController.text;
+                      bool = controller.customPriceEdit(type);
+                      if (bool) {
+                        Navigator.of(context).pop();
+                      }
+                    },
+                    child: AppText(
+                      text: '确认'.tr,
+                      color: Colors.white,
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
-                SizedBox(width: 2.w),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppStyles.primary,
-                    foregroundColor: Colors.white,
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(6)),
+                SizedBox(height: 10.h),
+                Container(
+                  width: double.infinity,
+                  height: 42.h,
+                  decoration: BoxDecoration(
+                    color: AppStyles.white,
+                    border: Border.all(color: AppStyles.line),
+                    borderRadius: BorderRadius.circular(6),
                   ),
-                  onPressed: () {
-                    var bool = true;
-                    controller.editPrice.value = textController.text;
-                    bool = controller.customPriceEdit(type);
-                    if (bool) {
-                      Navigator.of(context).pop();
-                    }
-                  },
-                  child: AppText(
-                    text: '确认'.tr,
-                    color: Colors.white,
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w600,
+                  child: TextButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    child: AppText(
+                      text: '取消'.tr,
+                      color: AppStyles.textBlack,
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
               ],
@@ -539,7 +577,7 @@ Widget _feeRow(String label, String value,
     child: Row(
       children: [
         SizedBox(
-          width: 80.w,
+          width: 150.w,
           child: Text(label,
               style: TextStyle(fontSize: 15.sp, color: AppStyles.textBlack)),
         ),

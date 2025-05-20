@@ -108,9 +108,9 @@ class OrderListController extends GetxController
     "fulfillment_platform": "", //履单系统
     "logistics": "",
     "abnormal_reason": "", //平台异常原因
-    "logistics_status": "",
     "stock_status": "",
     "other_status": "",
+    "logistics_status": "",
   };
   final orderListStatus = [
     {
@@ -119,6 +119,13 @@ class OrderListController extends GetxController
       'show_count': false,
       'count': 0,
       'id': 7,
+    },
+    {
+      'label': '待报价'.tr,
+      'status': 0,
+      'count': 0,
+      'id': 1,
+      'show_count': true,
     },
     {
       'label': '报价中'.tr,
@@ -173,7 +180,20 @@ class OrderListController extends GetxController
     getShopList();
     getExpressList();
     getCountryList();
-    tabController = TabController(length: 7, vsync: this);
+    tabController = TabController(length: 8, vsync: this);
+    // 获取路由参数
+    final arguments = Get.arguments;
+    if (arguments != null && arguments.containsKey('status')) {
+      orderListStatus[tabIndex.value]['status'] = arguments['status'];
+      tabController.animateTo(arguments['status']);
+      tabIndex.value = arguments['status'];
+      if (arguments['status'] == 4) {
+        pageParams['logistics_status'] = 'wait';
+      }
+      if (arguments['status'] == 5) {
+        pageParams['stock_status'] = 'wait';
+      }
+    }
     ApplicationEvent.getInstance().event.on<ListRefreshEvent>().listen((event) {
       if (event.type == 'refresh') {
         getOrderCount();
@@ -187,6 +207,9 @@ class OrderListController extends GetxController
   }
 
   reset() {
+    keywordController.clear();
+    productKeywordController.clear();
+    logisticsKeywordController.clear();
     customerIdController.value = '';
     shopIdsController.value = '';
     expressController.value = '';

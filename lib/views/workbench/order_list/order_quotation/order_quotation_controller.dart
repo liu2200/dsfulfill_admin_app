@@ -5,6 +5,7 @@ import 'package:dsfulfill_cient_app/events/list_refresh_event.dart';
 import 'package:dsfulfill_cient_app/models/generation_quote_model.dart';
 import 'package:dsfulfill_cient_app/models/line_items_model.dart';
 import 'package:dsfulfill_cient_app/models/order_model.dart';
+import 'package:dsfulfill_cient_app/models/skus_model.dart';
 import 'package:dsfulfill_cient_app/models/staff_model.dart';
 import 'package:dsfulfill_cient_app/services/marketing_service.dart';
 import 'package:dsfulfill_cient_app/services/workbench_service.dart';
@@ -32,8 +33,11 @@ class OrderQuotationController extends BaseController {
   final totalPrice = ''.obs; //合计
 
   final editPrice = ''.obs; //修改金额
+  final warehouseId = 0.obs; //仓库
 
   final activeRow = Rxn<LineItemsModel>(); //选择产品列表
+
+  final type = ''.obs; //类型
 
   @override
   void onInit() {
@@ -54,13 +58,31 @@ class OrderQuotationController extends BaseController {
   void skuSelectResult(item, index) async {
     activeRow.value = item;
     var s = await Get.toNamed(Routers.productRelevancy);
+
     if (s != null) {
       if (item.mapping != null) {
         item.mapping.goodsSku = s;
-        orderDetail.refresh(); // 让所有依赖 orderDetail 的 Obx 刷新
-        mappingList[index] = {'sku_id': s.id, 'line_item_id': item.id};
-        generationQuoteInfo();
+      } else {
+        item.mapping = MappingModel(
+            id: item.id,
+            goodsSku: SkusModel(
+              id: item.id,
+              skuId: s.id.toString(),
+              price: s.price,
+              quantity: s.quantity,
+              images: s.images,
+              purchasePrice: s.purchasePrice,
+              quotePrice: s.quotePrice,
+              salePrice: s.salePrice,
+              specName: s.specName,
+              profit: s.profit,
+              weight: s.weight,
+              goods: s.goods,
+            ));
       }
+      orderDetail.refresh(); // 让所有依赖 orderDetail 的 Obx 刷新
+      mappingList[index] = {'sku_id': s.id, 'line_item_id': item.id};
+      generationQuoteInfo();
     }
   }
 
@@ -68,6 +90,7 @@ class OrderQuotationController extends BaseController {
     var result = await WorkbenchService.orderQuoteInfo(id);
     if (result != null) {
       staffId.value = result['staff_id'] ?? '';
+      warehouseId.value = result['warehouse_id'] ?? 0;
       expressLineId.value = result['express_line_id'] ?? '';
       if (result['line_items'] != null) {
         for (var item in result['line_items']!) {
@@ -124,6 +147,7 @@ class OrderQuotationController extends BaseController {
       'other_supplement_price': otherSupplementPrice.value,
       'use_customer_stock': useCustomerStock.value,
       'staff_id': staffId.value,
+      'warehouse_id': warehouseId.value,
     });
     if (result != null) {
       generationQuote.value = result;
@@ -149,6 +173,7 @@ class OrderQuotationController extends BaseController {
       "use_customer_stock": useCustomerStock.value,
       "custom_favourable_price": customFavourablePrice.value,
       "custom_logistic_price": customLogisticPrice.value,
+      'warehouse_id': warehouseId.value,
     });
     if (result != null) {
       showToast('提交成功'.tr);

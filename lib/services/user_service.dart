@@ -34,6 +34,9 @@ class UserService {
   // 忘记密码
   static const String forgotPasswordApi = 'forgot-password';
 
+  // google、facebook 第三方登录
+  static const String loginWithFirebase = 'oauth/authenticate';
+
   static Future<bool> forgotPassword(Map<String, dynamic> params) async {
     bool result = false;
     await ApiConfig.instance
@@ -139,6 +142,26 @@ class UserService {
     });
 
     return res;
+  }
+
+  // google、facebook 第三方登录
+  static Future<Map?> loginFirebase(Map<String, dynamic> params) async {
+    Map? result;
+    TokenModel? token;
+    await ApiConfig.instance
+        .post(loginWithFirebase, data: params)
+        .then((response) {
+      if (response.ok) {
+        if (response.data['key'] != null) {
+          result = {'key': response.data['key']};
+        } else {
+          token = _loginResult(response);
+          result = {'token': token};
+        }
+      }
+    });
+
+    return result;
   }
 
   // 账号密码登录

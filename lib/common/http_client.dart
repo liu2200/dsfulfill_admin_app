@@ -81,6 +81,7 @@ class ApiConfig {
       var res = handleResponse(response, httpTransformer: httpTransformer);
       if (res.ok &&
           options.method != Methods.get.name &&
+          Methods.get.name != 'GET' &&
           !uri.contains('refresh-token') &&
           options.extra?['showSuccess'] != false) {
         EasyLoading.showSuccess(res.msg ?? '');

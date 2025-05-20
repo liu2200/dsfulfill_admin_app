@@ -18,8 +18,8 @@ class OnlineRechargeView extends GetView<OnlineRechargeController> {
   Widget build(BuildContext context) {
     final scaffoldKey = GlobalKey<ScaffoldState>();
     return Scaffold(
-      key: scaffoldKey,
-      endDrawer: _buildFilterDrawer(context),
+      // key: scaffoldKey,
+      // endDrawer: _buildFilterDrawer(context),
       body: BaseScafflod(
         title: '在线充值'.tr,
         hasBack: true,
@@ -51,7 +51,25 @@ class OnlineRechargeView extends GetView<OnlineRechargeController> {
                       ),
                       GestureDetector(
                         onTap: () {
-                          scaffoldKey.currentState?.openEndDrawer();
+                          showModalBottomSheet(
+                            context: context,
+                            isScrollControlled: true, // 允许内容占据更大空间
+                            backgroundColor: Colors.transparent,
+                            builder: (BuildContext context) {
+                              return Container(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.85,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(20.r),
+                                    topRight: Radius.circular(20.r),
+                                  ),
+                                ),
+                                child: _buildFilterDrawer(context),
+                              );
+                            },
+                          );
                         },
                         child: LoadAssetImage(
                           image: 'workbench/filtrate',
@@ -205,8 +223,7 @@ class OnlineRechargeView extends GetView<OnlineRechargeController> {
   }
 
   Widget _buildFilterDrawer(BuildContext context) {
-    return Drawer(
-      width: MediaQuery.of(context).size.width * 0.7,
+    return SafeArea(
       child: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),

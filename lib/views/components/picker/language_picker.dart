@@ -29,13 +29,6 @@ class _LanguagePickerState extends State<LanguagePicker> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(12.r),
-          topRight: Radius.circular(12.r),
-        ),
-      ),
       child: GestureDetector(
         onTap: () {
           Get.bottomSheet(

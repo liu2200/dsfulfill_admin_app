@@ -7,6 +7,11 @@ import 'package:get/get.dart';
 class EmailLoginController extends BaseController {
   final TextEditingController emailController = TextEditingController();
 
+  void onClose() {
+    emailController.dispose();
+    super.onClose();
+  }
+
   void nextStep() async {
     if (emailController.text.isEmpty) {
       showToast('请输入邮箱'.tr);

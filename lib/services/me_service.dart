@@ -12,6 +12,41 @@ class MeService {
   static const String editCustomClientConfigApi =
       'application/edit-custom-client';
   static const String getProfileApi = 'members/profile';
+  static const String systemConfigApi = 'system-config';
+  static const String getAppConfigApi = 'mobile-app/get-config';
+  static const String setAppConfigApi = 'mobile-app/set-config';
+
+  static Future<Map<String, dynamic>> getSystemConfig() async {
+    Map<String, dynamic> result = {'data': null};
+    await ApiConfig.instance.get(systemConfigApi).then((response) {
+      if (response.ok) {
+        result = response.data;
+      }
+    });
+    return result;
+  }
+
+  static Future<Map<String, dynamic>> getAppConfig() async {
+    Map<String, dynamic> result = {'data': null};
+    await ApiConfig.instance.get(getAppConfigApi).then((response) {
+      if (response.ok) {
+        result = response.data;
+      }
+    });
+    return result;
+  }
+
+  static Future<bool> setAppConfig(Map<String, dynamic> params) async {
+    bool result = false;
+    await ApiConfig.instance
+        .post(setAppConfigApi, data: params)
+        .then((response) {
+      if (response.ok) {
+        result = true;
+      }
+    });
+    return result;
+  }
 
   static Future<ProfileModel?> getProfile() async {
     ProfileModel? result;

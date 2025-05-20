@@ -55,11 +55,13 @@ class CustomerModel {
     if (json['consume_amount'] != null) {
       consumeAmount = json['consume_amount'];
     }
-    var creditLineRaw = json['credit_line'];
-    if (creditLineRaw is int) {
-      creditLine = creditLineRaw.toString();
-    } else {
-      creditLine = json['credit_line'];
+    if (json['credit_line'] != null) {
+      var creditLineRaw = json['credit_line'];
+      if (creditLineRaw is int) {
+        creditLine = creditLineRaw.toString();
+      } else {
+        creditLine = json['credit_line'];
+      }
     }
     if (json['custom_email'] != null) {
       customEmail = json['custom_email'] as String;
@@ -73,11 +75,13 @@ class CustomerModel {
     if (json['phone_area_code'] != null) {
       phoneAreaCode = json['phone_area_code'];
     }
-    var residualCreditRaw = json['credit_line'];
-    if (residualCreditRaw is int) {
-      residualCredit = residualCreditRaw.toString();
-    } else {
-      residualCredit = json['residual_credit'];
+    if (json['residual_credit'] != null) {
+      var residualCreditRaw = json['residual_credit'];
+      if (residualCreditRaw is int) {
+        residualCredit = residualCreditRaw.toString();
+      } else {
+        residualCredit = json['residual_credit'];
+      }
     }
     if (json['last_login_at'] != null) {
       lastLoginTime = json['last_login_at'];

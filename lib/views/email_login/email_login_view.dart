@@ -34,7 +34,7 @@ class EmailLoginView extends GetView<EmailLoginController> {
               SizedBox(height: 24.h),
               // 描述文字
               AppText(
-                text: 'Email Login/Register'.tr,
+                text: '电子邮件登录/注册'.tr,
                 fontSize: 20.sp,
                 color: AppStyles.textBlack,
                 textAlign: TextAlign.center,
@@ -42,7 +42,7 @@ class EmailLoginView extends GetView<EmailLoginController> {
               ),
               SizedBox(height: 16.h),
               AppText(
-                text: 'Please enter your email'.tr,
+                text: '请输入您的邮箱'.tr,
                 fontSize: 14.sp,
                 color: AppStyles.textBlack,
                 textAlign: TextAlign.center,

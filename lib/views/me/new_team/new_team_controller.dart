@@ -1,9 +1,7 @@
 import 'package:dsfulfill_cient_app/config/base_controller.dart';
 import 'package:dsfulfill_cient_app/config/routers.dart';
 import 'package:dsfulfill_cient_app/events/application_event.dart';
-import 'package:dsfulfill_cient_app/events/change_page_index_event.dart';
 import 'package:dsfulfill_cient_app/events/new_team_event.dart';
-import 'package:dsfulfill_cient_app/events/set_team_event.dart';
 import 'package:dsfulfill_cient_app/services/me_service.dart';
 import 'package:dsfulfill_cient_app/state/app_state.dart';
 import 'package:flutter/material.dart';
@@ -18,9 +16,14 @@ class NewTeamController extends BaseController {
   void onInit() {
     super.onInit();
     if (Get.arguments != null) {
-      type.value = 'login'; //如果是登录
+      type.value = Get.arguments['type']; //如果是登录
       isGuide.value = Get.arguments['isguide'];
     }
+  }
+
+  onClose() {
+    teamNameController.dispose();
+    super.onClose();
   }
 
   createCompany() async {
@@ -34,7 +37,7 @@ class NewTeamController extends BaseController {
       "invoice_info": ""
     });
     if (result['ok']) {
-      if (type.value == 'login') {
+      if (type.value != '') {
         var res = await MeService.setDefaultTeam(result['data']['id']);
         if (res) {
           appState.team['company_id'] = result['data']['id'];
@@ -48,17 +51,20 @@ class NewTeamController extends BaseController {
           if (isGuide.value) {
             Routers.push(Routers.home);
           } else {
-            Routers.pop();
-            Routers.pop();
-            Routers.pop();
-            Routers.pop();
+            if (type.value == 'login') {
+              Routers.pop();
+              Routers.pop();
+              Routers.pop();
+              Routers.pop();
+            } else {
+              Routers.pop();
+              Routers.pop();
+            }
           }
         }
         // 直接修改AppState中的userInfo
       } else {
-        Routers.push(Routers.setBrand, {
-          'type': 'new',
-        });
+        Routers.pop();
       }
       ApplicationEvent.getInstance().event.fire(NewTeamEvent());
     }

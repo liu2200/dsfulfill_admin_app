@@ -20,8 +20,8 @@ class ClientListView extends GetView<ClientListController> {
   Widget build(BuildContext context) {
     final scaffoldKey = GlobalKey<ScaffoldState>();
     return Scaffold(
-      key: scaffoldKey,
-      endDrawer: _buildFilterDrawer(context),
+      // key: scaffoldKey,
+      // endDrawer: _buildFilterDrawer(context),
       body: BaseScafflod(
         title: '客户列表'.tr,
         hasBack: true,
@@ -53,7 +53,25 @@ class ClientListView extends GetView<ClientListController> {
                       ),
                       GestureDetector(
                         onTap: () {
-                          scaffoldKey.currentState?.openEndDrawer();
+                          showModalBottomSheet(
+                            context: context,
+                            isScrollControlled: true, // 允许内容占据更大空间
+                            backgroundColor: Colors.transparent,
+                            builder: (BuildContext context) {
+                              return Container(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.85,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(20.r),
+                                    topRight: Radius.circular(20.r),
+                                  ),
+                                ),
+                                child: _buildFilterDrawer(context),
+                              );
+                            },
+                          );
                         },
                         child: LoadAssetImage(
                           image: 'workbench/filtrate',
@@ -226,131 +244,128 @@ class ClientListView extends GetView<ClientListController> {
   }
 
   Widget _buildFilterDrawer(BuildContext context) {
-    return Drawer(
-      width: MediaQuery.of(context).size.width * 0.7,
-      child: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text('筛选'.tr, style: TextStyle(fontSize: 16.sp)),
-                  IconButton(
-                    icon: const Icon(Icons.close),
-                    onPressed: () => Navigator.of(context).maybePop(),
-                  ),
-                ],
-              ),
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _buildLabelText('搜索类型'.tr),
-                      5.verticalSpace,
-                      Obx(() => SelectDropdown(
-                            hint: '请选择'.tr,
-                            items: controller.keywordTypeList,
-                            getId: (e) => e['id'].toString(),
-                            getName: (e) => e['label'].toString().tr,
-                            selectedId: controller.keywordType.value,
-                            showClear: false,
-                            onChanged: (id) {
-                              controller.keywordType.value = id;
-                            },
-                          )),
-                      10.verticalSpace,
-                      _buildLabelText('搜索内容'.tr),
-                      5.verticalSpace,
-                      BaseInput(
-                        hintText: '请输入'.tr,
-                        controller: controller.keywordController,
-                      ),
-                      10.verticalSpace,
-                      _buildLabelText('客户组'.tr),
-                      5.verticalSpace,
-                      Obx(() => SelectDropdown(
-                            hint: '请选择'.tr,
-                            items: controller.clientGroupList,
-                            getId: (e) => e.id.toString(),
-                            getName: (e) => e.groupName,
-                            selectedId: controller.groupId.value,
-                            onChanged: (id) {
-                              controller.groupId.value = id;
-                            },
-                          )),
-                      10.verticalSpace,
-                      _buildLabelText('员工'.tr),
-                      5.verticalSpace,
-                      Obx(() => SelectDropdown(
-                            hint: '请选择'.tr,
-                            items: controller.staffList,
-                            getId: (e) => e.id.toString(),
-                            getName: (e) => e.name,
-                            selectedId: controller.staffId.value,
-                            onChanged: (id) {
-                              controller.staffId.value = id;
-                            },
-                          )),
-                    ],
-                  ),
+    return SafeArea(
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text('筛选'.tr, style: TextStyle(fontSize: 16.sp)),
+                IconButton(
+                  icon: const Icon(Icons.close),
+                  onPressed: () => Navigator.of(context).maybePop(),
+                ),
+              ],
+            ),
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _buildLabelText('搜索类型'.tr),
+                    5.verticalSpace,
+                    Obx(() => SelectDropdown(
+                          hint: '请选择'.tr,
+                          items: controller.keywordTypeList,
+                          getId: (e) => e['id'].toString(),
+                          getName: (e) => e['label'].toString().tr,
+                          selectedId: controller.keywordType.value,
+                          showClear: false,
+                          onChanged: (id) {
+                            controller.keywordType.value = id;
+                          },
+                        )),
+                    10.verticalSpace,
+                    _buildLabelText('搜索内容'.tr),
+                    5.verticalSpace,
+                    BaseInput(
+                      hintText: '请输入'.tr,
+                      controller: controller.keywordController,
+                    ),
+                    10.verticalSpace,
+                    _buildLabelText('客户组'.tr),
+                    5.verticalSpace,
+                    Obx(() => SelectDropdown(
+                          hint: '请选择'.tr,
+                          items: controller.clientGroupList,
+                          getId: (e) => e.id.toString(),
+                          getName: (e) => e.groupName,
+                          selectedId: controller.groupId.value,
+                          onChanged: (id) {
+                            controller.groupId.value = id;
+                          },
+                        )),
+                    10.verticalSpace,
+                    _buildLabelText('员工'.tr),
+                    5.verticalSpace,
+                    Obx(() => SelectDropdown(
+                          hint: '请选择'.tr,
+                          items: controller.staffList,
+                          getId: (e) => e.id.toString(),
+                          getName: (e) => e.name,
+                          selectedId: controller.staffId.value,
+                          onChanged: (id) {
+                            controller.staffId.value = id;
+                          },
+                        )),
+                  ],
                 ),
               ),
-              SizedBox(height: 16.h),
-              Row(
-                children: [
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.of(context).maybePop();
-                        ApplicationEvent.getInstance()
-                            .event
-                            .fire(ListRefreshEvent(type: 'refresh'));
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppStyles.primary,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8.r),
-                        ),
-                        elevation: 0,
+            ),
+            SizedBox(height: 16.h),
+            Row(
+              children: [
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.of(context).maybePop();
+                      ApplicationEvent.getInstance()
+                          .event
+                          .fire(ListRefreshEvent(type: 'refresh'));
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppStyles.primary,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8.r),
                       ),
-                      child: Text('查询'.tr,
-                          style: TextStyle(
-                              fontSize: 16.sp, color: AppStyles.white)),
+                      elevation: 0,
                     ),
+                    child: Text('查询'.tr,
+                        style:
+                            TextStyle(fontSize: 16.sp, color: AppStyles.white)),
                   ),
-                ],
-              ),
-              SizedBox(height: 8.h),
-              Row(
-                children: [
-                  Expanded(
-                    child: OutlinedButton(
-                      onPressed: () {
-                        controller.reset();
-                        Navigator.of(context).maybePop();
-                        ApplicationEvent.getInstance()
-                            .event
-                            .fire(ListRefreshEvent(type: 'refresh'));
-                      },
-                      style: OutlinedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8.r),
-                        ),
-                        side: const BorderSide(color: AppStyles.textBlack),
+                ),
+              ],
+            ),
+            SizedBox(height: 8.h),
+            Row(
+              children: [
+                Expanded(
+                  child: OutlinedButton(
+                    onPressed: () {
+                      controller.reset();
+                      Navigator.of(context).maybePop();
+                      ApplicationEvent.getInstance()
+                          .event
+                          .fire(ListRefreshEvent(type: 'refresh'));
+                    },
+                    style: OutlinedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8.r),
                       ),
-                      child: Text('重置'.tr,
-                          style: TextStyle(
-                              fontSize: 16.sp, color: AppStyles.textBlack)),
+                      side: const BorderSide(color: AppStyles.textBlack),
                     ),
+                    child: Text('重置'.tr,
+                        style: TextStyle(
+                            fontSize: 16.sp, color: AppStyles.textBlack)),
                   ),
-                ],
-              ),
-            ],
-          ),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );

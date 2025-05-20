@@ -43,7 +43,9 @@ class LineItemsModel {
   });
 
   LineItemsModel.fromJson(Map<String, dynamic> json) {
-    createdAt = json['created_at'];
+    if (json['created_at'] != null) {
+      createdAt = json['created_at'];
+    }
     id = json['id'];
     if (json['logistics_fee'] != null) {
       logisticsFee = json['logistics_fee'];

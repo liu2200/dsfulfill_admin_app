@@ -5,38 +5,46 @@ import 'package:dsfulfill_cient_app/events/logined_event.dart';
 import 'package:dsfulfill_cient_app/events/set_team_event.dart';
 import 'package:dsfulfill_cient_app/models/home_model.dart';
 import 'package:dsfulfill_cient_app/services/home_service.dart';
+import 'package:dsfulfill_cient_app/services/me_service.dart';
 import 'package:dsfulfill_cient_app/state/app_state.dart';
 import 'package:get/get.dart';
 
 class HomeController extends BaseController {
   final currencyModel = Get.find<AppState>().currencyModel;
   final token = Get.find<AppState>().token.obs;
+  final team = Get.find<AppState>().team.obs;
+  final clientUrl = ''.obs;
   final homeModel = HomeModel(
     orderStatistics: null,
     expressLinesCount: 0,
     goodsCount: 0,
     orderCount: 0,
+    rechargeCount: 0,
   ).obs;
   final orderListStatus = [
     {
       'label': '待报价',
       'status': 0,
       'count': 0,
+      'index': 1,
     },
     {
       'label': '待申请运单',
       'status': 3,
       'count': 0,
+      'index': 4,
     },
     {
       'label': '待配货',
       'status': 4,
       'count': 0,
+      'index': 5,
     },
     {
       'label': '异常订单',
       'status': 'abnormal',
       'count': 0,
+      'index': 7,
     },
   ].obs;
 
@@ -57,6 +65,7 @@ class HomeController extends BaseController {
           expressLinesCount: 0,
           goodsCount: 0,
           orderCount: 0,
+          rechargeCount: 0,
         );
         token.value = Get.find<AppState>().token;
       }
@@ -71,6 +80,13 @@ class HomeController extends BaseController {
   @override
   void onClose() {
     super.onClose();
+  }
+
+  getAppConfig() async {
+    var res = await MeService.getSystemConfig();
+    if (res['client_url'] != null) {
+      clientUrl.value = res['client_url'];
+    }
   }
 
   getHomeData() async {
@@ -102,5 +118,6 @@ class HomeController extends BaseController {
   Future<void> loadData() async {
     await getHomeData();
     await getOrderCount();
+    await getAppConfig();
   }
 }

@@ -22,8 +22,8 @@ class CollectController extends BaseController {
   // 语言选择
   final RxString selectedLanguage = 'zh_CN'.obs;
   final List<Map<String, String>> languages = [
-    {'value': 'en_US', 'label': '英语'.tr},
-    {'value': 'zh_CN', 'label': '中文'},
+    {'value': 'en_US', 'label': 'English'.tr},
+    {'value': 'zh_CN', 'label': '中文'.tr},
   ];
 
   // 分类列表
@@ -56,8 +56,8 @@ class CollectController extends BaseController {
     isLoadingCategories.value = true;
     try {
       var result = await WorkbenchService.getGoodsCategory({
-        'page': 1,
-        'size': 1000,
+        'name': '',
+        'status': '',
       });
 
       if (result.isNotEmpty) {
@@ -173,7 +173,7 @@ class CollectController extends BaseController {
       isSubmitting.value = false;
       if (result) {
         showToast('提交成功'.tr);
-        Get.back();
+        Get.back(result: true);
       } else {
         showToast('提交失败，请稍后重试'.tr);
       }

@@ -86,7 +86,6 @@ class OrderDetailController extends BaseController
       "ids": [orderId.value]
     });
     if (result) {
-      showToast('操作成功'.tr);
       ApplicationEvent.getInstance()
           .event
           .fire(ListRefreshEvent(type: 'refresh'));
@@ -101,7 +100,6 @@ class OrderDetailController extends BaseController
       "ids": [orderId.value]
     });
     if (result) {
-      showToast('操作成功'.tr);
       ApplicationEvent.getInstance()
           .event
           .fire(ListRefreshEvent(type: 'refresh'));

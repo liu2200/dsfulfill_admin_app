@@ -1,18 +1,13 @@
 import 'package:dsfulfill_cient_app/config/base_controller.dart';
 import 'package:dsfulfill_cient_app/events/application_event.dart';
 import 'package:dsfulfill_cient_app/events/change_page_index_event.dart';
-import 'package:dsfulfill_cient_app/events/edit_custom_event.dart';
 import 'package:dsfulfill_cient_app/events/logined_event.dart';
-import 'package:dsfulfill_cient_app/events/new_team_event.dart';
-import 'package:dsfulfill_cient_app/events/set_team_event.dart';
 import 'package:dsfulfill_cient_app/events/updateAvatar_event.dart';
-import 'package:dsfulfill_cient_app/models/client_domain_model.dart';
-import 'package:dsfulfill_cient_app/models/custom_client_model.dart';
 import 'package:dsfulfill_cient_app/services/me_service.dart';
 import 'package:dsfulfill_cient_app/state/app_state.dart';
 import 'package:dsfulfill_cient_app/views/components/base_dialog.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 class MeController extends BaseController {
   final currencyModel = Get.find<AppState>().currencyModel;
@@ -25,10 +20,19 @@ class MeController extends BaseController {
   AppState userInfoModel = Get.find<AppState>();
   AppState teamModel = Get.find<AppState>();
   final balance = 0.0.obs;
-  @override
-  void onInit() {
-    super.onInit();
+  final appVersion = ''.obs;
+  final isShow = false.obs;
 
+  final languageList = [
+    {'name': '中文简体', 'code': 'zh_CN', 'flag': 'CN'},
+    {'name': 'English', 'code': 'en_US', 'flag': 'US'},
+  ].obs;
+
+  @override
+  void onInit() async {
+    super.onInit();
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    appVersion.value = packageInfo.version;
     if (token.value != '') {
       userAvatar.value = Get.find<AppState>().userInfo['avatar'];
       userName.value = Get.find<AppState>().userInfo['name'];
@@ -40,7 +44,6 @@ class MeController extends BaseController {
         .listen((event) {
       userAvatar.value = Get.find<AppState>().userInfo['avatar'];
     });
-
     ApplicationEvent.getInstance().event.on<LoginedEvent>().listen((event) {
       userAvatar.value = Get.find<AppState>().userInfo['avatar'];
       userName.value = Get.find<AppState>().userInfo['name'];
@@ -51,13 +54,25 @@ class MeController extends BaseController {
   }
 
   loadData() async {
-    getBalance();
+    // setAppConfig();
+    getSystemConfig();
   }
 
-  getBalance() async {}
+  setAppConfig() async {
+    var res = await MeService.setAppConfig({'version': '1.5.0'});
+    print(res);
+  }
 
-  void onLogout() async {
-    var res = await BaseDialog.confirmDialog(Get.context!, '确定要退出登录吗?'.tr);
+  getSystemConfig() async {
+    var res = await MeService.getAppConfig();
+    if (res['version'] != appVersion.value) {
+      isShow.value = true;
+    }
+  }
+
+  void onLogout(int type) async {
+    var res = await BaseDialog.confirmDialog(
+        Get.context!, type == 0 ? '确定要注销账号吗?'.tr : '确定要退出登录吗?'.tr);
     if (res != true) return;
     userInfoModel.clear();
     teamModel.clear();

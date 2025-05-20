@@ -24,7 +24,7 @@ class AboutView extends GetView<AboutController> {
             children: [
               // 标题
               AppText(
-                text: 'About Us',
+                text: '关于我们'.tr,
                 fontSize: 24.sp,
                 fontWeight: FontWeight.bold,
                 color: Colors.black,
@@ -35,7 +35,8 @@ class AboutView extends GetView<AboutController> {
               // 公司介绍
               AppText(
                 text:
-                    'DSFulfill is a software solution specifically designed for Dropshipping Agents, developed by Shenzhen StellarWhale Technology Co., Ltd.. Founded in 2024 and headquartered in Shenzhen, China, StellarWhale Technology is a technology company focused on lightweight software solutions for global markets.',
+                    'DSFulfill 是一款专为 Dropshipping Agents设计的软件解决方案，由深圳星辉鲸跃有限公司开发。星辉鲸跃成立于 2024年，总部位于中国深圳，是一家专注于为全球跨境提供轻量级软件解决方案的技术公司。'
+                        .tr,
                 fontSize: 14.sp,
                 color: Colors.black87,
               ),
@@ -44,7 +45,8 @@ class AboutView extends GetView<AboutController> {
               // 团队介绍
               AppText(
                 text:
-                    'The StellarWhale team consists of over 10 members, with the software development team having more than 10 years of experience in cross-border supply chain software services. The team is highly experienced in both To-C and To-B development and possesses strong international service capabilities.',
+                    '星辉鲸跃团队由10多名成员组成，其中软件开发团队在跨境供应链软件服务方面拥有超过10年的经验。团队在o-C和To-B开发方面经验丰富，并拥育强大的国际服务能力。'
+                        .tr,
                 fontSize: 14.sp,
                 color: Colors.black87,
               ),
@@ -53,7 +55,8 @@ class AboutView extends GetView<AboutController> {
               // 目标说明
               AppText(
                 text:
-                    'The goal of DSFulfill is to provide advanced software services to Dropshipping Agents worldwide, including both admin and client interfaces. The product supports multiple languages and offers an open API service, aiming to deliver efficient, scalable, and user-friendly software solutions for Dropshipping agents.',
+                    'DSFulfill的目标是向全球的Dropshipping Agents提供先进的软件服务，包括管理端和客户端。该产品支持多种语言，并提供开放的API服务旨在为Dropshipping Agents提供高效可扩展和用户友好的软件解决方案。'
+                        .tr,
                 fontSize: 14.sp,
                 color: Colors.black87,
               ),
@@ -80,7 +83,7 @@ class AboutView extends GetView<AboutController> {
                     ),
                     SizedBox(height: 12.h),
                     Obx(() => AppText(
-                          text: controller.appVersion.value.split('.').first,
+                          text: controller.appVersion.value,
                           fontSize: 13.sp,
                           color: AppStyles.textBlack,
                         )),

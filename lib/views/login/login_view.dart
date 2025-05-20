@@ -89,40 +89,40 @@ class LoginView extends GetView<LoginController> {
                           ],
                         ),
                 ),
-                SizedBox(height: 20.h),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Obx(
-                      () => Center(
-                        child: GestureDetector(
-                          onTap: () {
-                            controller.toggleRegisterType();
-                          },
-                          child: AppText(
-                            text: controller.isEmailRegister.value
-                                ? '验证码登录'.tr
-                                : '账号登录'.tr,
-                            color: AppStyles.primary,
-                            fontSize: 12.sp,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Center(
-                      child: GestureDetector(
-                        onTap: () {
-                          Routers.push(Routers.forgetPassword);
-                        },
-                        child: AppText(
-                          text: '忘记密码?'.tr,
-                          color: AppStyles.primary,
-                          fontSize: 12.sp,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                // SizedBox(height: 20.h),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //   children: [
+                //     Obx(
+                //       () => Center(
+                //         child: GestureDetector(
+                //           onTap: () {
+                //             controller.toggleRegisterType();
+                //           },
+                //           child: AppText(
+                //             text: controller.isEmailRegister.value
+                //                 ? '验证码登录'.tr
+                //                 : '账号登录'.tr,
+                //             color: AppStyles.primary,
+                //             fontSize: 12.sp,
+                //           ),
+                //         ),
+                //       ),
+                //     ),
+                //     Center(
+                //       child: GestureDetector(
+                //         onTap: () {
+                //           Routers.push(Routers.forgetPassword);
+                //         },
+                //         child: AppText(
+                //           text: '忘记密码?'.tr,
+                //           color: AppStyles.primary,
+                //           fontSize: 12.sp,
+                //         ),
+                //       ),
+                //     ),
+                //   ],
+                // ),
                 SizedBox(height: 32.h),
                 SizedBox(
                   width: double.infinity,
@@ -143,64 +143,29 @@ class LoginView extends GetView<LoginController> {
                     ),
                   ),
                 ),
-                Center(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      AppText(
-                        text: "还没有账号?".tr,
-                        fontSize: 14.sp,
-                        color: AppStyles.textBlack,
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          Routers.push(Routers.register);
-                        },
-                        child: AppText(
-                          text: '立即注册'.tr,
-                          color: AppStyles.primary,
-                          fontSize: 14.sp,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 24.h),
-                LoginType(),
                 // Center(
-                //   child: AppText(
-                //     text: 'OR',
-                //     color: AppStyles.textBlack,
-                //     fontSize: 14.sp,
+                //   child: Row(
+                //     mainAxisAlignment: MainAxisAlignment.center,
+                //     children: [
+                //       AppText(
+                //         text: "还没有账号?".tr,
+                //         fontSize: 14.sp,
+                //         color: AppStyles.textBlack,
+                //       ),
+                //       TextButton(
+                //         onPressed: () {
+                //           Routers.push(Routers.register);
+                //         },
+                //         child: AppText(
+                //           text: '立即注册'.tr,
+                //           color: AppStyles.primary,
+                //           fontSize: 14.sp,
+                //         ),
+                //       ),
+                //     ],
                 //   ),
                 // ),
                 // SizedBox(height: 24.h),
-                // Row(
-                //   mainAxisAlignment: MainAxisAlignment.center,
-                //   children: [
-                //     GestureDetector(
-                //       onTap: () {
-                //         // Facebook login
-                //       },
-                //       child: Image.asset(
-                //         'assets/images/home/facebook.png',
-                //         width: 40.w,
-                //         height: 40.w,
-                //       ),
-                //     ),
-                //     SizedBox(width: 32.w),
-                //     GestureDetector(
-                //       onTap: () {
-                //         // Google login
-                //       },
-                //       child: Image.asset(
-                //         'assets/images/home/google.png',
-                //         width: 40.w,
-                //         height: 40.w,
-                //       ),
-                //     ),
-                //   ],
-                // ),
               ],
             ),
           ),

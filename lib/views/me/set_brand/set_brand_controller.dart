@@ -27,6 +27,11 @@ class SetBrandController extends BaseController {
     _loadInitialData();
   }
 
+  onClose() {
+    siteNameController.dispose();
+    super.onClose();
+  }
+
   void _loadInitialData() async {
     var res = await MeService.getCustomClient();
     if (res != null) {

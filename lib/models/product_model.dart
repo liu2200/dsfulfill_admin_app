@@ -212,18 +212,32 @@ class GoodsAudit {
     required this.commitTime,
   });
 
-  factory GoodsAudit.fromJson(Map<String, dynamic> json) {
-    return GoodsAudit(
-      auditStatus: json['audit_status'] ?? 0,
-      auditStatusName: json['audit_status_name'],
-      auditUserName: json['audit_user_name'] ?? '',
-      auditTime: json['audit_time'],
-      auditRemark: json['audit_remark'] ?? '',
-      commitStatus: json['commit_status'],
-      commitStatusName: json['commit_status_name'],
-      commitUserName: json['commit_user_name'] ?? '',
-      commitTime: json['commit_time'],
-    );
+  GoodsAudit.fromJson(Map<String, dynamic> json) {
+    var auditStatusRaw = json['audit_status'];
+    if (auditStatusRaw is String) {
+      auditStatus = int.tryParse(auditStatusRaw) ?? 0;
+    } else {
+      auditStatus = 0;
+    }
+    if (json['audit_status_name'] != null) {
+      auditStatusName = json['audit_status_name'];
+    }
+    if (json['audit_user_name'] != null) {
+      auditUserName = json['audit_user_name'];
+    }
+    if (json['audit_time'] != null) {
+      auditTime = json['audit_time'];
+    }
+    auditRemark = json['audit_remark'] ?? '';
+    var commitStatusRaw = json['commit_status'];
+    if (commitStatusRaw is String) {
+      commitStatus = int.tryParse(commitStatusRaw) ?? 0;
+    } else {
+      commitStatus = 0;
+    }
+    commitStatusName = json['commit_status_name'];
+    commitUserName = json['commit_user_name'] ?? '';
+    commitTime = json['commit_time'];
   }
 
   Map<String, dynamic> toJson() {

@@ -27,12 +27,21 @@ class SetBrandLogoController extends BaseController {
     _loadInitialData();
   }
 
+  onClose() {
+    siteNameController.dispose();
+    super.onClose();
+  }
+
   void _loadInitialData() async {
     var res = await MeService.getCustomClient();
     if (res != null) {
       siteNameController.text = res.name;
-      logoUrl.value = res.logo;
-      iconUrl.value = res.tabIcon;
+      logoUrl.value = res.logo == ''
+          ? 'https://api.dsfulfill.com/storage/admin/20250322-Pg4paaKRywzjrNmN.png'
+          : res.logo;
+      iconUrl.value = res.tabIcon == ''
+          ? 'https://api.dsfulfill.com/storage/admin/20250322-QyoiInqqHZuUsrQm.png'
+          : res.tabIcon;
     }
   }
 

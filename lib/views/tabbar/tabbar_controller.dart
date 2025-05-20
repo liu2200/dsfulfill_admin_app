@@ -24,7 +24,7 @@ class TabbarController extends BaseController {
         .event
         .on<UnAuthenticateEvent>()
         .listen((event) {
-      showToast('loginCredentialsAreInvalid'.tr);
+      // showToast('loginCredentialsAreInvalid'.tr);
       pushToLogin();
     });
   }

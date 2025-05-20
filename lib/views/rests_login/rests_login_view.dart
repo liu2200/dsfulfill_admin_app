@@ -45,34 +45,37 @@ class RestLoginView extends GetView<RestLoginController> {
 
               Expanded(child: SizedBox(height: 20.h)),
 
-              // 社交媒体登录按钮
-              _buildSocialLoginButton(
-                icon: Icons.apple,
-                text: '使用Apple账号登录'.tr,
-                backgroundColor: Colors.black,
-                textColor: Colors.white,
-                onTap: () => controller.handleAppleLogin(),
-              ),
+              // // 社交媒体登录按钮
+              // _buildSocialLoginButton(
+              //   icon: Icons.apple,
+              //   text: '使用Apple账号登录'.tr,
+              //   backgroundColor: Colors.black,
+              //   textColor: Colors.white,
+              //   onTap: () => controller.handleAppleLogin(),
+              // ),
 
-              SizedBox(height: 16.h),
+              // SizedBox(height: 16.h),
 
-              _buildSocialLoginButton(
-                icon: Icons.facebook,
-                iconColor: Colors.blue,
-                text: '使用Facebook账号登录'.tr,
-                backgroundColor: Colors.white,
-                textColor: Colors.black87,
-                onTap: () => controller.handleFacebookLogin(),
-              ),
+              // _buildSocialLoginButton(
+              //   icon: Icons.facebook,
+              //   iconColor: Colors.blue,
+              //   text: '使用Facebook账号登录'.tr,
+              //   backgroundColor: Colors.white,
+              //   textColor: Colors.black87,
+              //   onTap: () => controller.handleFacebookLogin(),
+              // ),
 
-              SizedBox(height: 16.h),
-
-              _buildSocialLoginButton(
-                svgIcon: 'home/google',
-                text: '使用Google账号登录'.tr,
-                backgroundColor: Colors.white,
-                textColor: Colors.black87,
-                onTap: () => controller.handleGoogleLogin(),
+              // SizedBox(height: 16.h),
+              Obx(
+                () => controller.isShow.value
+                    ? _buildSocialLoginButton(
+                        svgIcon: 'home/google',
+                        text: '使用Google账号登录'.tr,
+                        backgroundColor: Colors.white,
+                        textColor: Colors.black87,
+                        onTap: () => controller.handleGoogleLogin(),
+                      )
+                    : const SizedBox(),
               ),
 
               SizedBox(height: 24.h),
@@ -101,9 +104,38 @@ class RestLoginView extends GetView<RestLoginController> {
 
               // Email登录按钮
               _buildEmailLoginButton(),
-
-              SizedBox(height: 40.h),
+              SizedBox(height: 20.h),
+              // Email登录按钮
+              _buildPasswordLoginButton(),
+              SizedBox(height: 24.h),
             ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  // 密码登录按钮
+  Widget _buildPasswordLoginButton() {
+    return Material(
+      color: AppStyles.white,
+      borderRadius: BorderRadius.circular(50.r),
+      child: InkWell(
+        onTap: () => controller.navigateToPasswordLogin(),
+        borderRadius: BorderRadius.circular(50.r),
+        child: Container(
+          width: double.infinity,
+          height: 44.h,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(50.r),
+            border: Border.all(color: const Color(0xFF1F1F1F)),
+          ),
+          child: AppText(
+            text: '使用账号密码登录'.tr,
+            fontSize: 14.sp,
+            fontWeight: FontWeight.w500,
+            color: const Color(0xFF1F1F1F),
           ),
         ),
       ),

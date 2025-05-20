@@ -265,32 +265,32 @@ class ProductDetailView extends GetView<ProductDetailController> {
             ),
           ),
 
-          Positioned(
-            top: 50.h,
-            right: 16.w,
-            child: Material(
-              color: Colors.transparent,
-              child: InkWell(
-                customBorder: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(4),
-                ),
-                onTap: () {},
-                child: Ink(
-                  width: 30,
-                  height: 30,
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFA8A7A6),
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                  child: LoadAssetImage(
-                    image: 'workbench/share_outlined',
-                    width: 30.w,
-                    height: 30.h,
-                  ),
-                ),
-              ),
-            ),
-          ),
+          // Positioned(
+          //   top: 50.h,
+          //   right: 16.w,
+          //   child: Material(
+          //     color: Colors.transparent,
+          //     child: InkWell(
+          //       customBorder: RoundedRectangleBorder(
+          //         borderRadius: BorderRadius.circular(4),
+          //       ),
+          //       onTap: () {},
+          //       child: Ink(
+          //         width: 30,
+          //         height: 30,
+          //         decoration: BoxDecoration(
+          //           color: const Color(0xFFA8A7A6),
+          //           borderRadius: BorderRadius.circular(4),
+          //         ),
+          //         child: LoadAssetImage(
+          //           image: 'workbench/share_outlined',
+          //           width: 30.w,
+          //           height: 30.h,
+          //         ),
+          //       ),
+          //     ),
+          //   ),
+          // ),
         ],
       ),
     );

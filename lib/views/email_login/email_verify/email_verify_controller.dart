@@ -1,9 +1,7 @@
 import 'package:dsfulfill_cient_app/config/base_controller.dart';
 import 'package:dsfulfill_cient_app/config/routers.dart';
 import 'package:dsfulfill_cient_app/events/application_event.dart';
-import 'package:dsfulfill_cient_app/events/change_page_index_event.dart';
 import 'package:dsfulfill_cient_app/events/logined_event.dart';
-import 'package:dsfulfill_cient_app/models/token_model.dart';
 import 'package:dsfulfill_cient_app/services/user_service.dart';
 import 'package:dsfulfill_cient_app/state/app_state.dart';
 import 'package:dsfulfill_cient_app/storage/common_storage.dart';
@@ -24,6 +22,15 @@ class EmailVerifyController extends BaseController {
     if (email != null) {
       onCountdown();
     }
+  }
+
+  void onClose() {
+    codeController.dispose();
+    timer?.cancel();
+    timer = null;
+    count.value = 60;
+    canGetCode.value = true;
+    super.onClose();
   }
 
   // 倒计时

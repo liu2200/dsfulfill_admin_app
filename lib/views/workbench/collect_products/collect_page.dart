@@ -163,7 +163,7 @@ class CollectPage extends GetView<CollectController> {
                     controller.languages.map<DropdownMenuItem<String>>((item) {
                   return DropdownMenuItem<String>(
                     value: item['value'],
-                    child: Text(item['label']!),
+                    child: Text(item['label']!.tr),
                   );
                 }).toList(),
               )),

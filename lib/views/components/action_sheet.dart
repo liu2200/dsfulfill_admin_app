@@ -74,7 +74,7 @@ class ActionSheet extends StatelessWidget {
                   Navigator.pop(context);
                 },
                 title: AppText(
-                  text: 'cancel'.tr,
+                  text: '取消'.tr,
                   textAlign: TextAlign.center,
                 ),
               ),

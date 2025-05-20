@@ -42,10 +42,13 @@ class GenerationQuoteModel {
     logisticsProvider = json['logistics_provider'];
     logisticsProviderCode = json['logistics_provider_code'];
     originLogisticsFee = json['origin_logistics_fee'];
-    otherSupplementPrice = json['other_supplement_price'];
+    otherSupplementPrice = '0.00';
+    if (json['other_supplement_price'] != null) {
+      otherSupplementPrice = json['other_supplement_price'];
+    }
     totalPrice = json['total_price'];
     useCustomerStock = json['use_customer_stock'];
-    if (json['channel_list'] != null) {
+    if (json['channel_list'] != null && json['channel_list'] is List) {
       channelList = [];
       json['channel_list'].forEach((v) {
         channelList!.add(ChannelListModel.fromJson(v));

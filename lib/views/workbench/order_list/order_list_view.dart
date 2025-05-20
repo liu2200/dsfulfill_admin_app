@@ -20,10 +20,10 @@ class OrderListPage extends GetView<OrderListController> {
   @override
   Widget build(BuildContext context) {
     // 筛选Drawer控制
-    final scaffoldKey = GlobalKey<ScaffoldState>();
+    // final scaffoldKey = GlobalKey<ScaffoldState>();
     return Scaffold(
-      key: scaffoldKey,
-      endDrawer: _buildFilterDrawer(context),
+      // key: scaffoldKey,
+      // endDrawer: _buildFilterDrawer(context),
       body: BaseScafflod(
         title: '订单列表'.tr,
         hasBack: true,
@@ -69,7 +69,26 @@ class OrderListPage extends GetView<OrderListController> {
                       ),
                       GestureDetector(
                         onTap: () {
-                          scaffoldKey.currentState?.openEndDrawer();
+                          // 使用 showModalBottomSheet 代替 endDrawer
+                          showModalBottomSheet(
+                            context: context,
+                            isScrollControlled: true, // 允许内容占据更大空间
+                            backgroundColor: Colors.transparent,
+                            builder: (BuildContext context) {
+                              return Container(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.85,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(20.r),
+                                    topRight: Radius.circular(20.r),
+                                  ),
+                                ),
+                                child: _buildFilterDrawer(context),
+                              );
+                            },
+                          );
                         },
                         child: LoadAssetImage(
                           image: 'workbench/filtrate',
@@ -98,179 +117,179 @@ class OrderListPage extends GetView<OrderListController> {
   }
 
   Widget _buildFilterDrawer(BuildContext context) {
-    return Drawer(
-      width: MediaQuery.of(context).size.width * 0.7,
-      child: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text('筛选'.tr, style: TextStyle(fontSize: 16.sp)),
-                  IconButton(
-                    icon: const Icon(Icons.close),
-                    onPressed: () => Navigator.of(context).maybePop(),
-                  ),
-                ],
-              ),
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _buildFilterInput(
-                          '平台SKU'.tr, controller.productKeywordController),
-                      _buildFilterInput(
-                          '物流单号'.tr, controller.logisticsKeywordController),
-                      // _buildFilterDropdown('客户', controller.clientList),
-                      _buildLabelText('客户'.tr),
-                      5.verticalSpace,
-                      Obx(() => _buildSelectDropdown(
-                            hint: '请选择'.tr,
-                            items: controller.clientList,
-                            getId: (e) => e.id.toString(),
-                            getName: (e) => e.customName,
-                            selectedId: controller.customerIdController,
-                            onChanged: (id) {
-                              controller.customerIdController.value = id;
-                            },
-                          )),
-                      10.verticalSpace,
-                      _buildLabelText('店铺'.tr),
-                      5.verticalSpace,
-                      Obx(() => _buildSelectDropdown(
-                            hint: '请选择'.tr,
-                            items: controller.shopList,
-                            getId: (e) => e.id.toString(),
-                            getName: (e) => e.shopName,
-                            selectedId: controller.shopIdsController,
-                            onChanged: (id) {
-                              controller.shopIdsController.value = id;
-                            },
-                          )),
-                      10.verticalSpace,
-                      _buildLabelText('平台'.tr),
-                      5.verticalSpace,
-                      Obx(() => _buildSelectDropdown(
-                            hint: '请选择'.tr,
-                            items: controller.platformList,
-                            getId: (e) => e['id'].toString(),
-                            getName: (e) => e['label'].toString(),
-                            selectedId: controller.platformController,
-                            onChanged: (id) {
-                              controller.platformController.value = id;
-                            },
-                          )),
-                      10.verticalSpace,
-                      _buildLabelText('物流渠道'.tr),
-                      5.verticalSpace,
-                      Obx(() => _buildSelectDropdown(
-                            hint: '请选择'.tr,
-                            items: controller.expressLinesList,
-                            getId: (e) => e.id.toString(),
-                            getName: (e) => e.name,
-                            selectedId: controller.expressController,
-                            onChanged: (id) {
-                              controller.expressController.value = id;
-                            },
-                          )),
-                      10.verticalSpace,
-                      _buildLabelText('物流轨迹'.tr),
-                      5.verticalSpace,
-                      Obx(() => _buildSelectDropdown(
-                            hint: '请选择'.tr,
-                            items: controller.trajectoryList,
-                            getId: (e) => e['id'].toString(),
-                            getName: (e) => e['label'].toString(),
-                            selectedId: controller.trackingStatusController,
-                            onChanged: (id) {
-                              controller.trackingStatusController.value = id;
-                            },
-                          )),
-                      10.verticalSpace,
-                      _buildLabelText('国家'.tr),
-                      5.verticalSpace,
-                      Obx(() => _buildSelectDropdown(
-                            hint: '请选择'.tr,
-                            items: controller.countryList,
-                            getId: (e) => e.id.toString(),
-                            getName: (e) => e.name,
-                            selectedId: controller.countryController,
-                            onChanged: (id) {
-                              controller.countryController.value = id;
-                            },
-                          )),
-                      10.verticalSpace,
-                      _buildLabelText('时间'.tr),
-                      5.verticalSpace,
-                      Obx(() => _buildSelectDropdown(
-                            hint: '请选择'.tr,
-                            showClear: false,
-                            items: controller.timeRangeKeywordList,
-                            getId: (e) => e['id'].toString(),
-                            getName: (e) => e['label'].toString(),
-                            selectedId: controller.timeRangeTypeController,
-                            onChanged: (id) {
-                              controller.timeRangeTypeController.value = id;
-                            },
-                          )),
-                      5.verticalSpace,
-                      _buildFilterDateRange(controller),
-                    ],
-                  ),
+    // 不再需要 Drawer 包装
+    return SafeArea(
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text('筛选'.tr,
+                    style: TextStyle(
+                        fontSize: 16.sp, fontWeight: FontWeight.bold)),
+                IconButton(
+                  icon: const Icon(Icons.close),
+                  onPressed: () => Navigator.of(context).pop(),
+                ),
+              ],
+            ),
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _buildFilterInput(
+                        '平台SKU'.tr, controller.productKeywordController),
+                    _buildFilterInput(
+                        '物流单号'.tr, controller.logisticsKeywordController),
+                    // _buildFilterDropdown('客户', controller.clientList),
+                    _buildLabelText('客户'.tr),
+                    5.verticalSpace,
+                    Obx(() => _buildSelectDropdown(
+                          hint: '请选择'.tr,
+                          items: controller.clientList,
+                          getId: (e) => e.id.toString(),
+                          getName: (e) => e.customName,
+                          selectedId: controller.customerIdController,
+                          onChanged: (id) {
+                            controller.customerIdController.value = id;
+                          },
+                        )),
+                    10.verticalSpace,
+                    _buildLabelText('店铺'.tr),
+                    5.verticalSpace,
+                    Obx(() => _buildSelectDropdown(
+                          hint: '请选择'.tr,
+                          items: controller.shopList,
+                          getId: (e) => e.id.toString(),
+                          getName: (e) => e.shopName,
+                          selectedId: controller.shopIdsController,
+                          onChanged: (id) {
+                            controller.shopIdsController.value = id;
+                          },
+                        )),
+                    10.verticalSpace,
+                    _buildLabelText('平台'.tr),
+                    5.verticalSpace,
+                    Obx(() => _buildSelectDropdown(
+                          hint: '请选择'.tr,
+                          items: controller.platformList,
+                          getId: (e) => e['id'].toString(),
+                          getName: (e) => e['label'].toString(),
+                          selectedId: controller.platformController,
+                          onChanged: (id) {
+                            controller.platformController.value = id;
+                          },
+                        )),
+                    10.verticalSpace,
+                    _buildLabelText('物流渠道'.tr),
+                    5.verticalSpace,
+                    Obx(() => _buildSelectDropdown(
+                          hint: '请选择'.tr,
+                          items: controller.expressLinesList,
+                          getId: (e) => e.id.toString(),
+                          getName: (e) => e.name,
+                          selectedId: controller.expressController,
+                          onChanged: (id) {
+                            controller.expressController.value = id;
+                          },
+                        )),
+                    10.verticalSpace,
+                    _buildLabelText('物流轨迹'.tr),
+                    5.verticalSpace,
+                    Obx(() => _buildSelectDropdown(
+                          hint: '请选择'.tr,
+                          items: controller.trajectoryList,
+                          getId: (e) => e['id'].toString(),
+                          getName: (e) => e['label'].toString(),
+                          selectedId: controller.trackingStatusController,
+                          onChanged: (id) {
+                            controller.trackingStatusController.value = id;
+                          },
+                        )),
+                    10.verticalSpace,
+                    _buildLabelText('国家'.tr),
+                    5.verticalSpace,
+                    Obx(() => _buildSelectDropdown(
+                          hint: '请选择'.tr,
+                          items: controller.countryList,
+                          getId: (e) => e.id.toString(),
+                          getName: (e) => e.name,
+                          selectedId: controller.countryController,
+                          onChanged: (id) {
+                            controller.countryController.value = id;
+                          },
+                        )),
+                    10.verticalSpace,
+                    _buildLabelText('时间'.tr),
+                    5.verticalSpace,
+                    Obx(() => _buildSelectDropdown(
+                          hint: '请选择'.tr,
+                          showClear: false,
+                          items: controller.timeRangeKeywordList,
+                          getId: (e) => e['id'].toString(),
+                          getName: (e) => e['label'].toString(),
+                          selectedId: controller.timeRangeTypeController,
+                          onChanged: (id) {
+                            controller.timeRangeTypeController.value = id;
+                          },
+                        )),
+                    5.verticalSpace,
+                    _buildFilterDateRange(controller),
+                  ],
                 ),
               ),
-              SizedBox(height: 16.h),
-              Row(
-                children: [
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.of(context).maybePop();
-                        ApplicationEvent.getInstance()
-                            .event
-                            .fire(ListRefreshEvent(type: 'refresh'));
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppStyles.primary,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8.r),
-                        ),
-                        elevation: 0,
+            ),
+            SizedBox(height: 16.h),
+            Row(
+              children: [
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.of(context).pop(); // 关闭弹出窗口
+                      ApplicationEvent.getInstance()
+                          .event
+                          .fire(ListRefreshEvent(type: 'refresh'));
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppStyles.primary,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8.r),
                       ),
-                      child: Text('查询'.tr,
-                          style: TextStyle(
-                              fontSize: 16.sp, color: AppStyles.white)),
+                      elevation: 0,
                     ),
+                    child: Text('查询'.tr,
+                        style:
+                            TextStyle(fontSize: 16.sp, color: AppStyles.white)),
                   ),
-                ],
-              ),
-              SizedBox(height: 8.h),
-              Row(
-                children: [
-                  Expanded(
-                    child: OutlinedButton(
-                      onPressed: () {
-                        controller.reset();
-                      },
-                      style: OutlinedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8.r),
-                        ),
-                        side: const BorderSide(color: AppStyles.textBlack),
+                ),
+              ],
+            ),
+            SizedBox(height: 8.h),
+            Row(
+              children: [
+                Expanded(
+                  child: OutlinedButton(
+                    onPressed: () {
+                      controller.reset();
+                    },
+                    style: OutlinedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8.r),
                       ),
-                      child: Text('重置'.tr,
-                          style: TextStyle(
-                              fontSize: 16.sp, color: AppStyles.textBlack)),
+                      side: const BorderSide(color: AppStyles.textBlack),
                     ),
+                    child: Text('重置'.tr,
+                        style: TextStyle(
+                            fontSize: 16.sp, color: AppStyles.textBlack)),
                   ),
-                ],
-              ),
-            ],
-          ),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );

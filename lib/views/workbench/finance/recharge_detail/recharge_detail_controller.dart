@@ -48,7 +48,6 @@ class RechargeDetailController extends BaseController {
     var result =
         await FinanceService.rechargeAudit(rechargeDetail.value?.id, params);
     if (result) {
-      showToast('操作成功'.tr);
       ApplicationEvent.getInstance()
           .event
           .fire(ListRefreshEvent(type: 'refresh'));

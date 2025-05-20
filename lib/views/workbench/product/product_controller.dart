@@ -24,6 +24,7 @@ class ProductController extends GetxController
     Map<String, dynamic> dic = {
       "page": (++pageIndex),
       "keyword": keywordController.text,
+      "search_type": "goods_name",
       "status": '',
     };
     Map result = await WorkbenchService.getGoodsList(dic);

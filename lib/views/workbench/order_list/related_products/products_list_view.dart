@@ -24,8 +24,13 @@ class ProductsListView extends GetView<ProductsListController> {
         Padding(
           padding: EdgeInsets.only(right: 16.w),
           child: GestureDetector(
-            onTap: () {
-              Routers.push(Routers.collect);
+            onTap: () async {
+              var result = await Routers.push(Routers.collect);
+              if (result != null) {
+                ApplicationEvent.getInstance()
+                    .event
+                    .fire(ListRefreshEvent(type: 'refresh'));
+              }
             },
             child: AppText(
               text: '从1688采集'.tr,

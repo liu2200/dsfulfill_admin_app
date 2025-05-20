@@ -9,7 +9,6 @@ class AboutController extends GetxController {
   onInit() async {
     super.onInit();
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
-    String currentVersion = packageInfo.version;
-    appVersion.value = currentVersion;
+    appVersion.value = packageInfo.version;
   }
 }

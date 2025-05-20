@@ -104,6 +104,7 @@ class _ProductCardWidgetState extends State<ProductCardWidget> {
   }
 
   Widget _buildProductCard(item, index) {
+    final hasImage = item.imgs.isNotEmpty && item.imgs[0] != null;
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.w),
       padding: EdgeInsets.all(12.w),
@@ -116,51 +117,58 @@ class _ProductCardWidgetState extends State<ProductCardWidget> {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(8.r),
-            child: Image.network(
-              item.imgs != null && item.imgs.isNotEmpty ? item.imgs[0] : '',
-              width: 68.w,
-              height: 68.w,
-              fit: BoxFit.cover,
-            ),
+            child: hasImage
+                ? Image.network(
+                    item.imgs[0],
+                    width: 68.w,
+                    height: 68.w,
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) {
+                      return SizedBox(
+                        width: 68.w,
+                        height: 68.w,
+                        child: const Icon(Icons.image_not_supported),
+                      );
+                    },
+                  )
+                : SizedBox(
+                    width: 68.w,
+                    height: 68.w,
+                    child: const Icon(Icons.image_not_supported),
+                  ),
           ),
           SizedBox(width: 12.w),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  item.name ?? '',
+                AppText(
+                  text: item.name ?? '',
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w600,
-                    color: AppStyles.textBlack,
-                  ),
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.w600,
+                  color: AppStyles.textBlack,
                 ),
                 4.verticalSpaceFromWidth,
-                Text(
-                  item.variantTitle ?? '',
+                AppText(
+                  text: item.variantTitle ?? '',
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    fontSize: 13.sp,
-                    color: const Color(0xFF888888),
-                  ),
+                  fontSize: 13.sp,
+                  color: const Color(0xFF888888),
                 ),
                 4.verticalSpaceFromWidth,
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Expanded(
-                      child: Text(
-                        '${item.sku}',
+                      child: AppText(
+                        text: '${item.sku}',
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          fontSize: 13.sp,
-                          color: const Color(0xFF888888),
-                        ),
+                        fontSize: 13.sp,
+                        color: const Color(0xFF888888),
                       ),
                     ),
                     GestureDetector(
@@ -185,8 +193,9 @@ class _ProductCardWidgetState extends State<ProductCardWidget> {
 
   Widget _buildRelatedProducts(item, index) {
     final related = item.mapping?.goodsSku;
+
     if (related == null) return const SizedBox();
-    final hasImage = related.images[0] != null && related.images[0].isNotEmpty;
+    final hasImage = related.images.isNotEmpty && related.images[0] != null;
     final profitN = related.profit ?? '';
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -195,11 +204,12 @@ class _ProductCardWidgetState extends State<ProductCardWidget> {
           children: [
             Padding(
               padding: EdgeInsets.only(left: 16.w, top: 8.w, bottom: 4.w),
-              child: Text('关联'.tr,
-                  style: TextStyle(
-                      fontSize: 14.sp,
-                      color: const Color(0xFF222222),
-                      fontWeight: FontWeight.w500)),
+              child: AppText(
+                text: '关联'.tr,
+                fontSize: 14.sp,
+                color: const Color(0xFF222222),
+                fontWeight: FontWeight.w500,
+              ),
             ),
           ],
         ),
