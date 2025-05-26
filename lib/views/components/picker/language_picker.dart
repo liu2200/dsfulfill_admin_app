@@ -1,8 +1,5 @@
-import 'package:country_flags/country_flags.dart';
-import 'package:dsfulfill_admin_app/config/styles.dart';
 import 'package:dsfulfill_admin_app/storage/common_storage.dart';
 import 'package:dsfulfill_admin_app/views/components/action_sheet.dart';
-import 'package:dsfulfill_admin_app/views/components/base_text.dart';
 import 'package:dsfulfill_admin_app/views/components/image/load_asset_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

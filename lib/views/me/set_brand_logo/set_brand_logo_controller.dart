@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'package:dsfulfill_admin_app/config/app_config.dart';
 import 'package:dsfulfill_admin_app/config/base_controller.dart';
-import 'package:dsfulfill_admin_app/config/routers.dart';
 import 'package:dsfulfill_admin_app/events/application_event.dart';
 import 'package:dsfulfill_admin_app/events/edit_custom_event.dart';
 import 'package:dsfulfill_admin_app/services/common_service.dart';

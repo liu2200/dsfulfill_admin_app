@@ -9,7 +9,6 @@ import 'package:dsfulfill_admin_app/state/app_state.dart';
 import 'package:dsfulfill_admin_app/storage/common_storage.dart';
 import 'package:dsfulfill_admin_app/views/firebase/login.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_web_auth_2/flutter_web_auth_2.dart';
 import 'package:get/get.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 

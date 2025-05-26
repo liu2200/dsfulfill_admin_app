@@ -19,7 +19,7 @@ class EmailVerifyController extends BaseController {
   void onInit() {
     super.onInit();
     email.value = Get.arguments['email'];
-    if (email != null) {
+    if (email.value.isNotEmpty) {
       onCountdown();
     }
   }

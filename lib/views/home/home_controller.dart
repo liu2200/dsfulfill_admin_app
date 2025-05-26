@@ -114,7 +114,9 @@ class HomeController extends BaseController {
   getHomeData() async {
     var result = await HomeService.getHomeData();
     homeModel.value = result;
+    // ignore: invalid_use_of_protected_member
     rechargeListStatus.value[0]['count'] = result.transferRechargeCount ?? 0;
+    // ignore: invalid_use_of_protected_member
     rechargeListStatus.value[1]['count'] = result.onlineRechargeCount ?? 0;
   }
 

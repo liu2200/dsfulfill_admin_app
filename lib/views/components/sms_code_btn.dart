@@ -173,7 +173,6 @@ class _SmsCodeButtonState extends State<SmsCodeButton> {
   Future<void> _showCaptchaDialog() async {
     if (_countdown > 0 || widget.account == null) return;
 
-    bool success = false;
     var params = {
       'captchaVerifyParam': 'dsfulfill',
       widget.smsType: widget.account!,
@@ -181,18 +180,12 @@ class _SmsCodeButtonState extends State<SmsCodeButton> {
     };
     if (widget.smsType == 'phone') {
       await UserService.getSendSmsCode(params, (msg) {
-        success = true;
         _startCountdown();
-      }, (error) {
-        success = false;
-      });
+      }, (error) {});
     } else {
       await UserService.getSendEmailCode(params, (msg) {
-        success = true;
         _startCountdown();
-      }, (error) {
-        success = false;
-      });
+      }, (error) {});
     }
 
     // _webViewController.reload(); // 重新加载WebView确保验证码正确初始化

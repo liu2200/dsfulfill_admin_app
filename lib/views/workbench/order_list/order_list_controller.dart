@@ -10,8 +10,6 @@ import 'package:dsfulfill_admin_app/services/workbench_service.dart';
 import 'package:dsfulfill_admin_app/state/app_state.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:dsfulfill_admin_app/events/list_refresh_event.dart';
-import 'package:dsfulfill_admin_app/events/application_event.dart';
 
 class OrderListController extends GetxController
     with GetSingleTickerProviderStateMixin {
