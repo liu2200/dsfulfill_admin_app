@@ -1,5 +1,5 @@
-import 'package:dsfulfill_cient_app/config/base_controller.dart';
-import 'package:dsfulfill_cient_app/services/me_service.dart';
+import 'package:dsfulfill_admin_app/config/base_controller.dart';
+import 'package:dsfulfill_admin_app/services/me_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

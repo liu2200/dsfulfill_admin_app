@@ -1,7 +1,7 @@
-import 'package:dsfulfill_cient_app/config/base_controller.dart';
-import 'package:dsfulfill_cient_app/models/goods_category_model.dart';
-import 'package:dsfulfill_cient_app/models/supplier_model.dart';
-import 'package:dsfulfill_cient_app/services/workbench_service.dart';
+import 'package:dsfulfill_admin_app/config/base_controller.dart';
+import 'package:dsfulfill_admin_app/models/goods_category_model.dart';
+import 'package:dsfulfill_admin_app/models/supplier_model.dart';
+import 'package:dsfulfill_admin_app/services/workbench_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -20,7 +20,7 @@ class CollectController extends BaseController {
   final RxBool isLoadingCategories = false.obs;
 
   // 语言选择
-  final RxString selectedLanguage = 'zh_CN'.obs;
+  final RxString selectedLanguage = 'en_US'.obs;
   final List<Map<String, String>> languages = [
     {'value': 'en_US', 'label': 'English'.tr},
     {'value': 'zh_CN', 'label': '中文'.tr},

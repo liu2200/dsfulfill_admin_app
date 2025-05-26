@@ -1,4 +1,4 @@
-import 'package:dsfulfill_cient_app/models/customer_model.dart';
+import 'package:dsfulfill_admin_app/models/customer_model.dart';
 
 class OnlineRechargeModel {
   late int id;

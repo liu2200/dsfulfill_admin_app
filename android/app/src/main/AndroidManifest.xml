@@ -61,7 +61,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <!-- 添加您的自定义 URL scheme -->
-                <data android:scheme="jffulfillment" />
+                <data android:scheme="DSFulfill" />
             </intent-filter>
         </activity>
         

@@ -1,4 +1,4 @@
-import 'package:dsfulfill_cient_app/models/skus_model.dart';
+import 'package:dsfulfill_admin_app/models/skus_model.dart';
 
 class LineItemsModel {
   late String createdAt;
@@ -15,6 +15,7 @@ class LineItemsModel {
   late String updatedAt;
   late String variantTitle;
   String goodsSkuId = '';
+  late String productUrl = '';
   String? img;
   List<dynamic>? imgs;
   MappingModel? mapping;
@@ -40,6 +41,7 @@ class LineItemsModel {
     this.declaration,
     this.variantId,
     required this.goodsSkuId,
+    required this.productUrl,
   });
 
   LineItemsModel.fromJson(Map<String, dynamic> json) {
@@ -59,13 +61,21 @@ class LineItemsModel {
       sku = json['sku'];
     }
     title = json['title'];
-    updatedAt = json['updated_at'];
+    if (json['updated_at'] != null) {
+      updatedAt = json['updated_at'];
+    }
+    if (json['product_url'] != null) {
+      productUrl = json['product_url'];
+    }
+    variantTitle = '';
     if (json['variant_title'] != null) {
       variantTitle = json['variant_title'];
     }
     if (json['imgs'] != null) {
-      img = json['imgs'].first;
-      imgs = json['imgs'];
+      if (json['imgs'].isNotEmpty) {
+        img = json['imgs'].first;
+        imgs = json['imgs'];
+      }
     }
     if (json['mapping'] != null) {
       mapping = MappingModel.fromJson(json['mapping']);
@@ -102,6 +112,7 @@ class LineItemsModel {
       'declaration': declaration,
       'variant_id': variantId,
       'goods_sku_id': goodsSkuId,
+      'product_url': productUrl,
     };
   }
 }

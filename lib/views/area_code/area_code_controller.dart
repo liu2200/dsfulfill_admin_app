@@ -1,5 +1,5 @@
-import 'package:dsfulfill_cient_app/models/area_code_model.dart';
-import 'package:dsfulfill_cient_app/services/user_service.dart';
+import 'package:dsfulfill_admin_app/models/area_code_model.dart';
+import 'package:dsfulfill_admin_app/services/user_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

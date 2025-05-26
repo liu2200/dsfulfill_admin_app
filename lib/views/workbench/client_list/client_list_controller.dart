@@ -1,9 +1,9 @@
-import 'package:dsfulfill_cient_app/models/custom_group_model.dart';
-import 'package:dsfulfill_cient_app/models/customer_model.dart';
-import 'package:dsfulfill_cient_app/models/staff_model.dart';
-import 'package:dsfulfill_cient_app/services/custom_service.dart';
-import 'package:dsfulfill_cient_app/services/marketing_service.dart';
-import 'package:dsfulfill_cient_app/state/app_state.dart';
+import 'package:dsfulfill_admin_app/models/custom_group_model.dart';
+import 'package:dsfulfill_admin_app/models/customer_model.dart';
+import 'package:dsfulfill_admin_app/models/staff_model.dart';
+import 'package:dsfulfill_admin_app/services/custom_service.dart';
+import 'package:dsfulfill_admin_app/services/marketing_service.dart';
+import 'package:dsfulfill_admin_app/state/app_state.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -24,6 +24,8 @@ class ClientListController extends GetxController {
     {"label": "手机号", "id": "2"},
     {"label": "邮箱", "id": "3"},
   ].obs;
+  // 添加筛选条件计数
+  final RxInt activeFiltersCount = 0.obs;
 
   @override
   void onInit() {
@@ -74,5 +76,14 @@ class ClientListController extends GetxController {
     groupId.value = '';
     staffId.value = '';
     keywordType.value = '1';
+    activeFiltersCount.value = 0;
+  }
+
+  updateActiveFiltersCount() {
+    int count = 0;
+    if (keywordController.text.isNotEmpty) count++;
+    if (groupId.value.isNotEmpty) count++;
+    if (staffId.value.isNotEmpty) count++;
+    activeFiltersCount.value = count;
   }
 }

@@ -1,9 +1,9 @@
-import 'package:dsfulfill_cient_app/config/styles.dart';
-import 'package:dsfulfill_cient_app/views/components/base_scaffold.dart';
-import 'package:dsfulfill_cient_app/views/components/base_text.dart';
-import 'package:dsfulfill_cient_app/views/components/image/load_asset_image.dart';
-import 'package:dsfulfill_cient_app/views/components/image/load_network_image.dart';
-import 'package:dsfulfill_cient_app/views/me/company/company_controller.dart';
+import 'package:dsfulfill_admin_app/config/styles.dart';
+import 'package:dsfulfill_admin_app/views/components/base_scaffold.dart';
+import 'package:dsfulfill_admin_app/views/components/base_text.dart';
+import 'package:dsfulfill_admin_app/views/components/image/load_asset_image.dart';
+import 'package:dsfulfill_admin_app/views/components/image/load_network_image.dart';
+import 'package:dsfulfill_admin_app/views/me/company/company_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -153,31 +153,29 @@ class CompanyView extends GetView<CompanyController> {
                               horizontal: 16.w,
                               vertical: 2.h,
                             ),
-                            leading: SizedBox(
-                              width: 40.w,
+                            leading: Container(
+                              width: 43.w,
                               height: 40.w,
+                              decoration: BoxDecoration(
+                                color: AppStyles.white,
+                                borderRadius: BorderRadius.circular(9.r),
+                              ),
                               child: Center(
-                                child: company.teamImage.isNotEmpty
-                                    ? ClipRRect(
-                                        borderRadius:
-                                            BorderRadius.circular(50.r),
-                                        child: LoadNetworkImage(
-                                          url: company.teamImage,
-                                          width: 40.w,
-                                          height: 40.w,
-                                        ),
-                                      )
-                                    : LoadAssetImage(
-                                        image: 'center/header-team',
-                                        width: 40.w,
-                                        height: 40.w,
-                                      ),
+                                child: Text(
+                                  company.teamName[0],
+                                  style: TextStyle(
+                                    color: AppStyles.textBlack,
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
                               ),
                             ),
                             title: AppText(
                               text: company.teamName,
                               fontSize: 15.sp,
                               color: isSelected ? Colors.white : Colors.black,
+                              fontWeight: FontWeight.w600,
                             ),
                             onTap: () async {
                               await controller.selectCompany(company);

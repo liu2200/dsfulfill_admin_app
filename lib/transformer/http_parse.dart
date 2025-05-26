@@ -1,17 +1,17 @@
-import 'package:dsfulfill_cient_app/common/http_response.dart';
-import 'package:dsfulfill_cient_app/transformer/http_transformer.dart';
+import 'package:dsfulfill_admin_app/common/http_response.dart';
+import 'package:dsfulfill_admin_app/transformer/http_transformer.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:dsfulfill_cient_app/exceptions/http_exception.dart';
-import 'package:dsfulfill_cient_app/transformer/default_http_transformer.dart';
-import 'package:dsfulfill_cient_app/exceptions/unauthorised_exception.dart';
-import 'package:dsfulfill_cient_app/events/application_event.dart';
-import 'package:dsfulfill_cient_app/events/un_authenticate_event.dart';
-import 'package:dsfulfill_cient_app/exceptions/network_exception.dart';
-import 'package:dsfulfill_cient_app/exceptions/bad_request_exception.dart';
-import 'package:dsfulfill_cient_app/exceptions/bad_service_exception.dart';
-import 'package:dsfulfill_cient_app/exceptions/cancel_exception.dart';
-import 'package:dsfulfill_cient_app/exceptions/unknown_exception.dart';
+import 'package:dsfulfill_admin_app/exceptions/http_exception.dart';
+import 'package:dsfulfill_admin_app/transformer/default_http_transformer.dart';
+import 'package:dsfulfill_admin_app/exceptions/unauthorised_exception.dart';
+import 'package:dsfulfill_admin_app/events/application_event.dart';
+import 'package:dsfulfill_admin_app/events/un_authenticate_event.dart';
+import 'package:dsfulfill_admin_app/exceptions/network_exception.dart';
+import 'package:dsfulfill_admin_app/exceptions/bad_request_exception.dart';
+import 'package:dsfulfill_admin_app/exceptions/bad_service_exception.dart';
+import 'package:dsfulfill_admin_app/exceptions/cancel_exception.dart';
+import 'package:dsfulfill_admin_app/exceptions/unknown_exception.dart';
 
 //解析处理响应
 HttpResponse handleResponse(Response? response,

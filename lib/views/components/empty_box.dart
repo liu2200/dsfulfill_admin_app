@@ -1,5 +1,5 @@
-import 'package:dsfulfill_cient_app/views/components/base_text.dart';
-import 'package:dsfulfill_cient_app/views/components/image/load_asset_image.dart';
+import 'package:dsfulfill_admin_app/views/components/base_text.dart';
+import 'package:dsfulfill_admin_app/views/components/image/load_asset_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';

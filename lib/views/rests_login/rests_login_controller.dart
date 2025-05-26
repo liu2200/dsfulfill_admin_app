@@ -1,14 +1,15 @@
-import 'package:dsfulfill_cient_app/config/base_controller.dart';
-import 'package:dsfulfill_cient_app/config/routers.dart';
-import 'package:dsfulfill_cient_app/events/application_event.dart';
-import 'package:dsfulfill_cient_app/events/logined_event.dart';
-import 'package:dsfulfill_cient_app/models/token_model.dart';
-import 'package:dsfulfill_cient_app/services/me_service.dart';
-import 'package:dsfulfill_cient_app/services/user_service.dart';
-import 'package:dsfulfill_cient_app/state/app_state.dart';
-import 'package:dsfulfill_cient_app/storage/common_storage.dart';
-import 'package:dsfulfill_cient_app/views/firebase/login.dart';
+import 'package:dsfulfill_admin_app/config/base_controller.dart';
+import 'package:dsfulfill_admin_app/config/routers.dart';
+import 'package:dsfulfill_admin_app/events/application_event.dart';
+import 'package:dsfulfill_admin_app/events/logined_event.dart';
+import 'package:dsfulfill_admin_app/models/token_model.dart';
+import 'package:dsfulfill_admin_app/services/me_service.dart';
+import 'package:dsfulfill_admin_app/services/user_service.dart';
+import 'package:dsfulfill_admin_app/state/app_state.dart';
+import 'package:dsfulfill_admin_app/storage/common_storage.dart';
+import 'package:dsfulfill_admin_app/views/firebase/login.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_web_auth_2/flutter_web_auth_2.dart';
 import 'package:get/get.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
@@ -75,7 +76,6 @@ class RestLoginController extends BaseController {
         'source': 'google',
       });
       if (res != null) {
-        print(res);
         onLoginSuccess(res['token']);
       } else {
         showToast('登录失败'.tr);
@@ -102,8 +102,14 @@ class RestLoginController extends BaseController {
   }
 
   // 导航到密码登录页面
-  void navigateToPasswordLogin() {
+  void navigateToPasswordLogin() async {
     Routers.push(Routers.login);
+    // final result = await FlutterWebAuth2.authenticate(
+    //   url:
+    //       'https://erp.dsfulfill.com/appLogin?redirect_uri=dsfulfill://auth&language=${CommonStorage.getLanguage()?.countryCode == 'CN' ? 'zh_CN' : 'en_US'}',
+    //   callbackUrlScheme: 'dsfulfill',
+    // );
+    // print(result);
   }
 
   // 导航到邮箱登录页面

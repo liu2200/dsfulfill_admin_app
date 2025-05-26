@@ -1,8 +1,8 @@
-import 'package:dsfulfill_cient_app/config/styles.dart';
-import 'package:dsfulfill_cient_app/services/user_service.dart';
-import 'package:dsfulfill_cient_app/views/components/base_text.dart';
-import 'package:dsfulfill_cient_app/views/components/image/load_asset_image.dart';
-import 'package:dsfulfill_cient_app/views/firebase/login.dart';
+import 'package:dsfulfill_admin_app/config/styles.dart';
+import 'package:dsfulfill_admin_app/services/user_service.dart';
+import 'package:dsfulfill_admin_app/views/components/base_text.dart';
+import 'package:dsfulfill_admin_app/views/components/image/load_asset_image.dart';
+import 'package:dsfulfill_admin_app/views/firebase/login.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';

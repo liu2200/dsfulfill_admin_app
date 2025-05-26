@@ -1,7 +1,7 @@
-import 'package:dsfulfill_cient_app/exceptions/bad_request_exception.dart';
-import 'package:dsfulfill_cient_app/exceptions/http_exception.dart';
-import 'package:dsfulfill_cient_app/exceptions/bad_response_exception.dart';
-import 'package:dsfulfill_cient_app/exceptions/unknown_exception.dart';
+import 'package:dsfulfill_admin_app/exceptions/bad_request_exception.dart';
+import 'package:dsfulfill_admin_app/exceptions/http_exception.dart';
+import 'package:dsfulfill_admin_app/exceptions/bad_response_exception.dart';
+import 'package:dsfulfill_admin_app/exceptions/unknown_exception.dart';
 
 class HttpResponse {
   late bool ok;

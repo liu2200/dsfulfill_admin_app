@@ -1,4 +1,4 @@
-import 'package:dsfulfill_cient_app/models/customer_model.dart';
+import 'package:dsfulfill_admin_app/models/customer_model.dart';
 
 class RechargeModel {
   late int id;
@@ -42,7 +42,18 @@ class RechargeModel {
   RechargeModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     currency = json['currency'];
-    applyAmount = json['apply_amount'];
+
+    var applyAmountRaw = json['apply_amount'];
+    if (applyAmountRaw is int) {
+      applyAmount = applyAmountRaw;
+    } else if (applyAmountRaw is double) {
+      applyAmount = applyAmountRaw.toInt();
+    } else if (applyAmountRaw is String) {
+      applyAmount = int.tryParse(applyAmountRaw) ?? 0;
+    } else {
+      applyAmount = 0;
+    }
+
     if (json['apply_operator'] != null) {
       applyOperator = json['apply_operator'];
     }

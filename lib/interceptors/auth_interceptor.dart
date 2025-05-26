@@ -1,8 +1,8 @@
 import 'dart:io';
 import 'dart:ui';
 import 'package:dio/dio.dart';
-import 'package:dsfulfill_cient_app/common/http_client.dart';
-import 'package:dsfulfill_cient_app/storage/common_storage.dart';
+import 'package:dsfulfill_admin_app/common/http_client.dart';
+import 'package:dsfulfill_admin_app/storage/common_storage.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 class BaseInterceptor extends Interceptor {

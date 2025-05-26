@@ -1,12 +1,22 @@
-import 'package:dsfulfill_cient_app/common/http_client.dart';
-import 'package:dsfulfill_cient_app/models/custom_group_model.dart';
-import 'package:dsfulfill_cient_app/models/customer_model.dart';
+import 'package:dsfulfill_admin_app/common/http_client.dart';
+import 'package:dsfulfill_admin_app/models/custom_group_model.dart';
+import 'package:dsfulfill_admin_app/models/customer_model.dart';
 
 class CustomService {
   static const String customApi = 'custom';
   static const String customGroupApi = 'custom-group';
   static const String updateAutoPaymentApi = 'custom/update-auto-payment';
   static const String updateCreditLineApi = 'custom/update-credit-line';
+
+  static Future<CustomerModel?> getCustomDetail(id) async {
+    CustomerModel? result;
+    await ApiConfig.instance.get('$customApi/$id').then((response) {
+      if (response.ok) {
+        result = CustomerModel.fromJson(response.data);
+      }
+    });
+    return result;
+  }
 
   static Future<bool> updateCreditLine(Map<String, dynamic> params) async {
     bool result = false;

@@ -1,11 +1,12 @@
-import 'package:dsfulfill_cient_app/config/base_controller.dart';
-import 'package:dsfulfill_cient_app/events/application_event.dart';
-import 'package:dsfulfill_cient_app/events/change_page_index_event.dart';
-import 'package:dsfulfill_cient_app/events/logined_event.dart';
-import 'package:dsfulfill_cient_app/events/updateAvatar_event.dart';
-import 'package:dsfulfill_cient_app/services/me_service.dart';
-import 'package:dsfulfill_cient_app/state/app_state.dart';
-import 'package:dsfulfill_cient_app/views/components/base_dialog.dart';
+import 'package:dsfulfill_admin_app/config/base_controller.dart';
+import 'package:dsfulfill_admin_app/events/application_event.dart';
+import 'package:dsfulfill_admin_app/events/change_page_index_event.dart';
+import 'package:dsfulfill_admin_app/events/logined_event.dart';
+import 'package:dsfulfill_admin_app/events/updateAvatar_event.dart';
+import 'package:dsfulfill_admin_app/services/me_service.dart';
+import 'package:dsfulfill_admin_app/state/app_state.dart';
+import 'package:dsfulfill_admin_app/views/components/base_dialog.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
@@ -13,6 +14,7 @@ class MeController extends BaseController {
   final currencyModel = Get.find<AppState>().currencyModel;
   final userInfo = Get.find<AppState>().userInfo.obs;
   final teamInfo = Get.find<AppState>().team.obs;
+  final TextEditingController confirmController = TextEditingController();
   final userAvatar = ''.obs;
   final userName = ''.obs;
   final userEmail = ''.obs;
@@ -59,7 +61,7 @@ class MeController extends BaseController {
   }
 
   setAppConfig() async {
-    var res = await MeService.setAppConfig({'version': '1.5.0'});
+    var res = await MeService.setAppConfig({'version': '1.7.7'});
     print(res);
   }
 
@@ -67,6 +69,24 @@ class MeController extends BaseController {
     var res = await MeService.getAppConfig();
     if (res['version'] != appVersion.value) {
       isShow.value = true;
+    }
+  }
+
+  confirmCancellation(BuildContext context) {
+    if (confirmController.text.isEmpty) {
+      showToast('请输入“ok”以确认注销操作'.tr);
+      return;
+    }
+    if (confirmController.text == 'ok') {
+      Navigator.of(context).pop();
+      userInfoModel.clear();
+      teamModel.clear();
+      balance.value = 0.0;
+      ApplicationEvent.getInstance()
+          .event
+          .fire(ChangePageIndexEvent(pageName: 'home'));
+    } else {
+      showToast('请输入“ok”以确认注销操作'.tr);
     }
   }
 

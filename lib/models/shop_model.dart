@@ -12,7 +12,7 @@ class ShopModel {
   ShopModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     shopName = json['shop_name'];
-    platform = json['platform'];
+    platform = json['platform'] ?? '';
   }
 
   Map<String, dynamic> toJson() {

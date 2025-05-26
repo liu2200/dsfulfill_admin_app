@@ -1,4 +1,4 @@
-import 'package:dsfulfill_cient_app/services/workbench_service.dart';
+import 'package:dsfulfill_admin_app/services/workbench_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

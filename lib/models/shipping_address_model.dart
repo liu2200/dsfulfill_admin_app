@@ -46,8 +46,14 @@ class ShippingAddressModel {
     lastName = json['last_name'] ?? '';
     name = json['name'] ?? '';
     phone = json['phone'] ?? '';
-    province = json['province'];
-    provinceCode = json['province_code'] ?? '';
+    province = json['province'] ?? '';
+    if (json['province'] != null) {
+      province = json['province'];
+    }
+
+    if (json['province_code'] != null) {
+      provinceCode = json['province_code'];
+    }
     updatedAt = json['updated_at'] ?? '';
     zip = json['zip'] ?? '';
     email = json['email'] ?? '';

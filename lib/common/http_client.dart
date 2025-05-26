@@ -1,14 +1,13 @@
 import 'package:dio/dio.dart';
-import 'package:dsfulfill_cient_app/config/app_config.dart';
-import 'package:dsfulfill_cient_app/exceptions/network_exception.dart';
-import 'package:dsfulfill_cient_app/state/app_state.dart';
+import 'package:dsfulfill_admin_app/exceptions/network_exception.dart';
+import 'package:dsfulfill_admin_app/state/app_state.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:dsfulfill_cient_app/common/http_response.dart';
-import 'package:dsfulfill_cient_app/transformer/http_transformer.dart';
-import 'package:dsfulfill_cient_app/common/app_dio.dart';
-import 'package:dsfulfill_cient_app/transformer/http_parse.dart';
+import 'package:dsfulfill_admin_app/common/http_response.dart';
+import 'package:dsfulfill_admin_app/transformer/http_transformer.dart';
+import 'package:dsfulfill_admin_app/common/app_dio.dart';
+import 'package:dsfulfill_admin_app/transformer/http_parse.dart';
 import 'package:get/get.dart';
-import 'package:dsfulfill_cient_app/utils/base_utils.dart';
+import 'package:dsfulfill_admin_app/utils/base_utils.dart';
 
 enum Methods { get, post, put, delete }
 

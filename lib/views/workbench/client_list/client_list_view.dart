@@ -1,15 +1,15 @@
-import 'package:dsfulfill_cient_app/config/routers.dart';
-import 'package:dsfulfill_cient_app/config/styles.dart';
-import 'package:dsfulfill_cient_app/events/application_event.dart';
-import 'package:dsfulfill_cient_app/events/list_refresh_event.dart';
-import 'package:dsfulfill_cient_app/views/components/base_scaffold.dart';
-import 'package:dsfulfill_cient_app/views/components/base_text.dart';
-import 'package:dsfulfill_cient_app/views/components/image/load_asset_image.dart';
-import 'package:dsfulfill_cient_app/views/components/input/base_input.dart';
-import 'package:dsfulfill_cient_app/views/components/list_refresh.dart';
-import 'package:dsfulfill_cient_app/views/components/order_input/order_input.dart';
-import 'package:dsfulfill_cient_app/views/components/select_dropdown.dart';
-import 'package:dsfulfill_cient_app/views/workbench/client_list/client_list_controller.dart';
+import 'package:dsfulfill_admin_app/config/routers.dart';
+import 'package:dsfulfill_admin_app/config/styles.dart';
+import 'package:dsfulfill_admin_app/events/application_event.dart';
+import 'package:dsfulfill_admin_app/events/list_refresh_event.dart';
+import 'package:dsfulfill_admin_app/views/components/base_scaffold.dart';
+import 'package:dsfulfill_admin_app/views/components/base_text.dart';
+import 'package:dsfulfill_admin_app/views/components/image/load_asset_image.dart';
+import 'package:dsfulfill_admin_app/views/components/input/base_input.dart';
+import 'package:dsfulfill_admin_app/views/components/list_refresh.dart';
+import 'package:dsfulfill_admin_app/views/components/order_input/order_input.dart';
+import 'package:dsfulfill_admin_app/views/components/select_dropdown.dart';
+import 'package:dsfulfill_admin_app/views/workbench/client_list/client_list_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -18,10 +18,7 @@ class ClientListView extends GetView<ClientListController> {
   const ClientListView({super.key});
   @override
   Widget build(BuildContext context) {
-    final scaffoldKey = GlobalKey<ScaffoldState>();
     return Scaffold(
-      // key: scaffoldKey,
-      // endDrawer: _buildFilterDrawer(context),
       body: BaseScafflod(
         title: '客户列表'.tr,
         hasBack: true,
@@ -73,13 +70,52 @@ class ClientListView extends GetView<ClientListController> {
                             },
                           );
                         },
-                        child: LoadAssetImage(
-                          image: 'workbench/filtrate',
-                          width: 25.w,
-                          height: 25.w,
+                        child: SizedBox(
+                          width: 35.w,
+                          child: Obx(() => Stack(
+                                children: [
+                                  Container(
+                                    margin: EdgeInsets.only(top: 5.w),
+                                    child: LoadAssetImage(
+                                      image: 'workbench/filtrate',
+                                      width: 24.w,
+                                      height: 24.w,
+                                    ),
+                                  ),
+                                  if (controller.activeFiltersCount.value > 0)
+                                    Positioned(
+                                      right: 2,
+                                      top: 0,
+                                      child: Container(
+                                        constraints: BoxConstraints(
+                                          minWidth: 18.w,
+                                          minHeight: 18.w,
+                                        ),
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 3.w, vertical: 1.w),
+                                        decoration: BoxDecoration(
+                                          color: Colors.red,
+                                          shape: BoxShape.circle,
+                                          border: Border.all(
+                                              color: Colors.white, width: 1),
+                                        ),
+                                        child: Center(
+                                          child: Text(
+                                            '${controller.activeFiltersCount.value}',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 9.sp,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                ],
+                              )),
                         ),
                       ),
-                      SizedBox(width: 16.w),
+                      SizedBox(width: 5.w),
                     ],
                   ),
                 ],
@@ -103,7 +139,7 @@ class ClientListView extends GetView<ClientListController> {
     return GestureDetector(
       onTap: () {
         Routers.push(Routers.clientDetail, {
-          'item': customer,
+          'id': customer.id,
         });
       },
       child: Container(
@@ -127,7 +163,7 @@ class ClientListView extends GetView<ClientListController> {
             Row(
               children: [
                 AppText(
-                  text: '${customer.id}-${customer.customName}',
+                  text: customer.customName,
                   fontWeight: FontWeight.bold,
                   fontSize: 15.sp,
                   maxLines: 2,
@@ -160,71 +196,48 @@ class ClientListView extends GetView<ClientListController> {
               overflow: TextOverflow.ellipsis,
             ),
             SizedBox(height: 15.h),
+            AppText(
+              text: '${'余额'.tr}：${customer.balance}',
+              color: AppStyles.primary,
+              fontWeight: FontWeight.bold,
+              fontSize: 16.sp,
+            ),
+            SizedBox(height: 4.h),
+            AppText(
+              text: '${'剩余额度'.tr}：${customer.residualCredit}',
+              fontSize: 14.sp,
+              textAlign: TextAlign.right,
+            ),
+            SizedBox(height: 15.h),
             // 底部：左时间，右余额
             Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                // 左侧时间信息
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Row(
-                        children: [
-                          LoadAssetImage(
-                            image: 'workbench/last',
-                            width: 15.w,
-                            height: 15.w,
-                          ),
-                          SizedBox(width: 6.w),
-                          AppText(
-                            text: customer.lastLoginTime,
-                            color: Colors.black45,
-                            fontSize: 12.sp,
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 4.h),
-                      Row(
-                        children: [
-                          LoadAssetImage(
-                            image: 'workbench/calendar',
-                            width: 15.w,
-                            height: 15.w,
-                          ),
-                          SizedBox(width: 6.w),
-                          AppText(
-                            text: customer.createdAt,
-                            color: Colors.black45,
-                            fontSize: 12.sp,
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
+                LoadAssetImage(
+                  image: 'workbench/last',
+                  width: 15.w,
+                  height: 15.w,
                 ),
-                // 右侧余额信息
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    AppText(
-                      text: '${'余额'.tr}：${customer.balance}',
-                      color: AppStyles.primary,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16.sp,
-                    ),
-                    SizedBox(height: 4.h),
-                    Container(
-                      constraints: BoxConstraints(maxWidth: 150.w),
-                      child: AppText(
-                        text: '${'剩余额度'.tr}：${customer.residualCredit}',
-                        fontSize: 14.sp,
-                        textAlign: TextAlign.right,
-                      ),
-                    ),
-                  ],
+                SizedBox(width: 6.w),
+                AppText(
+                  text: customer.lastLoginTime,
+                  color: Colors.black45,
+                  fontSize: 12.sp,
+                ),
+              ],
+            ),
+            SizedBox(height: 4.h),
+            Row(
+              children: [
+                LoadAssetImage(
+                  image: 'workbench/calendar',
+                  width: 15.w,
+                  height: 15.w,
+                ),
+                SizedBox(width: 6.w),
+                AppText(
+                  text: customer.createdAt,
+                  color: Colors.black45,
+                  fontSize: 12.sp,
                 ),
               ],
             ),
@@ -321,6 +334,7 @@ class ClientListView extends GetView<ClientListController> {
                 Expanded(
                   child: ElevatedButton(
                     onPressed: () {
+                      controller.updateActiveFiltersCount();
                       Navigator.of(context).maybePop();
                       ApplicationEvent.getInstance()
                           .event

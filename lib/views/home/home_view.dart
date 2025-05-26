@@ -1,13 +1,13 @@
-import 'package:dsfulfill_cient_app/config/routers.dart';
-import 'package:dsfulfill_cient_app/state/app_state.dart';
-import 'package:dsfulfill_cient_app/views/components/base_text.dart';
-import 'package:dsfulfill_cient_app/views/components/image/load_asset_image.dart';
-import 'package:dsfulfill_cient_app/views/components/picker/language_picker.dart';
-import 'package:dsfulfill_cient_app/views/home/home_controller.dart';
+import 'package:dsfulfill_admin_app/config/routers.dart';
+import 'package:dsfulfill_admin_app/state/app_state.dart';
+import 'package:dsfulfill_admin_app/views/components/base_text.dart';
+import 'package:dsfulfill_admin_app/views/components/image/load_asset_image.dart';
+import 'package:dsfulfill_admin_app/views/components/picker/language_picker.dart';
+import 'package:dsfulfill_admin_app/views/home/home_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:dsfulfill_cient_app/config/styles.dart';
+import 'package:dsfulfill_admin_app/config/styles.dart';
 import 'package:share_plus/share_plus.dart';
 
 class HomeView extends GetView<HomeController> {
@@ -51,14 +51,12 @@ class HomeView extends GetView<HomeController> {
                     Routers.push(Routers.restLogin);
                   }
                 },
-                child: Expanded(
-                  child: AppText(
-                    text: Get.find<AppState>().team['team_name'] ?? '请先登录'.tr,
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w600,
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 1,
-                  ),
+                child: AppText(
+                  text: Get.find<AppState>().team['team_name'] ?? '请先登录'.tr,
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.w600,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
                 ),
               );
             }),
@@ -152,11 +150,13 @@ class HomeView extends GetView<HomeController> {
                         children: [
                           _buildTab(
                               '${'订单'.tr} (${controller.homeModel.value.orderCount ?? 0})',
-                              true),
+                              controller.tabIndex.value == 0,
+                              0),
                           SizedBox(width: 12.w),
                           _buildTab(
                               '${'充值'.tr} (${controller.homeModel.value.rechargeCount ?? 0})',
-                              false),
+                              controller.tabIndex.value == 1,
+                              1),
                           // SizedBox(width: 12.w),
                           // _buildTab(
                           //     '${'商品总数'.tr} (${controller.homeModel.value.goodsCount ?? 0})',
@@ -170,12 +170,25 @@ class HomeView extends GetView<HomeController> {
                     ),
                     SizedBox(height: 16.h),
                     // 任务项列表
-                    ...controller.orderListStatus.map((item) => _buildTaskItem(
-                          (item['label'] ?? '').toString().tr,
-                          (item['count'] ?? 0).toString(),
-                          item['index'] as int,
-                          isLast: controller.orderListStatus.last == item,
-                        ))
+                    if (controller.tabIndex.value == 0)
+                      ...controller.orderListStatus
+                          .map((item) => _buildTaskItem(
+                                (item['label'] ?? '').toString().tr,
+                                (item['count'] ?? 0).toString(),
+                                item['index'] as int,
+                                isLast: controller.orderListStatus.last == item,
+                                type: 'order',
+                              ))
+                    else
+                      ...controller.rechargeListStatus
+                          .map((item) => _buildTaskItem(
+                                (item['label'] ?? '').toString().tr,
+                                (item['count'] ?? 0).toString(),
+                                item['index'] as int,
+                                isLast:
+                                    controller.rechargeListStatus.last == item,
+                                type: item['type'] as String,
+                              ))
                   ],
                 ),
               ),
@@ -274,34 +287,47 @@ class HomeView extends GetView<HomeController> {
     );
   }
 
-  Widget _buildTab(String text, bool isActive) {
-    return Container(
-      height: 32.h,
-      padding: EdgeInsets.symmetric(horizontal: 20.w),
-      decoration: BoxDecoration(
-        color: isActive ? AppStyles.primary : const Color(0xFFEEEEEF),
-        borderRadius: BorderRadius.circular(9.r),
-        border: Border.all(
+  Widget _buildTab(String text, bool isActive, int index) {
+    return GestureDetector(
+      onTap: () {
+        controller.tabIndex.value = index;
+      },
+      child: Container(
+        height: 32.h,
+        padding: EdgeInsets.symmetric(horizontal: 20.w),
+        decoration: BoxDecoration(
           color: isActive ? AppStyles.primary : const Color(0xFFEEEEEF),
-          width: 1,
+          borderRadius: BorderRadius.circular(9.r),
+          border: Border.all(
+            color: isActive ? AppStyles.primary : const Color(0xFFEEEEEF),
+            width: 1,
+          ),
         ),
-      ),
-      child: Center(
-        child: AppText(
-          text: text,
-          fontSize: 13.sp,
-          fontWeight: FontWeight.w600,
-          color: isActive ? Colors.white : AppStyles.textBlack,
+        child: Center(
+          child: AppText(
+            text: text,
+            fontSize: 13.sp,
+            fontWeight: FontWeight.w600,
+            color: isActive ? Colors.white : AppStyles.textBlack,
+          ),
         ),
       ),
     );
   }
 
   Widget _buildTaskItem(String title, String count, int index,
-      {bool isLast = false}) {
+      {bool isLast = false, String type = 'order'}) {
     return GestureDetector(
       onTap: () {
-        Routers.push(Routers.orderList, {'status': index});
+        if (type == 'order') {
+          Routers.push(Routers.orderList, {'status': index});
+        } else {
+          if (type == 'transfer') {
+            Routers.push(Routers.rechargeList, {'status': '0'});
+          } else {
+            Routers.push(Routers.onlineRecharge, {'status': '0'});
+          }
+        }
       },
       child: Column(
         children: [

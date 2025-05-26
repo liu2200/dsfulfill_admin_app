@@ -1,6 +1,6 @@
-import 'package:dsfulfill_cient_app/common/http_client.dart';
-import 'package:dsfulfill_cient_app/models/customer_model.dart';
-import 'package:dsfulfill_cient_app/models/staff_model.dart';
+import 'package:dsfulfill_admin_app/common/http_client.dart';
+import 'package:dsfulfill_admin_app/models/customer_model.dart';
+import 'package:dsfulfill_admin_app/models/staff_model.dart';
 
 class MarketingService {
   static const String customListApi = 'custom'; //客户列表

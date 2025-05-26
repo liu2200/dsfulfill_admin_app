@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:dsfulfill_cient_app/storage/common_storage.dart';
+import 'package:dsfulfill_admin_app/storage/common_storage.dart';
 // import 'package:connectivity_plus/connectivity_plus.dart';
 
 class AppState {

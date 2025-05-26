@@ -1,15 +1,15 @@
-import 'package:dsfulfill_cient_app/config/routers.dart';
-import 'package:dsfulfill_cient_app/config/styles.dart';
-import 'package:dsfulfill_cient_app/events/application_event.dart';
-import 'package:dsfulfill_cient_app/events/list_refresh_event.dart';
-import 'package:dsfulfill_cient_app/views/components/base_scaffold.dart';
-import 'package:dsfulfill_cient_app/views/components/base_text.dart';
-import 'package:dsfulfill_cient_app/views/components/image/load_asset_image.dart';
-import 'package:dsfulfill_cient_app/views/components/input/base_input.dart';
-import 'package:dsfulfill_cient_app/views/components/list_refresh.dart';
-import 'package:dsfulfill_cient_app/views/components/order_input/order_input.dart';
-import 'package:dsfulfill_cient_app/views/components/select_dropdown.dart';
-import 'package:dsfulfill_cient_app/views/workbench/finance/transaction_list/transaction_controller.dart';
+import 'package:dsfulfill_admin_app/config/routers.dart';
+import 'package:dsfulfill_admin_app/config/styles.dart';
+import 'package:dsfulfill_admin_app/events/application_event.dart';
+import 'package:dsfulfill_admin_app/events/list_refresh_event.dart';
+import 'package:dsfulfill_admin_app/views/components/base_scaffold.dart';
+import 'package:dsfulfill_admin_app/views/components/base_text.dart';
+import 'package:dsfulfill_admin_app/views/components/image/load_asset_image.dart';
+import 'package:dsfulfill_admin_app/views/components/input/base_input.dart';
+import 'package:dsfulfill_admin_app/views/components/list_refresh.dart';
+import 'package:dsfulfill_admin_app/views/components/order_input/order_input.dart';
+import 'package:dsfulfill_admin_app/views/components/select_dropdown.dart';
+import 'package:dsfulfill_admin_app/views/workbench/finance/transaction_list/transaction_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -18,10 +18,7 @@ class TransactionView extends GetView<TransactionController> {
   const TransactionView({super.key});
   @override
   Widget build(BuildContext context) {
-    final scaffoldKey = GlobalKey<ScaffoldState>();
     return Scaffold(
-      // key: scaffoldKey,
-      // endDrawer: _buildFilterDrawer(context),
       body: BaseScafflod(
         title: '交易流水'.tr,
         hasBack: true,
@@ -73,13 +70,52 @@ class TransactionView extends GetView<TransactionController> {
                             },
                           );
                         },
-                        child: LoadAssetImage(
-                          image: 'workbench/filtrate',
-                          width: 25.w,
-                          height: 25.w,
+                        child: SizedBox(
+                          width: 35.w,
+                          child: Obx(() => Stack(
+                                children: [
+                                  Container(
+                                    margin: EdgeInsets.only(top: 5.w),
+                                    child: LoadAssetImage(
+                                      image: 'workbench/filtrate',
+                                      width: 24.w,
+                                      height: 24.w,
+                                    ),
+                                  ),
+                                  if (controller.activeFiltersCount.value > 0)
+                                    Positioned(
+                                      right: 2,
+                                      top: 0,
+                                      child: Container(
+                                        constraints: BoxConstraints(
+                                          minWidth: 18.w,
+                                          minHeight: 18.w,
+                                        ),
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 3.w, vertical: 1.w),
+                                        decoration: BoxDecoration(
+                                          color: Colors.red,
+                                          shape: BoxShape.circle,
+                                          border: Border.all(
+                                              color: Colors.white, width: 1),
+                                        ),
+                                        child: Center(
+                                          child: Text(
+                                            '${controller.activeFiltersCount.value}',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 9.sp,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                ],
+                              )),
                         ),
                       ),
-                      SizedBox(width: 16.w),
+                      SizedBox(width: 5.w),
                     ],
                   ),
                 ],
@@ -125,33 +161,42 @@ class TransactionView extends GetView<TransactionController> {
             // 顶部：流水号+状态
             Row(
               children: [
-                Expanded(
-                  child: Text(
-                    item.createdAt,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16.sp,
+                AppText(
+                  text: item.serialNo,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16.sp,
+                ),
+                GestureDetector(
+                  onTap: () {
+                    controller.copySerialNo(item.serialNo);
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 5.w),
+                    child: Icon(
+                      Icons.copy,
+                      size: 16.w,
+                      color: AppStyles.primary,
                     ),
                   ),
                 ),
-                Container(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
-                  decoration: BoxDecoration(
-                    color: item.type == 1
-                        ? const Color(0xFFDEF9D4)
-                        : const Color(0xFFf36a6a).withOpacity(0.2),
-                    borderRadius: BorderRadius.circular(6.r),
-                  ),
-                  child: AppText(
-                    text: item.sourceTypeName,
-                    color: item.type == 1
-                        ? AppStyles.primary
-                        : const Color(0xFFf36a6a),
-                    fontSize: 13.sp,
-                  ),
-                ),
               ],
+            ),
+            SizedBox(height: 8.h),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
+              decoration: BoxDecoration(
+                color: item.type == 1
+                    ? const Color(0xFFDEF9D4)
+                    : const Color(0xFFf36a6a).withOpacity(0.2),
+                borderRadius: BorderRadius.circular(6.r),
+              ),
+              child: AppText(
+                text: item.sourceTypeName,
+                color: item.type == 1
+                    ? AppStyles.primary
+                    : const Color(0xFFf36a6a),
+                fontSize: 13.sp,
+              ),
             ),
             SizedBox(height: 8.h),
             // 金额
@@ -196,7 +241,7 @@ class TransactionView extends GetView<TransactionController> {
                   ),
                 ),
                 Text(
-                  item.serialNo,
+                  item.createdAt,
                   style: TextStyle(
                     color: Colors.black54,
                     fontSize: 13.sp,
@@ -288,6 +333,7 @@ class TransactionView extends GetView<TransactionController> {
                   Expanded(
                     child: ElevatedButton(
                       onPressed: () {
+                        controller.updateActiveFiltersCount();
                         Navigator.of(context).maybePop();
                         ApplicationEvent.getInstance()
                             .event

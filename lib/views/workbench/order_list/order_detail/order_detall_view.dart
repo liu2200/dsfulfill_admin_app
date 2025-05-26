@@ -1,11 +1,12 @@
-import 'package:dsfulfill_cient_app/config/routers.dart';
-import 'package:dsfulfill_cient_app/config/styles.dart';
-import 'package:dsfulfill_cient_app/views/components/base_scaffold.dart';
-import 'package:dsfulfill_cient_app/views/components/base_text.dart';
-import 'package:dsfulfill_cient_app/views/components/image/load_asset_image.dart';
-import 'package:dsfulfill_cient_app/views/workbench/order_list/order_detail/order_detall_controller.dart';
-import 'package:dsfulfill_cient_app/views/workbench/widget/order_header_widget.dart';
-import 'package:dsfulfill_cient_app/views/workbench/widget/product_card_widget.dart';
+import 'package:dsfulfill_admin_app/config/routers.dart';
+import 'package:dsfulfill_admin_app/config/styles.dart';
+import 'package:dsfulfill_admin_app/utils/base_utils.dart';
+import 'package:dsfulfill_admin_app/views/components/base_scaffold.dart';
+import 'package:dsfulfill_admin_app/views/components/base_text.dart';
+import 'package:dsfulfill_admin_app/views/components/image/load_asset_image.dart';
+import 'package:dsfulfill_admin_app/views/workbench/order_list/order_detail/order_detall_controller.dart';
+import 'package:dsfulfill_admin_app/views/workbench/widget/order_header_widget.dart';
+import 'package:dsfulfill_admin_app/views/workbench/widget/product_card_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -19,6 +20,40 @@ class OrderDetailView extends GetView<OrderDetailController> {
       backgroundColor: AppStyles.background,
       title: '订单详情'.tr,
       hasBack: true,
+      actions: [
+        Obx(
+          () => GestureDetector(
+            onTap: () {
+              Routers.push(Routers.clientDetail, {
+                'id': controller.orderDetail.value?.customerId,
+              });
+            },
+            child: Row(
+              children: [
+                SizedBox(
+                  width: 60.w,
+                  child: AppText(
+                    text: controller.orderDetail.value?.customerName ?? '',
+                    fontSize: 14.sp,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.right,
+                  ),
+                ),
+                if (controller.orderDetail.value?.customerId != null)
+                  Padding(
+                    padding: EdgeInsets.only(left: 5.w, right: 16.w),
+                    child: Icon(
+                      Icons.arrow_back,
+                      size: 16.w,
+                      color: AppStyles.primary,
+                    ),
+                  ),
+              ],
+            ),
+          ),
+        ),
+      ],
       // 固定底部按钮
       bottomNavigationBar: Container(
         padding: EdgeInsets.only(top: 10.h, bottom: 34.h),
@@ -30,16 +65,117 @@ class OrderDetailView extends GetView<OrderDetailController> {
               [0, 1, 2].contains(controller.orderDetail.value?.status);
           final showAbnormal = controller.abnormalStatus.value == 1;
           final hasTwoButtons = showQuote && showAbnormal;
+          final isShipping =
+              [5].contains(controller.orderDetail.value?.status) &&
+                  controller.orderDetail.value?.isShipping ==
+                      1; //is_shipping 1-已交运 0-未交运
           return Container(
               padding: EdgeInsets.symmetric(horizontal: 16.w),
-              height: hasTwoButtons
-                  ? 100.h
-                  : showQuote
-                      ? 50.h
-                      : 0, // 动态高度
+              height: controller.orderDetail.value?.status == 8 || isShipping
+                  ? 0
+                  : hasTwoButtons
+                      ? 100.h
+                      : 50.h, // 动态高度
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
+                  if ([5].contains(controller.orderDetail.value?.status) &&
+                      controller.orderDetail.value?.isShipping == 0)
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          controller.platformExpress(context);
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppStyles.primary,
+                          foregroundColor: Colors.white,
+                          padding: EdgeInsets.symmetric(vertical: 10.h),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                        child: AppText(
+                          text: '平台交运'.tr,
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w600,
+                          color: AppStyles.white,
+                        ),
+                      ),
+                    ),
+                  if (controller.orderDetail.value?.status == 4 &&
+                      controller.orderDetail.value?.abnormalStatus == 0)
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          controller.removePrint(context);
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppStyles.primary,
+                          foregroundColor: Colors.white,
+                          padding: EdgeInsets.symmetric(vertical: 10.h),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                        child: AppText(
+                          text: '配货'.tr,
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w600,
+                          color: AppStyles.white,
+                        ),
+                      ),
+                    ),
+                  if (controller.orderDetail.value?.status == 3 &&
+                      controller.orderDetail.value?.abnormalStatus == 0)
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: ElevatedButton(
+                            onPressed: () {
+                              controller.expressCompanies(context);
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.white,
+                              foregroundColor: AppStyles.primary,
+                              padding: EdgeInsets.symmetric(vertical: 10.h),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                            ),
+                            child: AppText(
+                              text: '申请运单'.tr,
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                        15.horizontalSpace,
+                        Expanded(
+                          child: ElevatedButton(
+                            onPressed: () {
+                              controller.removePrint(context);
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppStyles.primary,
+                              foregroundColor: Colors.white,
+                              padding: EdgeInsets.symmetric(vertical: 10.h),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                            ),
+                            child: AppText(
+                              text: '移入配货中'.tr,
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w600,
+                              color: AppStyles.white,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   if ([0, 1, 2].contains(controller.orderDetail.value?.status))
                     SizedBox(
                       width: double.infinity,
@@ -449,11 +585,17 @@ class OrderDetailView extends GetView<OrderDetailController> {
                               ),
                               child: TabBar(
                                 controller: controller.tabController,
+                                labelStyle: TextStyle(
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeight.w600,
+                                ),
                                 labelColor: AppStyles.primary,
                                 unselectedLabelColor: const Color(0xFF999999),
                                 indicatorColor: AppStyles.primary,
                                 tabs: [
-                                  Tab(text: '报价'.tr),
+                                  Tab(
+                                      text:
+                                          '${'报价'.tr} (${controller.quotedNumber.value}/${controller.orderDetail.value?.lineItems?.length.toString()})'),
                                   Tab(text: '报关'.tr),
                                   Tab(text: '日志'.tr),
                                 ],
@@ -605,12 +747,14 @@ class OrderDetailView extends GetView<OrderDetailController> {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      'SKU:${item.sku}',
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 16,
+                    Expanded(
+                      child: AppText(
+                        text: 'SKU:${item.sku}',
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w600,
                         color: Colors.black,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
                     const SizedBox(width: 8),
@@ -618,42 +762,48 @@ class OrderDetailView extends GetView<OrderDetailController> {
                 ),
                 const SizedBox(height: 8),
                 // 第二行
-                Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        item.declaration?['cn_name'] ?? '',
-                        style:
-                            const TextStyle(fontSize: 15, color: Colors.black),
+                if (item.declaration?['cn_name'] != null ||
+                    item.declaration?['unit_price'] != null)
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          item.declaration?['cn_name'] ?? '',
+                          style: const TextStyle(
+                              fontSize: 15, color: Colors.black),
+                        ),
                       ),
-                    ),
-                    Text(
-                      '${controller.currencyModel['code']} ${item.declaration?['unit_price'] ?? '-'}',
-                      style: const TextStyle(
-                        color: Color(0xFF2E9750),
-                        fontWeight: FontWeight.w700,
-                        fontSize: 18,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 4),
+                      if (item.declaration?['unit_price'] != null)
+                        Text(
+                          '${controller.currencyModel['code']} ${item.declaration?['unit_price'] ?? '-'}',
+                          style: const TextStyle(
+                            color: Color(0xFF2E9750),
+                            fontWeight: FontWeight.w700,
+                            fontSize: 18,
+                          ),
+                        ),
+                    ],
+                  ),
+
                 // 第三行
-                Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        item.declaration?['material'] ?? '',
-                        style:
-                            const TextStyle(fontSize: 14, color: Colors.black),
+                if (item.declaration?['material'] != null)
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          item.declaration?['material'] ?? '',
+                          style: const TextStyle(
+                              fontSize: 14, color: Colors.black),
+                        ),
                       ),
-                    ),
-                    Text(
-                      '${item.declaration?['weight'] ?? '-'} (g)',
-                      style: const TextStyle(fontSize: 14, color: Colors.black),
-                    ),
-                  ],
-                ),
+                      if (item.declaration?['weight'] != null)
+                        Text(
+                          '${item.declaration?['weight'] ?? '-'} (g)',
+                          style: const TextStyle(
+                              fontSize: 14, color: Colors.black),
+                        ),
+                    ],
+                  ),
                 // code
                 Padding(
                   padding: const EdgeInsets.only(top: 4),
@@ -695,15 +845,112 @@ class OrderDetailView extends GetView<OrderDetailController> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // _feeRow('库存消耗'.tr, '本企业'.tr),
-          // Divider(height: 16.h, thickness: 0.5),
-          // _feeRow('物流方式'.tr, '云途加拿大专线'.tr),
-          // Divider(height: 16.h, thickness: 0.5),
+          AppText(
+            text: '平台订单号'.tr,
+            fontSize: 14.sp,
+            fontWeight: FontWeight.w400,
+            color: AppStyles.textBlack,
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 4.h),
+            child: Row(
+              children: [
+                AppText(
+                  text: order.orderId ?? '',
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.w400,
+                  color: AppStyles.textBlack,
+                ),
+                SizedBox(width: 8.w),
+                if (order.orderId != '')
+                  GestureDetector(
+                    onTap: () => BaseUtils.copy(order.orderId),
+                    child: Icon(
+                      Icons.copy,
+                      size: 16.sp,
+                      color: AppStyles.primary,
+                    ),
+                  ),
+              ],
+            ),
+          ),
+          AppText(
+            text: '物流跟踪号'.tr,
+            fontSize: 14.sp,
+            fontWeight: FontWeight.w400,
+            color: AppStyles.textBlack,
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 4.h),
+            child: Row(
+              children: [
+                Obx(() {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: controller.packages
+                        .map((element) => Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                if (element['logistics_apply']
+                                        ['way_bill_number']
+                                    .toString()
+                                    .isNotEmpty)
+                                  AppText(
+                                    text: element['logistics_apply']
+                                            ['way_bill_number']
+                                        .toString(),
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.w400,
+                                    color: AppStyles.textBlack,
+                                    textAlign: TextAlign.right,
+                                  ),
+                                SizedBox(width: 8.w),
+                                if (element['logistics_apply']
+                                        ['way_bill_number']
+                                    .toString()
+                                    .isNotEmpty)
+                                  GestureDetector(
+                                    onTap: () => BaseUtils.copy(
+                                        element['logistics_apply']
+                                                ['way_bill_number']
+                                            .toString()),
+                                    child: Icon(
+                                      Icons.copy,
+                                      size: 16.sp,
+                                      color: AppStyles.primary,
+                                    ),
+                                  ),
+                              ],
+                            ))
+                        .toList(),
+                  );
+                }),
+              ],
+            ),
+          ),
+          AppText(
+            text: '物流服务商'.tr,
+            fontSize: 14.sp,
+            fontWeight: FontWeight.w400,
+            color: AppStyles.textBlack,
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 4.h),
+            child: Row(
+              children: [
+                AppText(
+                  text: controller.expressLine['name'] ?? '',
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.w400,
+                  color: AppStyles.textBlack,
+                ),
+              ],
+            ),
+          ),
           _feeRow('商品总报价'.tr, 'USD ${quote['goods_price'] ?? ''}'),
           _feeRow('物流总报价'.tr, 'USD ${quote['logistics_fee'] ?? ''}'),
           _feeRow('折扣优惠'.tr, 'USD ${quote['favourable_price'] ?? ''}'),
-          _feeRow('其他补收'.tr, '- USD ${quote['other_supplement_price'] ?? ''}'),
-          // _feeRow('报价人'.tr, '张三'),
+          _feeRow('其他补收'.tr, 'USD ${quote['other_supplement_price'] ?? ''}'),
           Divider(height: 16.h, thickness: 0.5),
           _feeRow('合计'.tr, 'USD ${quote['total_price'] ?? ''}', isTotal: true),
         ],
@@ -717,21 +964,17 @@ class OrderDetailView extends GetView<OrderDetailController> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            label,
-            style: TextStyle(
-              fontSize: 14.sp,
-              fontWeight: FontWeight.w400,
-              color: AppStyles.textBlack,
-            ),
+          AppText(
+            text: label,
+            fontSize: 14.sp,
+            fontWeight: FontWeight.w400,
+            color: AppStyles.textBlack,
           ),
-          Text(
-            value,
-            style: TextStyle(
-              fontSize: isTotal ? 16.sp : 14.sp,
-              fontWeight: isTotal ? FontWeight.w600 : FontWeight.w400,
-              color: AppStyles.textBlack,
-            ),
+          AppText(
+            text: value,
+            fontSize: isTotal ? 16.sp : 14.sp,
+            fontWeight: isTotal ? FontWeight.w600 : FontWeight.w400,
+            color: AppStyles.textBlack,
           ),
         ],
       ),

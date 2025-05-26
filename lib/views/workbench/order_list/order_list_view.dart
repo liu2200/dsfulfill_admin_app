@@ -1,15 +1,16 @@
-import 'package:dsfulfill_cient_app/config/routers.dart';
-import 'package:dsfulfill_cient_app/config/styles.dart';
-import 'package:dsfulfill_cient_app/events/application_event.dart';
-import 'package:dsfulfill_cient_app/events/list_refresh_event.dart';
-import 'package:dsfulfill_cient_app/views/components/base_scaffold.dart';
-import 'package:dsfulfill_cient_app/views/components/base_text.dart';
-import 'package:dsfulfill_cient_app/views/components/button/main_button.dart';
-import 'package:dsfulfill_cient_app/views/components/image/load_asset_image.dart';
-import 'package:dsfulfill_cient_app/views/components/input/base_input.dart';
-import 'package:dsfulfill_cient_app/views/components/list_refresh.dart';
-import 'package:dsfulfill_cient_app/views/components/order_input/order_input.dart';
-import 'package:dsfulfill_cient_app/views/workbench/order_list/order_list_controller.dart';
+import 'package:country_flags/country_flags.dart';
+import 'package:dsfulfill_admin_app/config/routers.dart';
+import 'package:dsfulfill_admin_app/config/styles.dart';
+import 'package:dsfulfill_admin_app/events/application_event.dart';
+import 'package:dsfulfill_admin_app/events/list_refresh_event.dart';
+import 'package:dsfulfill_admin_app/views/components/base_scaffold.dart';
+import 'package:dsfulfill_admin_app/views/components/base_text.dart';
+import 'package:dsfulfill_admin_app/views/components/button/main_button.dart';
+import 'package:dsfulfill_admin_app/views/components/image/load_asset_image.dart';
+import 'package:dsfulfill_admin_app/views/components/input/base_input.dart';
+import 'package:dsfulfill_admin_app/views/components/list_refresh.dart';
+import 'package:dsfulfill_admin_app/views/components/order_input/order_input.dart';
+import 'package:dsfulfill_admin_app/views/workbench/order_list/order_list_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -19,11 +20,7 @@ class OrderListPage extends GetView<OrderListController> {
 
   @override
   Widget build(BuildContext context) {
-    // 筛选Drawer控制
-    // final scaffoldKey = GlobalKey<ScaffoldState>();
     return Scaffold(
-      // key: scaffoldKey,
-      // endDrawer: _buildFilterDrawer(context),
       body: BaseScafflod(
         title: '订单列表'.tr,
         hasBack: true,
@@ -90,13 +87,52 @@ class OrderListPage extends GetView<OrderListController> {
                             },
                           );
                         },
-                        child: LoadAssetImage(
-                          image: 'workbench/filtrate',
-                          width: 25.w,
-                          height: 25.w,
+                        child: SizedBox(
+                          width: 35.w,
+                          child: Obx(() => Stack(
+                                children: [
+                                  Container(
+                                    margin: EdgeInsets.only(top: 5.w),
+                                    child: LoadAssetImage(
+                                      image: 'workbench/filtrate',
+                                      width: 24.w,
+                                      height: 24.w,
+                                    ),
+                                  ),
+                                  if (controller.activeFiltersCount.value > 0)
+                                    Positioned(
+                                      right: 2,
+                                      top: 0,
+                                      child: Container(
+                                        constraints: BoxConstraints(
+                                          minWidth: 18.w,
+                                          minHeight: 18.w,
+                                        ),
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 3.w, vertical: 1.w),
+                                        decoration: BoxDecoration(
+                                          color: Colors.red,
+                                          shape: BoxShape.circle,
+                                          border: Border.all(
+                                              color: Colors.white, width: 1),
+                                        ),
+                                        child: Center(
+                                          child: Text(
+                                            '${controller.activeFiltersCount.value}',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 9.sp,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                ],
+                              )),
                         ),
                       ),
-                      SizedBox(width: 16.w),
+                      SizedBox(width: 5.w),
                     ],
                   ),
                   buildTabs()
@@ -104,10 +140,36 @@ class OrderListPage extends GetView<OrderListController> {
               ),
             ),
             Expanded(
-              child: RefreshView(
-                renderItem: (index, item) => buildItem(index, item),
-                refresh: controller.loadList,
-                more: controller.loadMoreList,
+              child: GestureDetector(
+                onPanEnd: (details) {
+                  // 检测滑动手势
+                  if (details.velocity.pixelsPerSecond.dx > 500) {
+                    // 向右滑动 - 切换到上一个tab
+                    if (controller.tabIndex.value > 0) {
+                      controller.switchToTab(controller.tabIndex.value - 1);
+                      ApplicationEvent.getInstance()
+                          .event
+                          .fire(ListRefreshEvent(type: 'refresh'));
+                    }
+                  } else if (details.velocity.pixelsPerSecond.dx < -500) {
+                    // 向左滑动 - 切换到下一个tab
+                    if (controller.tabIndex.value <
+                        controller.orderListStatus.length - 1) {
+                      controller.switchToTab(controller.tabIndex.value + 1);
+                      ApplicationEvent.getInstance()
+                          .event
+                          .fire(ListRefreshEvent(type: 'refresh'));
+                    }
+                  }
+                },
+                child: Obx(() {
+                  return RefreshView(
+                    key: ValueKey(controller.tabIndex.value),
+                    renderItem: (itemIndex, item) => buildItem(itemIndex, item),
+                    refresh: controller.loadList,
+                    more: controller.loadMoreList,
+                  );
+                }),
               ),
             )
           ],
@@ -249,7 +311,8 @@ class OrderListPage extends GetView<OrderListController> {
                 Expanded(
                   child: ElevatedButton(
                     onPressed: () {
-                      Navigator.of(context).pop(); // 关闭弹出窗口
+                      controller.updateActiveFiltersCount(); // 先更新筛选计数
+                      Navigator.of(context).pop(); // 再关闭弹出窗口
                       ApplicationEvent.getInstance()
                           .event
                           .fire(ListRefreshEvent(type: 'refresh'));
@@ -275,6 +338,10 @@ class OrderListPage extends GetView<OrderListController> {
                   child: OutlinedButton(
                     onPressed: () {
                       controller.reset();
+                      Navigator.of(context).maybePop();
+                      ApplicationEvent.getInstance()
+                          .event
+                          .fire(ListRefreshEvent(type: 'refresh'));
                     },
                     style: OutlinedButton.styleFrom(
                       shape: RoundedRectangleBorder(
@@ -527,10 +594,15 @@ class OrderListPage extends GetView<OrderListController> {
                             height: 24.w,
                           ),
                           8.horizontalSpace,
-                          AppText(
-                            text: item.shopName,
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w500,
+                          SizedBox(
+                            width: item.status == 4 ? 100.w : 140.w,
+                            child: AppText(
+                              text: item.shopName,
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w500,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           ),
                         ],
                       ),
@@ -575,44 +647,72 @@ class OrderListPage extends GetView<OrderListController> {
                     ],
                   ),
                   12.verticalSpace,
-                  Row(
-                    children: [
-                      if (item.isShipping == 1)
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            LoadAssetImage(
-                              image: 'workbench/shipment',
-                              width: 20.w,
-                              height: 20.w,
-                            ),
-                            4.horizontalSpace,
-                            AppText(
-                              text: '交运'.tr,
-                              fontSize: 13.sp,
-                              color: const Color(0xFF279A32),
-                            ),
-                          ],
-                        ),
-                      20.horizontalSpace,
-                      if (item.financialStatus == 4)
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            LoadAssetImage(
-                              image: 'workbench/refund',
-                              width: 20.w,
-                              height: 20.w,
-                            ),
-                            4.horizontalSpace,
-                            AppText(
-                              text: '退款'.tr,
-                              fontSize: 13.sp,
-                              color: const Color(0xFFFE5C73),
-                            ),
-                          ],
-                        ),
-                    ],
+                  // 状态标签区域
+                  Container(
+                    width: double.infinity,
+                    padding: EdgeInsets.symmetric(vertical: 4.h),
+                    child: Wrap(
+                      spacing: 10.w, // 水平间距
+                      runSpacing: 8.h, // 垂直间距
+                      alignment: WrapAlignment.start, // 水平左对齐
+                      crossAxisAlignment: WrapCrossAlignment.center, // 垂直居中
+                      children: [
+                        if (item.isShipping == 1)
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              LoadAssetImage(
+                                image: 'workbench/shipment',
+                                width: 20.w,
+                                height: 20.w,
+                              ),
+                              4.horizontalSpace,
+                              AppText(
+                                text: '交运'.tr,
+                                fontSize: 13.sp,
+                                color: const Color(0xFF279A32),
+                              ),
+                            ],
+                          ),
+                        if (item.stockStatus == 'lack')
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              LoadAssetImage(
+                                image: 'workbench/stockout',
+                                width: 20.w,
+                                height: 20.w,
+                              ),
+                              4.horizontalSpace,
+                              AppText(
+                                text: '缺货'.tr,
+                                fontSize: 13.sp,
+                                color: const Color(0xFFE37318),
+                              ),
+                            ],
+                          ),
+                        if (item.financialStatus == 4)
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              LoadAssetImage(
+                                image: 'workbench/refund',
+                                width: 20.w,
+                                height: 20.w,
+                              ),
+                              4.horizontalSpace,
+                              AppText(
+                                text: '退款'.tr,
+                                fontSize: 13.sp,
+                                color: const Color(0xFFFE5C73),
+                              ),
+                            ],
+                          ),
+                      ],
+                    ),
                   )
                 ],
               ),
@@ -633,44 +733,54 @@ class OrderListPage extends GetView<OrderListController> {
                           fontSize: 14.sp,
                           color: AppStyles.textGrey,
                         ),
-                        // AppText(
-                        //   text: 'USD 5.00',
-                        //   fontSize: 14.sp,
-                        //   color: AppStyles.textGrey,
-                        // ),
+                        AppText(
+                          text:
+                              '${controller.currencyModel['code']} ${item.quotePrice?['goods_price'] ?? '0'}',
+                          fontSize: 14.sp,
+                          color: AppStyles.textBlack,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ],
                     ),
-                    // Container(
-                    //   margin: EdgeInsets.symmetric(horizontal: 16.w),
-                    //   width: 1.w,
-                    //   height: 38.h,
-                    //   color: AppStyles.line,
-                    // ),
+                    Container(
+                      margin: EdgeInsets.symmetric(horizontal: 16.w),
+                      width: 1.w,
+                      height: 38.h,
+                      color: AppStyles.line,
+                    ),
                     // 客户名称
-                    // Column(
-                    //   crossAxisAlignment: CrossAxisAlignment.start,
-                    //   children: [
-                    //     AppText(
-                    //       text: 'Mason Lin',
-                    //       fontSize: 14.sp,
-                    //       color: AppStyles.textGrey,
-                    //     ),
-                    //     AppText(
-                    //       text: 'USD 5.00',
-                    //       fontSize: 14.sp,
-                    //       color: AppStyles.textGrey,
-                    //     ),
-                    //   ],
-                    // ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          width: 120.w,
+                          child: AppText(
+                            text: item.customerName ?? '',
+                            fontSize: 14.sp,
+                            color: AppStyles.textGrey,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        AppText(
+                          text:
+                              '${controller.currencyModel['code']} ${item.quotePrice?['logistics_fee'] ?? '0'}',
+                          fontSize: 14.sp,
+                          color: AppStyles.textBlack,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ],
+                    ),
                   ],
                 ),
                 // 国旗
-                // CountryFlag.fromCountryCode(
-                //   'US',
-                //   height: 32.h,
-                //   width: 48.w,
-                //   borderRadius: 4,
-                // ),
+                if (item.countryCode != '')
+                  CountryFlag.fromCountryCode(
+                    item.countryCode,
+                    height: 32.h,
+                    width: 48.w,
+                    borderRadius: 4,
+                  ),
               ],
             ),
             if (item.abnormal != null && item.abnormal!.isNotEmpty)
@@ -735,9 +845,7 @@ class OrderListPage extends GetView<OrderListController> {
                         '${controller.orderListStatus[index]['label']}${controller.orderListStatus[index]['show_count'] == true ? '(${controller.orderListStatus[index]['count'] == '' ? '0' : controller.orderListStatus[index]['count']})' : ''}',
                     padding: EdgeInsets.symmetric(horizontal: 4.w),
                     onPressed: () {
-                      controller.tabIndex.value = index;
-                      controller.tabController.animateTo(index);
-                      controller.switchTab();
+                      controller.switchToTab(index);
                       ApplicationEvent.getInstance()
                           .event
                           .fire(ListRefreshEvent(type: 'refresh'));

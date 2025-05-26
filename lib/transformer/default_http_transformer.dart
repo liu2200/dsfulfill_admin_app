@@ -1,6 +1,6 @@
-import 'package:dsfulfill_cient_app/transformer/http_transformer.dart';
+import 'package:dsfulfill_admin_app/transformer/http_transformer.dart';
 import 'package:dio/dio.dart';
-import 'package:dsfulfill_cient_app/common/http_response.dart';
+import 'package:dsfulfill_admin_app/common/http_response.dart';
 
 class DefaultHttpTransformer extends HttpTransformer {
   @override

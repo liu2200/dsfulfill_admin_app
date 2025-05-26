@@ -1,13 +1,13 @@
-import 'package:dsfulfill_cient_app/config/styles.dart';
-import 'package:dsfulfill_cient_app/events/application_event.dart';
-import 'package:dsfulfill_cient_app/events/list_refresh_event.dart';
-import 'package:dsfulfill_cient_app/views/components/base_scaffold.dart';
-import 'package:dsfulfill_cient_app/views/components/base_text.dart';
-import 'package:dsfulfill_cient_app/views/components/image/load_asset_image.dart';
-import 'package:dsfulfill_cient_app/views/components/list_refresh.dart';
-import 'package:dsfulfill_cient_app/views/components/order_input/order_input.dart';
-import 'package:dsfulfill_cient_app/views/components/select_dropdown.dart';
-import 'package:dsfulfill_cient_app/views/workbench/finance/online_recharge/online_recharge_controller.dart';
+import 'package:dsfulfill_admin_app/config/styles.dart';
+import 'package:dsfulfill_admin_app/events/application_event.dart';
+import 'package:dsfulfill_admin_app/events/list_refresh_event.dart';
+import 'package:dsfulfill_admin_app/views/components/base_scaffold.dart';
+import 'package:dsfulfill_admin_app/views/components/base_text.dart';
+import 'package:dsfulfill_admin_app/views/components/image/load_asset_image.dart';
+import 'package:dsfulfill_admin_app/views/components/list_refresh.dart';
+import 'package:dsfulfill_admin_app/views/components/order_input/order_input.dart';
+import 'package:dsfulfill_admin_app/views/components/select_dropdown.dart';
+import 'package:dsfulfill_admin_app/views/workbench/finance/online_recharge/online_recharge_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -16,10 +16,7 @@ class OnlineRechargeView extends GetView<OnlineRechargeController> {
   const OnlineRechargeView({super.key});
   @override
   Widget build(BuildContext context) {
-    final scaffoldKey = GlobalKey<ScaffoldState>();
     return Scaffold(
-      // key: scaffoldKey,
-      // endDrawer: _buildFilterDrawer(context),
       body: BaseScafflod(
         title: '在线充值'.tr,
         hasBack: true,
@@ -71,13 +68,52 @@ class OnlineRechargeView extends GetView<OnlineRechargeController> {
                             },
                           );
                         },
-                        child: LoadAssetImage(
-                          image: 'workbench/filtrate',
-                          width: 25.w,
-                          height: 25.w,
+                        child: SizedBox(
+                          width: 35.w,
+                          child: Obx(() => Stack(
+                                children: [
+                                  Container(
+                                    margin: EdgeInsets.only(top: 5.w),
+                                    child: LoadAssetImage(
+                                      image: 'workbench/filtrate',
+                                      width: 24.w,
+                                      height: 24.w,
+                                    ),
+                                  ),
+                                  if (controller.activeFiltersCount.value > 0)
+                                    Positioned(
+                                      right: 2,
+                                      top: 0,
+                                      child: Container(
+                                        constraints: BoxConstraints(
+                                          minWidth: 18.w,
+                                          minHeight: 18.w,
+                                        ),
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 3.w, vertical: 1.w),
+                                        decoration: BoxDecoration(
+                                          color: Colors.red,
+                                          shape: BoxShape.circle,
+                                          border: Border.all(
+                                              color: Colors.white, width: 1),
+                                        ),
+                                        child: Center(
+                                          child: Text(
+                                            '${controller.activeFiltersCount.value}',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 9.sp,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                ],
+                              )),
                         ),
                       ),
-                      SizedBox(width: 16.w),
+                      SizedBox(width: 5.w),
                     ],
                   ),
                 ],
@@ -117,39 +153,49 @@ class OnlineRechargeView extends GetView<OnlineRechargeController> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // 顶部：流水号+状态
+
             Row(
               children: [
-                Expanded(
-                  child: Text(
-                    item.tradeNo,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16.sp,
+                AppText(
+                  text: item.tradeNo,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16.sp,
+                ),
+                GestureDetector(
+                  onTap: () {
+                    controller.copyTradeNo(item.tradeNo);
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 5.w),
+                    child: Icon(
+                      Icons.copy,
+                      size: 16.w,
+                      color: AppStyles.primary,
                     ),
                   ),
                 ),
-                Container(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
-                  decoration: BoxDecoration(
-                    color: item.checkStatus == 1
-                        ? const Color(0xFFDEF9D4)
-                        : item.checkStatus == 0
-                            ? const Color(0xFFfa8c16).withOpacity(0.2)
-                            : const Color(0xFFf36a6a).withOpacity(0.2),
-                    borderRadius: BorderRadius.circular(6.r),
-                  ),
-                  child: AppText(
-                    text: item.checkStatusName,
-                    color: item.checkStatus == 1
-                        ? AppStyles.primary
-                        : item.checkStatus == 0
-                            ? const Color(0xFFfa8c16)
-                            : const Color(0xFFf36a6a),
-                    fontSize: 13.sp,
-                  ),
-                ),
               ],
+            ),
+            SizedBox(height: 8.h),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
+              decoration: BoxDecoration(
+                color: item.checkStatus == 1
+                    ? const Color(0xFFDEF9D4)
+                    : item.checkStatus == 0
+                        ? const Color(0xFFfa8c16).withOpacity(0.2)
+                        : const Color(0xFFf36a6a).withOpacity(0.2),
+                borderRadius: BorderRadius.circular(6.r),
+              ),
+              child: AppText(
+                text: item.checkStatusName,
+                color: item.checkStatus == 1
+                    ? AppStyles.primary
+                    : item.checkStatus == 0
+                        ? const Color(0xFFfa8c16)
+                        : const Color(0xFFf36a6a),
+                fontSize: 13.sp,
+              ),
             ),
             SizedBox(height: 8.h),
             // 金额
@@ -284,6 +330,7 @@ class OnlineRechargeView extends GetView<OnlineRechargeController> {
                   Expanded(
                     child: ElevatedButton(
                       onPressed: () {
+                        controller.updateActiveFiltersCount();
                         Navigator.of(context).maybePop();
                         ApplicationEvent.getInstance()
                             .event

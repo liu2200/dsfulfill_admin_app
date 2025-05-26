@@ -1,9 +1,9 @@
-import 'package:dsfulfill_cient_app/events/application_event.dart';
-import 'package:dsfulfill_cient_app/events/logined_event.dart';
-import 'package:dsfulfill_cient_app/events/set_team_event.dart';
-import 'package:dsfulfill_cient_app/models/order_statistics_model.dart';
-import 'package:dsfulfill_cient_app/services/home_service.dart';
-import 'package:dsfulfill_cient_app/state/app_state.dart';
+import 'package:dsfulfill_admin_app/events/application_event.dart';
+import 'package:dsfulfill_admin_app/events/logined_event.dart';
+import 'package:dsfulfill_admin_app/events/set_team_event.dart';
+import 'package:dsfulfill_admin_app/models/order_statistics_model.dart';
+import 'package:dsfulfill_admin_app/services/home_service.dart';
+import 'package:dsfulfill_admin_app/state/app_state.dart';
 import 'package:get/get.dart';
 
 class AnalysisController extends GetxController {

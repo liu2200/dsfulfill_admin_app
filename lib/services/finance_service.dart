@@ -1,13 +1,27 @@
-import 'package:dsfulfill_cient_app/common/http_client.dart';
-import 'package:dsfulfill_cient_app/models/balance_record_model.dart';
-import 'package:dsfulfill_cient_app/models/online_recharge_model.dart';
-import 'package:dsfulfill_cient_app/models/recharge_model.dart';
+import 'package:dsfulfill_admin_app/common/http_client.dart';
+import 'package:dsfulfill_admin_app/models/balance_record_model.dart';
+import 'package:dsfulfill_admin_app/models/online_recharge_model.dart';
+import 'package:dsfulfill_admin_app/models/payments_model.dart';
+import 'package:dsfulfill_admin_app/models/recharge_model.dart';
 
 class FinanceService {
   static const String rechargeApi = 'recharge-apply';
   static const String rechargeAuditApi = 'recharge-apply/audit';
   static const String onlineRechargeApi = 'recharge-apply/online-recharge';
   static const String balanceRecordApi = 'balance-record';
+  static const String paymentApi = 'payments';
+
+  static Future<List<PaymentsModel>> getPaymentList() async {
+    List<PaymentsModel> result = [];
+    await ApiConfig.instance.get(paymentApi).then((response) {
+      if (response.ok) {
+        response.data.forEach((data) {
+          result.add(PaymentsModel.fromJson(data));
+        });
+      }
+    });
+    return result;
+  }
 
   static Future<BalanceRecordModel?> getBalanceRecordDetail(id) async {
     BalanceRecordModel? result;

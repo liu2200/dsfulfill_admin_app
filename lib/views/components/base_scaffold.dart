@@ -1,5 +1,5 @@
-import 'package:dsfulfill_cient_app/config/styles.dart';
-import 'package:dsfulfill_cient_app/views/components/base_text.dart';
+import 'package:dsfulfill_admin_app/config/styles.dart';
+import 'package:dsfulfill_admin_app/views/components/base_text.dart';
 import 'package:flutter/material.dart';
 
 class BaseScafflod extends StatelessWidget {

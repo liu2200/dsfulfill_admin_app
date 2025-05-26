@@ -1,11 +1,11 @@
-import 'package:dsfulfill_cient_app/config/base_controller.dart';
-import 'package:dsfulfill_cient_app/config/routers.dart';
-import 'package:dsfulfill_cient_app/events/application_event.dart';
-import 'package:dsfulfill_cient_app/events/new_team_event.dart';
-import 'package:dsfulfill_cient_app/events/set_team_event.dart';
-import 'package:dsfulfill_cient_app/models/company_model.dart';
-import 'package:dsfulfill_cient_app/services/me_service.dart';
-import 'package:dsfulfill_cient_app/state/app_state.dart';
+import 'package:dsfulfill_admin_app/config/base_controller.dart';
+import 'package:dsfulfill_admin_app/config/routers.dart';
+import 'package:dsfulfill_admin_app/events/application_event.dart';
+import 'package:dsfulfill_admin_app/events/new_team_event.dart';
+import 'package:dsfulfill_admin_app/events/set_team_event.dart';
+import 'package:dsfulfill_admin_app/models/company_model.dart';
+import 'package:dsfulfill_admin_app/services/me_service.dart';
+import 'package:dsfulfill_admin_app/state/app_state.dart';
 import 'package:get/get.dart';
 
 class CompanyController extends BaseController {
@@ -57,6 +57,7 @@ class CompanyController extends BaseController {
         'team_code': item.teamCode,
       });
       ApplicationEvent.getInstance().event.fire(SetTeamEvent());
+      Get.back();
     }
   }
 

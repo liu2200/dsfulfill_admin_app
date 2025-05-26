@@ -1,8 +1,8 @@
 import 'dart:async';
 
-import 'package:dsfulfill_cient_app/config/base_controller.dart';
-import 'package:dsfulfill_cient_app/config/routers.dart';
-import 'package:dsfulfill_cient_app/services/user_service.dart';
+import 'package:dsfulfill_admin_app/config/base_controller.dart';
+import 'package:dsfulfill_admin_app/config/routers.dart';
+import 'package:dsfulfill_admin_app/services/user_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 

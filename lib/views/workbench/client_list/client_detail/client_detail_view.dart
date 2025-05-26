@@ -1,9 +1,10 @@
-import 'package:dsfulfill_cient_app/config/styles.dart';
-import 'package:dsfulfill_cient_app/views/components/base_scaffold.dart';
-import 'package:dsfulfill_cient_app/views/components/base_text.dart';
-import 'package:dsfulfill_cient_app/views/components/input/base_input.dart';
-import 'package:dsfulfill_cient_app/views/components/select_dropdown.dart';
-import 'package:dsfulfill_cient_app/views/workbench/client_list/client_detail/client_detail_controller.dart';
+import 'package:dsfulfill_admin_app/config/styles.dart';
+import 'package:dsfulfill_admin_app/utils/base_utils.dart';
+import 'package:dsfulfill_admin_app/views/components/base_scaffold.dart';
+import 'package:dsfulfill_admin_app/views/components/base_text.dart';
+import 'package:dsfulfill_admin_app/views/components/input/base_input.dart';
+import 'package:dsfulfill_admin_app/views/components/select_dropdown.dart';
+import 'package:dsfulfill_admin_app/views/workbench/client_list/client_detail/client_detail_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -320,7 +321,7 @@ class ClientDetailView extends GetView<ClientDetailController> {
       body: Obx(() {
         final model = controller.customerDetail.value;
         if (model == null) {
-          return const Center();
+          return const Center(child: CircularProgressIndicator());
         }
         return Column(
           children: [
@@ -330,9 +331,9 @@ class ClientDetailView extends GetView<ClientDetailController> {
                   children: [
                     // 客户信息
                     _sectionCard('客户信息'.tr, [
-                      _infoRow('客户ID'.tr, model.id.toString()),
-                      _infoRow('客户名称'.tr, model.customName),
-                      _infoRow('邮箱'.tr, model.customEmail),
+                      // _infoRow('客户ID'.tr, model.id.toString()),
+                      _infoRow('客户名称'.tr, model.customName, isCopiable: true),
+                      _infoRow('邮箱'.tr, model.customEmail, isCopiable: true),
                       _infoRow('注册时间'.tr, model.createdAt),
                       _infoRow('最后登录时间'.tr, model.lastLoginTime),
                       _infoRow('员工'.tr, model.staffName),
@@ -459,14 +460,14 @@ class ClientDetailView extends GetView<ClientDetailController> {
   }
 
   // 信息行
-  Widget _infoRow(String label, String value) {
+  Widget _infoRow(String label, String value, {bool isCopiable = false}) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 4.h),
+      padding: EdgeInsets.symmetric(vertical: 8.h),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
-              width: 120, child: AppText(text: label, color: Colors.black54)),
+              width: 150, child: AppText(text: label, color: Colors.black54)),
           Expanded(
             child: AppText(
               text: value,
@@ -474,6 +475,17 @@ class ClientDetailView extends GetView<ClientDetailController> {
               textAlign: TextAlign.right,
             ),
           ),
+          if (isCopiable && value.isNotEmpty) ...[
+            SizedBox(width: 8.w),
+            GestureDetector(
+              onTap: () => BaseUtils.copy(value),
+              child: Icon(
+                Icons.copy,
+                size: 16.sp,
+                color: AppStyles.primary,
+              ),
+            ),
+          ],
         ],
       ),
     );

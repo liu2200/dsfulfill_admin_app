@@ -1,17 +1,17 @@
-import 'package:dsfulfill_cient_app/events/application_event.dart';
-import 'package:dsfulfill_cient_app/events/list_refresh_event.dart';
-import 'package:dsfulfill_cient_app/models/country_model.dart';
-import 'package:dsfulfill_cient_app/models/customer_model.dart';
-import 'package:dsfulfill_cient_app/models/express_lines_model.dart';
-import 'package:dsfulfill_cient_app/models/order_model.dart';
-import 'package:dsfulfill_cient_app/models/shop_model.dart';
-import 'package:dsfulfill_cient_app/models/supplier_model.dart';
-import 'package:dsfulfill_cient_app/services/home_service.dart';
-import 'package:dsfulfill_cient_app/services/marketing_service.dart';
-import 'package:dsfulfill_cient_app/services/workbench_service.dart';
-import 'package:dsfulfill_cient_app/state/app_state.dart';
+import 'package:dsfulfill_admin_app/models/country_model.dart';
+import 'package:dsfulfill_admin_app/models/customer_model.dart';
+import 'package:dsfulfill_admin_app/models/express_lines_model.dart';
+import 'package:dsfulfill_admin_app/models/order_model.dart';
+import 'package:dsfulfill_admin_app/models/shop_model.dart';
+import 'package:dsfulfill_admin_app/models/supplier_model.dart';
+import 'package:dsfulfill_admin_app/services/home_service.dart';
+import 'package:dsfulfill_admin_app/services/marketing_service.dart';
+import 'package:dsfulfill_admin_app/services/workbench_service.dart';
+import 'package:dsfulfill_admin_app/state/app_state.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:dsfulfill_admin_app/events/list_refresh_event.dart';
+import 'package:dsfulfill_admin_app/events/application_event.dart';
 
 class OrderListController extends GetxController
     with GetSingleTickerProviderStateMixin {
@@ -20,6 +20,9 @@ class OrderListController extends GetxController
       TextEditingController(); // 平台sku
   final TextEditingController logisticsKeywordController =
       TextEditingController(); // 物流单号
+
+  // 添加筛选条件计数
+  final RxInt activeFiltersCount = 0.obs;
 
   final tabIndex = 0.obs;
   late TabController tabController;
@@ -180,13 +183,13 @@ class OrderListController extends GetxController
     getShopList();
     getExpressList();
     getCountryList();
-    tabController = TabController(length: 8, vsync: this);
+
     // 获取路由参数
     final arguments = Get.arguments;
+    int initialTabIndex = 0;
     if (arguments != null && arguments.containsKey('status')) {
-      orderListStatus[tabIndex.value]['status'] = arguments['status'];
-      tabController.animateTo(arguments['status']);
-      tabIndex.value = arguments['status'];
+      initialTabIndex = arguments['status'];
+      tabIndex.value = initialTabIndex;
       if (arguments['status'] == 4) {
         pageParams['logistics_status'] = 'wait';
       }
@@ -194,16 +197,29 @@ class OrderListController extends GetxController
         pageParams['stock_status'] = 'wait';
       }
     }
-    ApplicationEvent.getInstance().event.on<ListRefreshEvent>().listen((event) {
-      if (event.type == 'refresh') {
-        getOrderCount();
+
+    tabController = TabController(length: 8, vsync: this);
+
+    // 添加TabController监听器，同步tabIndex
+    tabController.addListener(() {
+      if (!tabController.indexIsChanging &&
+          tabController.index != tabIndex.value) {
+        tabIndex.value = tabController.index;
+        switchTab();
       }
     });
+
+    // 如果有路由参数，直接跳转到对应页面
+    if (initialTabIndex > 0) {
+      tabController.animateTo(initialTabIndex);
+    }
   }
 
   @override
   void onClose() {
+    tabController.dispose();
     reset();
+    super.onClose();
   }
 
   reset() {
@@ -219,6 +235,9 @@ class OrderListController extends GetxController
     platformController.value = '';
     filterStartDate.value = null;
     filterEndDate.value = null;
+
+    // 重置筛选计数
+    activeFiltersCount.value = 0;
   }
 
   switchTab() {
@@ -303,5 +322,37 @@ class OrderListController extends GetxController
       ...pageParams,
     });
     return result;
+  }
+
+  // 更新活跃筛选条件计数
+  void updateActiveFiltersCount() {
+    int count = 0;
+
+    // 检查各个筛选条件是否有值
+    if (keywordController.text.isNotEmpty) count++;
+    if (productKeywordController.text.isNotEmpty) count++;
+    if (logisticsKeywordController.text.isNotEmpty) count++;
+    if (customerIdController.value.isNotEmpty) count++;
+    if (shopIdsController.value.isNotEmpty) count++;
+    if (expressController.value.isNotEmpty) count++;
+    if (trackingStatusController.value.isNotEmpty) count++;
+    if (countryController.value.isNotEmpty) count++;
+    if (platformController.value.isNotEmpty) count++;
+    if (filterStartDate.value != null || filterEndDate.value != null) count++;
+
+    // 检查其他状态筛选
+    for (var key in switchTabList) {
+      if (pageParams[key] != null && pageParams[key].toString().isNotEmpty)
+        count++;
+    }
+
+    activeFiltersCount.value = count;
+  }
+
+  // 新增：同步切换页面和tab
+  void switchToTab(int index) {
+    tabIndex.value = index;
+    tabController.animateTo(index);
+    switchTab();
   }
 }

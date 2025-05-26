@@ -1,65 +1,67 @@
-import 'package:dsfulfill_cient_app/views/guide_page/guide_binding.dart';
-import 'package:dsfulfill_cient_app/views/guide_page/guide_view.dart';
-import 'package:dsfulfill_cient_app/views/login/login_binding.dart';
-import 'package:dsfulfill_cient_app/views/login/login_view.dart';
-import 'package:dsfulfill_cient_app/views/me/set_theme/set_theme_binding.dart';
-import 'package:dsfulfill_cient_app/views/me/set_theme/set_theme_view.dart';
-import 'package:dsfulfill_cient_app/views/tabbar/tabbar_binding.dart';
-import 'package:dsfulfill_cient_app/views/tabbar/tabbar_view.dart';
-import 'package:dsfulfill_cient_app/views/workbench/collect_products/collect_binding.dart';
-import 'package:dsfulfill_cient_app/views/workbench/collect_products/collect_page.dart';
-import 'package:dsfulfill_cient_app/views/workbench/finance/online_recharge/online_recharge_binding.dart';
-import 'package:dsfulfill_cient_app/views/workbench/finance/recharge_detail/recharge_detail_binding.dart';
-import 'package:dsfulfill_cient_app/views/workbench/finance/recharge_detail/recharge_detail_view.dart';
-import 'package:dsfulfill_cient_app/views/workbench/finance/transaction_list/transaction_viwe.dart';
-import 'package:dsfulfill_cient_app/views/workbench/order_list/order_detail/order_detall_binding.dart';
-import 'package:dsfulfill_cient_app/views/workbench/order_list/order_detail/order_detall_view.dart';
-import 'package:dsfulfill_cient_app/views/workbench/order_list/order_list_binding.dart';
-import 'package:dsfulfill_cient_app/views/workbench/order_list/order_list_view.dart';
-import 'package:dsfulfill_cient_app/views/workbench/order_list/order_quotation/order_quotation_binding.dart';
-import 'package:dsfulfill_cient_app/views/workbench/order_list/order_quotation/order_quotation_view.dart';
-import 'package:dsfulfill_cient_app/views/workbench/product/product_binding.dart';
-import 'package:dsfulfill_cient_app/views/workbench/product/product_detail/product_detail.binding.dart';
-import 'package:dsfulfill_cient_app/views/workbench/product/product_detail/product_detail.view.dart';
-import 'package:dsfulfill_cient_app/views/workbench/product/product_view.dart';
+import 'package:dsfulfill_admin_app/views/guide_page/guide_binding.dart';
+import 'package:dsfulfill_admin_app/views/guide_page/guide_view.dart';
+import 'package:dsfulfill_admin_app/views/login/login_binding.dart';
+import 'package:dsfulfill_admin_app/views/login/login_view.dart';
+import 'package:dsfulfill_admin_app/views/me/set_theme/set_theme_binding.dart';
+import 'package:dsfulfill_admin_app/views/me/set_theme/set_theme_view.dart';
+import 'package:dsfulfill_admin_app/views/tabbar/tabbar_binding.dart';
+import 'package:dsfulfill_admin_app/views/tabbar/tabbar_view.dart';
+import 'package:dsfulfill_admin_app/views/workbench/collect_products/collect_binding.dart';
+import 'package:dsfulfill_admin_app/views/workbench/collect_products/collect_page.dart';
+import 'package:dsfulfill_admin_app/views/workbench/finance/online_recharge/online_recharge_binding.dart';
+import 'package:dsfulfill_admin_app/views/workbench/finance/recharge_detail/recharge_detail_binding.dart';
+import 'package:dsfulfill_admin_app/views/workbench/finance/recharge_detail/recharge_detail_view.dart';
+import 'package:dsfulfill_admin_app/views/workbench/finance/transaction_list/transaction_viwe.dart';
+import 'package:dsfulfill_admin_app/views/workbench/order_list/order_detail/order_detall_binding.dart';
+import 'package:dsfulfill_admin_app/views/workbench/order_list/order_detail/order_detall_view.dart';
+import 'package:dsfulfill_admin_app/views/workbench/order_list/order_list_binding.dart';
+import 'package:dsfulfill_admin_app/views/workbench/order_list/order_list_view.dart';
+import 'package:dsfulfill_admin_app/views/workbench/order_list/order_quotation/order_quotation_binding.dart';
+import 'package:dsfulfill_admin_app/views/workbench/order_list/order_quotation/order_quotation_view.dart';
+import 'package:dsfulfill_admin_app/views/workbench/product/product_binding.dart';
+import 'package:dsfulfill_admin_app/views/workbench/product/product_detail/product_detail.binding.dart';
+import 'package:dsfulfill_admin_app/views/workbench/product/product_detail/product_detail.view.dart';
+import 'package:dsfulfill_admin_app/views/workbench/product/product_view.dart';
 import 'package:get/get.dart';
-import 'package:dsfulfill_cient_app/state/app_state.dart';
-import 'package:dsfulfill_cient_app/views/register/register_binding.dart';
-import 'package:dsfulfill_cient_app/views/register/register_page.dart';
-import 'package:dsfulfill_cient_app/views/forget_password/forget_password_binding.dart';
-import 'package:dsfulfill_cient_app/views/forget_password/forget_password_view.dart';
-import 'package:dsfulfill_cient_app/views/area_code/area_code_binding.dart';
-import 'package:dsfulfill_cient_app/views/area_code/area_code_view.dart';
-import 'package:dsfulfill_cient_app/views/workbench/order_list/related_products/products_list_binding.dart';
-import 'package:dsfulfill_cient_app/views/workbench/order_list/related_products/products_list_view.dart';
-import 'package:dsfulfill_cient_app/views/workbench/finance/recharge_list/recharge_list_binding.dart';
-import 'package:dsfulfill_cient_app/views/workbench/finance/recharge_list/recharge_list_view.dart';
-import 'package:dsfulfill_cient_app/views/workbench/finance/online_recharge/online_recharge_view.dart';
-import 'package:dsfulfill_cient_app/views/workbench/finance/transaction_list/transaction_binding.dart';
-import 'package:dsfulfill_cient_app/views/workbench/finance/transaction_detail/transaction_detail_binding.dart';
-import 'package:dsfulfill_cient_app/views/workbench/finance/transaction_detail/transaction_detail_view.dart';
-import 'package:dsfulfill_cient_app/views/workbench/client_list/client_list_binding.dart';
-import 'package:dsfulfill_cient_app/views/workbench/client_list/client_list_view.dart';
-import 'package:dsfulfill_cient_app/views/workbench/client_list/client_detail/client_detail_binding.dart';
-import 'package:dsfulfill_cient_app/views/workbench/client_list/client_detail/client_detail_view.dart';
-import 'package:dsfulfill_cient_app/views/me/company/company_binding.dart';
-import 'package:dsfulfill_cient_app/views/me/company/company_view.dart';
-import 'package:dsfulfill_cient_app/views/me/new_team/new_team_binding.dart';
-import 'package:dsfulfill_cient_app/views/me/new_team/new_team_view.dart';
-import 'package:dsfulfill_cient_app/views/me/set_brand/set_brand_binding.dart';
-import 'package:dsfulfill_cient_app/views/me/set_brand/set_brand_view.dart';
-import 'package:dsfulfill_cient_app/views/me/modify_password/modify_password_binding.dart';
-import 'package:dsfulfill_cient_app/views/me/modify_password/modify_password_view.dart';
-import 'package:dsfulfill_cient_app/views/rests_login/rests_login_binding.dart';
-import 'package:dsfulfill_cient_app/views/rests_login/rests_login_view.dart';
-import 'package:dsfulfill_cient_app/views/email_login/email_login_binding.dart';
-import 'package:dsfulfill_cient_app/views/email_login/email_login_view.dart';
-import 'package:dsfulfill_cient_app/views/email_login/email_verify/email_verify_binding.dart';
-import 'package:dsfulfill_cient_app/views/email_login/email_verify/email_verify_view.dart';
-import 'package:dsfulfill_cient_app/views/me/about/about_binding.dart';
-import 'package:dsfulfill_cient_app/views/me/about/about_view.dart';
-import 'package:dsfulfill_cient_app/views/me/set_brand_logo/set_brand_logo_binding.dart';
-import 'package:dsfulfill_cient_app/views/me/set_brand_logo/set_brand_logo_view.dart';
+import 'package:dsfulfill_admin_app/state/app_state.dart';
+import 'package:dsfulfill_admin_app/views/register/register_binding.dart';
+import 'package:dsfulfill_admin_app/views/register/register_page.dart';
+import 'package:dsfulfill_admin_app/views/forget_password/forget_password_binding.dart';
+import 'package:dsfulfill_admin_app/views/forget_password/forget_password_view.dart';
+import 'package:dsfulfill_admin_app/views/area_code/area_code_binding.dart';
+import 'package:dsfulfill_admin_app/views/area_code/area_code_view.dart';
+import 'package:dsfulfill_admin_app/views/workbench/order_list/related_products/products_list_binding.dart';
+import 'package:dsfulfill_admin_app/views/workbench/order_list/related_products/products_list_view.dart';
+import 'package:dsfulfill_admin_app/views/workbench/finance/recharge_list/recharge_list_binding.dart';
+import 'package:dsfulfill_admin_app/views/workbench/finance/recharge_list/recharge_list_view.dart';
+import 'package:dsfulfill_admin_app/views/workbench/finance/online_recharge/online_recharge_view.dart';
+import 'package:dsfulfill_admin_app/views/workbench/finance/transaction_list/transaction_binding.dart';
+import 'package:dsfulfill_admin_app/views/workbench/finance/transaction_detail/transaction_detail_binding.dart';
+import 'package:dsfulfill_admin_app/views/workbench/finance/transaction_detail/transaction_detail_view.dart';
+import 'package:dsfulfill_admin_app/views/workbench/client_list/client_list_binding.dart';
+import 'package:dsfulfill_admin_app/views/workbench/client_list/client_list_view.dart';
+import 'package:dsfulfill_admin_app/views/workbench/client_list/client_detail/client_detail_binding.dart';
+import 'package:dsfulfill_admin_app/views/workbench/client_list/client_detail/client_detail_view.dart';
+import 'package:dsfulfill_admin_app/views/me/company/company_binding.dart';
+import 'package:dsfulfill_admin_app/views/me/company/company_view.dart';
+import 'package:dsfulfill_admin_app/views/me/new_team/new_team_binding.dart';
+import 'package:dsfulfill_admin_app/views/me/new_team/new_team_view.dart';
+import 'package:dsfulfill_admin_app/views/me/set_brand/set_brand_binding.dart';
+import 'package:dsfulfill_admin_app/views/me/set_brand/set_brand_view.dart';
+import 'package:dsfulfill_admin_app/views/me/modify_password/modify_password_binding.dart';
+import 'package:dsfulfill_admin_app/views/me/modify_password/modify_password_view.dart';
+import 'package:dsfulfill_admin_app/views/rests_login/rests_login_binding.dart';
+import 'package:dsfulfill_admin_app/views/rests_login/rests_login_view.dart';
+import 'package:dsfulfill_admin_app/views/email_login/email_login_binding.dart';
+import 'package:dsfulfill_admin_app/views/email_login/email_login_view.dart';
+import 'package:dsfulfill_admin_app/views/email_login/email_verify/email_verify_binding.dart';
+import 'package:dsfulfill_admin_app/views/email_login/email_verify/email_verify_view.dart';
+import 'package:dsfulfill_admin_app/views/me/about/about_binding.dart';
+import 'package:dsfulfill_admin_app/views/me/about/about_view.dart';
+import 'package:dsfulfill_admin_app/views/me/set_brand_logo/set_brand_logo_binding.dart';
+import 'package:dsfulfill_admin_app/views/me/set_brand_logo/set_brand_logo_view.dart';
+import 'package:dsfulfill_admin_app/views/workbench/finance/account_list/account_list_binding.dart';
+import 'package:dsfulfill_admin_app/views/workbench/finance/account_list/account_list_view.dart';
 
 class Routers {
   static const String home = '/'; // 首页
@@ -93,6 +95,8 @@ class Routers {
   static const String about = '/about'; // 关于
   static const String setBrandLogo = '/setBrandLogo'; // 设置品牌logo
   static const String setTheme = '/setTheme'; // 设置主题
+  static const String accountList = '/accountList'; // 账户列表
+
   static List filterList = [
     login,
     register,
@@ -254,6 +258,11 @@ class Routers {
       name: setTheme,
       page: () => const SetThemeView(),
       binding: SetThemeBinding(),
+    ),
+    GetPage(
+      name: accountList,
+      page: () => const AccountListView(),
+      binding: AccountListBinding(),
     ),
   ];
 

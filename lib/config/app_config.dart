@@ -1,12 +1,12 @@
 class BaseUrls {
   static String getBaseApi() {
-    return "https://dsfulfill-api.dropshipping.plus/api/admin/";
-    // return "https://api.dsfulfill.com/api/admin/";
+    // return "https://dsfulfill-api.dropshipping.plus/api/admin/";
+    return "https://api.dsfulfill.com/api/admin/";
   }
 
   static String getBaseUrl() {
-    return "https://dsfulfill-api.dropshipping.plus";
-    // return "https://api.dsfulfill.com/api/admin";
+    // return "https://dsfulfill-api.dropshipping.plus";
+    return "https://api.dsfulfill.com/api/admin";
   }
 
   // static String getBaseApi() {

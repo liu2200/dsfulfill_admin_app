@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:dsfulfill_cient_app/services/user_service.dart';
+import 'package:dsfulfill_admin_app/services/user_service.dart';
+import 'package:dsfulfill_admin_app/views/components/base_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:get/get.dart';
@@ -8,7 +9,7 @@ import 'package:webview_flutter/webview_flutter.dart';
 import 'package:crypto/crypto.dart';
 import 'package:uuid/uuid.dart';
 import 'package:device_info_plus/device_info_plus.dart';
-import 'package:dsfulfill_cient_app/config/styles.dart';
+import 'package:dsfulfill_admin_app/config/styles.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SmsCodeButton extends StatefulWidget {
@@ -172,65 +173,85 @@ class _SmsCodeButtonState extends State<SmsCodeButton> {
   Future<void> _showCaptchaDialog() async {
     if (_countdown > 0 || widget.account == null) return;
 
-    _webViewController.reload(); // 重新加载WebView确保验证码正确初始化
+    bool success = false;
+    var params = {
+      'captchaVerifyParam': 'dsfulfill',
+      widget.smsType: widget.account!,
+      'type': widget.type,
+    };
+    if (widget.smsType == 'phone') {
+      await UserService.getSendSmsCode(params, (msg) {
+        success = true;
+        _startCountdown();
+      }, (error) {
+        success = false;
+      });
+    } else {
+      await UserService.getSendEmailCode(params, (msg) {
+        success = true;
+        _startCountdown();
+      }, (error) {
+        success = false;
+      });
+    }
 
-    await showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) => Dialog(
-        backgroundColor: Colors.white,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: LayoutBuilder(
-          builder: (context, constraints) {
-            // 计算合适的宽高
-            final screenWidth = MediaQuery.of(context).size.width;
-            final width = screenWidth * 0.9; // 屏幕宽度的85%
-            final height = width * 1.5; // 保持合适的宽高比
+    // _webViewController.reload(); // 重新加载WebView确保验证码正确初始化
+    // await showDialog(
+    //   context: context,
+    //   barrierDismissible: false,
+    //   builder: (context) => Dialog(
+    //     backgroundColor: Colors.white,
+    //     shape: RoundedRectangleBorder(
+    //       borderRadius: BorderRadius.circular(8),
+    //     ),
+    //     child: LayoutBuilder(
+    //       builder: (context, constraints) {
+    //         // 计算合适的宽高
+    //         final screenWidth = MediaQuery.of(context).size.width;
+    //         final width = screenWidth * 0.9; // 屏幕宽度的85%
+    //         final height = width * 1.5; // 保持合适的宽高比
 
-            return Container(
-              width: width,
-              height: height,
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text(
-                        '安全验证',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      IconButton(
-                        icon: const Icon(Icons.close),
-                        onPressed: () => Navigator.pop(context),
-                        padding: EdgeInsets.zero,
-                        constraints: const BoxConstraints(),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 8),
-                  const Text(
-                    '请完成下方安全验证',
-                    style: TextStyle(fontSize: 14, color: Colors.grey),
-                  ),
-                  const SizedBox(height: 16),
-                  Expanded(
-                    child: WebViewWidget(controller: _webViewController),
-                  ),
-                ],
-              ),
-            );
-          },
-        ),
-      ),
-    );
+    //         return Container(
+    //           width: width,
+    //           height: height,
+    //           padding: const EdgeInsets.all(16),
+    //           child: Column(
+    //             mainAxisSize: MainAxisSize.min,
+    //             crossAxisAlignment: CrossAxisAlignment.start,
+    //             children: [
+    //               Row(
+    //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    //                 children: [
+    //                   AppText(
+    //                     text: '安全验证'.tr,
+    //                     fontSize: 16.sp,
+    //                     fontWeight: FontWeight.bold,
+    //                   ),
+    //                   IconButton(
+    //                     icon: const Icon(Icons.close),
+    //                     onPressed: () => Navigator.pop(context),
+    //                     padding: EdgeInsets.zero,
+    //                     constraints: const BoxConstraints(),
+    //                   ),
+    //                 ],
+    //               ),
+    //               const SizedBox(height: 8),
+    //               AppText(
+    //                 text: '请完成下方安全验证'.tr,
+    //                 fontSize: 14.sp,
+    //                 color: AppStyles.textGrey,
+    //               ),
+    //               const SizedBox(height: 16),
+    //               Expanded(
+    //                 child: WebViewWidget(controller: _webViewController),
+    //               ),
+    //             ],
+    //           ),
+    //         );
+    //       },
+    //     ),
+    //   ),
+    // );
   }
 
   String _generateSecurityToken() {
@@ -278,7 +299,7 @@ class _SmsCodeButtonState extends State<SmsCodeButton> {
       // 重新加载验证码以重置状态
       _webViewController.reload();
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('验证码处理失败: $e')),
+        SnackBar(content: AppText(text: '${'验证码处理失败'.tr}: $e')),
       );
     }
   }
@@ -286,7 +307,7 @@ class _SmsCodeButtonState extends State<SmsCodeButton> {
   void _handleError(JavaScriptMessage message) {
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('验证失败: ${message.message}')),
+        SnackBar(content: AppText(text: '${'验证失败'.tr}: ${message.message}')),
       );
     }
   }

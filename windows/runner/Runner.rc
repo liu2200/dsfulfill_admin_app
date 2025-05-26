@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "com.example" "\0"
-            VALUE "FileDescription", "dsfulfill_cient_app" "\0"
+            VALUE "FileDescription", "dsfulfill_admin_app" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "dsfulfill_cient_app" "\0"
+            VALUE "InternalName", "dsfulfill_admin_app" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2024 com.example. All rights reserved." "\0"
-            VALUE "OriginalFilename", "dsfulfill_cient_app.exe" "\0"
-            VALUE "ProductName", "dsfulfill_cient_app" "\0"
+            VALUE "OriginalFilename", "dsfulfill_admin_app.exe" "\0"
+            VALUE "ProductName", "dsfulfill_admin_app" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

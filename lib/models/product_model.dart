@@ -1,4 +1,4 @@
-import 'package:dsfulfill_cient_app/models/skus_model.dart';
+import 'package:dsfulfill_admin_app/models/skus_model.dart';
 
 class ProductModel {
   late int id;

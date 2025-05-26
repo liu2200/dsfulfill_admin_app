@@ -1,10 +1,10 @@
-import 'package:dsfulfill_cient_app/config/styles.dart';
-import 'package:dsfulfill_cient_app/views/analysis/analysis_view.dart';
-import 'package:dsfulfill_cient_app/views/me/me_view.dart';
-import 'package:dsfulfill_cient_app/views/components/image/load_asset_image.dart';
-import 'package:dsfulfill_cient_app/views/home/home_view.dart';
-import 'package:dsfulfill_cient_app/views/tabbar/tabbar_controller.dart';
-import 'package:dsfulfill_cient_app/views/workbench/workbench_view.dart';
+import 'package:dsfulfill_admin_app/config/styles.dart';
+import 'package:dsfulfill_admin_app/views/analysis/analysis_view.dart';
+import 'package:dsfulfill_admin_app/views/me/me_view.dart';
+import 'package:dsfulfill_admin_app/views/components/image/load_asset_image.dart';
+import 'package:dsfulfill_admin_app/views/home/home_view.dart';
+import 'package:dsfulfill_admin_app/views/tabbar/tabbar_controller.dart';
+import 'package:dsfulfill_admin_app/views/workbench/workbench_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';

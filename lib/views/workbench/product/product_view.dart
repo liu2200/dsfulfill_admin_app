@@ -1,13 +1,15 @@
-import 'package:dsfulfill_cient_app/config/routers.dart';
-import 'package:dsfulfill_cient_app/config/styles.dart';
-import 'package:dsfulfill_cient_app/events/application_event.dart';
-import 'package:dsfulfill_cient_app/events/list_refresh_event.dart';
-import 'package:dsfulfill_cient_app/views/components/base_scaffold.dart';
-import 'package:dsfulfill_cient_app/views/components/button/main_button.dart';
-import 'package:dsfulfill_cient_app/views/components/image/load_asset_image.dart';
-import 'package:dsfulfill_cient_app/views/components/list_refresh.dart';
-import 'package:dsfulfill_cient_app/views/components/order_input/order_input.dart';
-import 'package:dsfulfill_cient_app/views/workbench/product/product_controller.dart';
+import 'package:dsfulfill_admin_app/config/routers.dart';
+import 'package:dsfulfill_admin_app/config/styles.dart';
+import 'package:dsfulfill_admin_app/events/application_event.dart';
+import 'package:dsfulfill_admin_app/events/list_refresh_event.dart';
+import 'package:dsfulfill_admin_app/utils/base_utils.dart';
+import 'package:dsfulfill_admin_app/views/components/base_scaffold.dart';
+import 'package:dsfulfill_admin_app/views/components/base_text.dart';
+import 'package:dsfulfill_admin_app/views/components/button/main_button.dart';
+import 'package:dsfulfill_admin_app/views/components/image/load_asset_image.dart';
+import 'package:dsfulfill_admin_app/views/components/list_refresh.dart';
+import 'package:dsfulfill_admin_app/views/components/order_input/order_input.dart';
+import 'package:dsfulfill_admin_app/views/workbench/product/product_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -97,12 +99,29 @@ class ProductView extends GetView<ProductController> {
                     ),
                   ),
                   SizedBox(height: 6.h),
-                  Text(
-                    'Spu: ${item.spu}',
-                    style: TextStyle(
-                      fontSize: 13.sp,
-                      color: AppStyles.textSub,
-                    ),
+                  Row(
+                    children: [
+                      Text(
+                        'Spu: ${item.spu}',
+                        style: TextStyle(
+                          fontSize: 13.sp,
+                          color: AppStyles.textSub,
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          BaseUtils.copy(item.spu);
+                        },
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 5.w),
+                          child: Icon(
+                            Icons.copy,
+                            size: 16.w,
+                            color: AppStyles.primary,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                   SizedBox(height: 8.h),
                   Row(
@@ -114,13 +133,19 @@ class ProductView extends GetView<ProductController> {
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
+                              AppText(
+                                text: '采'.tr,
+                                color: AppStyles.primary,
+                                fontSize: 12.sp,
+                              ),
+                              5.horizontalSpace,
                               LoadAssetImage(
                                 image: 'workbench/attach_money',
                                 width: 15.w,
                                 height: 15.w,
                               ),
                               Text(
-                                ' USD ${item.minPurchasePrice ?? '--'}~${item.maxPurchasePrice ?? '--'}',
+                                ' CNY ${item.minPurchasePrice ?? '--'}~${item.maxPurchasePrice ?? '--'}',
                                 style: TextStyle(
                                   fontSize: 13.sp,
                                   color: AppStyles.primary,
@@ -133,24 +158,33 @@ class ProductView extends GetView<ProductController> {
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
+                              AppText(
+                                text: '报'.tr,
+                                color: AppStyles.primary,
+                                fontSize: 12.sp,
+                              ),
+                              5.horizontalSpace,
                               LoadAssetImage(
                                 image: 'workbench/account_balance_wallet',
                                 width: 15.w,
                                 height: 15.w,
                               ),
-                              Text(
-                                ' CNY ${item.minSalePrice ?? '--'}~${item.maxSalePrice ?? '--'}',
-                                style: TextStyle(
-                                  fontSize: 13.sp,
-                                  color: Colors.black87,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                                textAlign: TextAlign.left,
+                              AppText(
+                                text:
+                                    ' USD ${item.minSalePrice ?? '--'}~${item.maxSalePrice ?? '--'}',
+                                fontSize: 13.sp,
+                                color: Colors.black87,
+                                fontWeight: FontWeight.w600,
                               ),
                             ],
                           )
                         ],
                       ),
+                    ],
+                  ),
+                  SizedBox(height: 8.h),
+                  Row(
+                    children: [
                       const Spacer(),
                       Container(
                         padding: EdgeInsets.symmetric(
@@ -171,7 +205,7 @@ class ProductView extends GetView<ProductController> {
                         ),
                       ),
                     ],
-                  ),
+                  )
                 ],
               ),
             ),

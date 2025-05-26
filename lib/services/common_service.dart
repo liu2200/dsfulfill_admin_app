@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:dio/dio.dart';
-import 'package:dsfulfill_cient_app/common/http_client.dart';
+import 'package:dsfulfill_admin_app/common/http_client.dart';
 
 class CommonService {
   static const String uploadImageApi = 'upload/images';

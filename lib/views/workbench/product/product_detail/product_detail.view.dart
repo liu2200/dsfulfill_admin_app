@@ -1,9 +1,10 @@
-import 'package:dsfulfill_cient_app/config/styles.dart';
-import 'package:dsfulfill_cient_app/models/product_model.dart';
-import 'package:dsfulfill_cient_app/views/components/base_text.dart';
-import 'package:dsfulfill_cient_app/views/components/image/load_asset_image.dart';
-import 'package:dsfulfill_cient_app/views/components/input/base_input.dart';
-import 'package:dsfulfill_cient_app/views/workbench/product/product_detail/product_detail.controller.dart';
+import 'package:dsfulfill_admin_app/config/styles.dart';
+import 'package:dsfulfill_admin_app/models/product_model.dart';
+import 'package:dsfulfill_admin_app/utils/base_utils.dart';
+import 'package:dsfulfill_admin_app/views/components/base_text.dart';
+import 'package:dsfulfill_admin_app/views/components/image/load_asset_image.dart';
+import 'package:dsfulfill_admin_app/views/components/input/base_input.dart';
+import 'package:dsfulfill_admin_app/views/workbench/product/product_detail/product_detail.controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -176,20 +177,34 @@ class ProductDetailView extends GetView<ProductDetailController> {
                       Row(
                         children: [
                           Container(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 10.w, vertical: 5.h),
-                            decoration: BoxDecoration(
-                              color: const Color(0xFFDEF9D4),
-                              borderRadius: BorderRadius.circular(9.r),
-                            ),
-                            child: Text(
-                              'SPU: ${detail.spu}',
-                              style: TextStyle(
-                                color: AppStyles.primary,
-                                fontSize: 12.sp,
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 10.w, vertical: 5.h),
+                              decoration: BoxDecoration(
+                                color: const Color(0xFFDEF9D4),
+                                borderRadius: BorderRadius.circular(9.r),
                               ),
-                            ),
-                          ),
+                              child: Row(
+                                children: [
+                                  AppText(
+                                    text: 'SPU: ${detail.spu}',
+                                    color: AppStyles.primary,
+                                    fontSize: 12.sp,
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      BaseUtils.copy(detail.spu);
+                                    },
+                                    child: Padding(
+                                      padding: EdgeInsets.only(left: 5.w),
+                                      child: Icon(
+                                        Icons.copy,
+                                        size: 16.w,
+                                        color: AppStyles.primary,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              )),
                         ],
                       ),
                       SizedBox(height: 12.h),
@@ -363,8 +378,8 @@ class ProductDetailView extends GetView<ProductDetailController> {
                         // 左侧图片
                         ClipRRect(
                           borderRadius: BorderRadius.circular(4.r),
-                          child: sku.images.isNotEmpty
-                              ? Image.network(sku.images[0],
+                          child: sku.images.isNotEmpty && sku.images[0] != null
+                              ? Image.network(sku.images[0].toString(),
                                   width: 50.w, height: 50.w, fit: BoxFit.cover)
                               : Container(
                                   width: 50.w,
@@ -382,7 +397,7 @@ class ProductDetailView extends GetView<ProductDetailController> {
                                       fontSize: 14.sp,
                                       fontWeight: FontWeight.w500)),
                               SizedBox(height: 4.h),
-                              Text('Spu: ${sku.skuId}',
+                              Text('sku: ${sku.skuId}',
                                   style: TextStyle(
                                       fontSize: 12.sp, color: Colors.black54)),
                             ],
@@ -400,7 +415,7 @@ class ProductDetailView extends GetView<ProductDetailController> {
                                   height: 15.w,
                                 ),
                                 SizedBox(width: 4.w),
-                                Text('CNY ${sku.quotePrice}',
+                                Text('USD ${sku.quotePrice}',
                                     style: TextStyle(
                                         fontSize: 14.sp,
                                         color: AppStyles.primary,
@@ -648,7 +663,7 @@ class ProductDetailView extends GetView<ProductDetailController> {
 
   // 获取并格式化价格范围
   String _formatPriceRange(List<dynamic> skus) {
-    if (skus.isEmpty) return '\$0';
+    if (skus.isEmpty) return 'USD 0';
 
     // 初始化最大最小价格为第一个sku的价格
     double minPrice = double.tryParse(skus.first.quotePrice ?? '0') ?? 0;
@@ -667,9 +682,9 @@ class ProductDetailView extends GetView<ProductDetailController> {
 
     // 判断是否只有一个价格或最大最小价格相同
     if (minPrice == maxPrice) {
-      return '\$${minPrice.toStringAsFixed(2)}';
+      return 'USD ${minPrice.toStringAsFixed(2)}';
     } else {
-      return '\$${minPrice.toStringAsFixed(2)}-\$${maxPrice.toStringAsFixed(2)}';
+      return 'USD ${minPrice.toStringAsFixed(2)}-USD ${maxPrice.toStringAsFixed(2)}';
     }
   }
 }

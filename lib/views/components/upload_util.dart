@@ -1,6 +1,6 @@
 import 'dart:io';
-import 'package:dsfulfill_cient_app/services/common_service.dart';
-import 'package:dsfulfill_cient_app/views/components/base_text.dart';
+import 'package:dsfulfill_admin_app/services/common_service.dart';
+import 'package:dsfulfill_admin_app/views/components/base_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';

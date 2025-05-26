@@ -1,12 +1,13 @@
-import 'package:dsfulfill_cient_app/config/app_config.dart';
-import 'package:dsfulfill_cient_app/config/styles.dart';
-import 'package:dsfulfill_cient_app/views/components/base_scaffold.dart';
-import 'package:dsfulfill_cient_app/views/components/base_text.dart';
-import 'package:dsfulfill_cient_app/views/components/image/image_preview.dart';
-import 'package:dsfulfill_cient_app/views/components/image/load_network_image.dart';
-import 'package:dsfulfill_cient_app/views/components/input/base_input.dart';
-import 'package:dsfulfill_cient_app/views/components/upload_util.dart';
-import 'package:dsfulfill_cient_app/views/workbench/finance/recharge_detail/recharge_detail_controller.dart';
+import 'package:dsfulfill_admin_app/config/app_config.dart';
+import 'package:dsfulfill_admin_app/config/routers.dart';
+import 'package:dsfulfill_admin_app/config/styles.dart';
+import 'package:dsfulfill_admin_app/views/components/base_scaffold.dart';
+import 'package:dsfulfill_admin_app/views/components/base_text.dart';
+import 'package:dsfulfill_admin_app/views/components/image/image_preview.dart';
+import 'package:dsfulfill_admin_app/views/components/image/load_network_image.dart';
+import 'package:dsfulfill_admin_app/views/components/input/base_input.dart';
+import 'package:dsfulfill_admin_app/views/components/upload_util.dart';
+import 'package:dsfulfill_admin_app/views/workbench/finance/recharge_detail/recharge_detail_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -110,9 +111,10 @@ class RechargeDetailPage extends GetView<RechargeDetailController> {
                   children: [
                     // 客户信息
                     _sectionCard('客户信息'.tr, [
-                      _infoRow('客户ID'.tr, model.custom?.id.toString() ?? ''),
-                      _infoRow('客户名称'.tr, model.custom?.customName ?? ''),
-                      _infoRow('流水号'.tr, model.serialNo),
+                      _infoRow('客户名称'.tr, model.custom?.customName ?? '',
+                          isCopiable: 'customName'),
+                      _infoRow('流水号'.tr, model.serialNo,
+                          isCopiable: 'serialNo'),
                       _infoRow('提交时间'.tr, model.createdAt),
                     ]),
                     SizedBox(height: 16.h),
@@ -130,8 +132,8 @@ class RechargeDetailPage extends GetView<RechargeDetailController> {
                     if ([1, 3].contains(model.status))
                       // 确认支付信息
                       _sectionCard('确认支付信息'.tr, [
-                        _infoRow('${'支付金额'.tr} (\$)',
-                            model.confirmAmount.toString()),
+                        _infoRow('${'支付金额'.tr} ',
+                            '${model.confirmAmount.toString()} ${controller.currencyModel['code']}'),
                         _infoRow('备注'.tr, model.confirmRemark),
                         _infoRow('收款截图'.tr, '',
                             isImage: true, images: model.confirmImages),
@@ -139,8 +141,8 @@ class RechargeDetailPage extends GetView<RechargeDetailController> {
                     if ([2].contains(model.status))
                       // 确认支付信息
                       _sectionCard('审核拒绝信息'.tr, [
-                        _infoRow('${'支付金额'.tr} (\$)',
-                            model.confirmAmount.toString()),
+                        _infoRow('${'支付金额'.tr} ',
+                            '${model.confirmAmount.toString()} ${controller.currencyModel['code']}'),
                         _infoRow('备注'.tr, model.confirmRemark),
                         _infoRow('收款截图'.tr, '',
                             isImage: true, images: model.confirmImages),
@@ -157,14 +159,14 @@ class RechargeDetailPage extends GetView<RechargeDetailController> {
 
   // 信息行
   Widget _infoRow(String label, String value,
-      {bool isImage = false, List<String>? images}) {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 4.h),
+      {bool isImage = false, List<String>? images, String? isCopiable}) {
+    Widget contentWidget = Padding(
+      padding: EdgeInsets.symmetric(vertical: 8.h),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
-              width: 90, child: AppText(text: label, color: Colors.black54)),
+              width: 132.w, child: AppText(text: label, color: Colors.black54)),
           Expanded(
             child: isImage
                 ? (images != null && images.isNotEmpty
@@ -183,15 +185,61 @@ class RechargeDetailPage extends GetView<RechargeDetailController> {
                             .toList(),
                       )
                     : Container())
-                : AppText(
-                    text: value,
-                    color: Colors.black87,
-                    textAlign: TextAlign.right,
+                : Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Expanded(
+                        child: AppText(
+                          text: value,
+                          color: Colors.black87,
+                          textAlign: TextAlign.right,
+                        ),
+                      ),
+                      if (isCopiable == 'serialNo' && value.isNotEmpty)
+                        Padding(
+                          padding: EdgeInsets.only(left: 5.w),
+                          child: Icon(
+                            Icons.copy,
+                            size: 16.w,
+                            color: AppStyles.primary,
+                          ),
+                        ),
+                      if (isCopiable == 'customName' && value.isNotEmpty)
+                        Padding(
+                          padding: EdgeInsets.only(left: 5.w),
+                          child: Icon(
+                            Icons.arrow_back,
+                            size: 16.w,
+                            color: AppStyles.primary,
+                          ),
+                        ),
+                    ],
                   ),
           ),
         ],
       ),
     );
+
+    if (isCopiable == 'serialNo' && value.isNotEmpty) {
+      return GestureDetector(
+        onTap: () async {
+          controller.copySerialNo(value);
+        },
+        child: contentWidget,
+      );
+    }
+    if (isCopiable == 'customName' && value.isNotEmpty) {
+      return GestureDetector(
+        onTap: () async {
+          Routers.push(Routers.clientDetail, {
+            'id': controller.rechargeDetail.value!.custom?.id,
+          });
+        },
+        child: contentWidget,
+      );
+    }
+
+    return contentWidget;
   }
 
   // 区块卡片

@@ -1,13 +1,13 @@
-import 'package:dsfulfill_cient_app/common/http_client.dart';
-import 'package:dsfulfill_cient_app/models/country_model.dart';
-import 'package:dsfulfill_cient_app/models/express_lines_model.dart';
-import 'package:dsfulfill_cient_app/models/generation_quote_model.dart';
-import 'package:dsfulfill_cient_app/models/goods_category_model.dart';
-import 'package:dsfulfill_cient_app/models/order_model.dart';
-import 'package:dsfulfill_cient_app/models/product_model.dart';
-import 'package:dsfulfill_cient_app/models/shop_model.dart';
-import 'package:dsfulfill_cient_app/models/skus_model.dart';
-import 'package:dsfulfill_cient_app/models/supplier_model.dart';
+import 'package:dsfulfill_admin_app/common/http_client.dart';
+import 'package:dsfulfill_admin_app/models/country_model.dart';
+import 'package:dsfulfill_admin_app/models/express_lines_model.dart';
+import 'package:dsfulfill_admin_app/models/generation_quote_model.dart';
+import 'package:dsfulfill_admin_app/models/goods_category_model.dart';
+import 'package:dsfulfill_admin_app/models/order_model.dart';
+import 'package:dsfulfill_admin_app/models/product_model.dart';
+import 'package:dsfulfill_admin_app/models/shop_model.dart';
+import 'package:dsfulfill_admin_app/models/skus_model.dart';
+import 'package:dsfulfill_admin_app/models/supplier_model.dart';
 
 class WorkbenchService {
   static const String goodsApi = 'goods'; //商品列表

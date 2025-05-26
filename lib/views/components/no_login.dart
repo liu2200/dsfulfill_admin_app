@@ -1,6 +1,6 @@
-import 'package:dsfulfill_cient_app/config/routers.dart';
-import 'package:dsfulfill_cient_app/views/components/button/main_button.dart';
-import 'package:dsfulfill_cient_app/views/components/image/load_asset_image.dart';
+import 'package:dsfulfill_admin_app/config/routers.dart';
+import 'package:dsfulfill_admin_app/views/components/button/main_button.dart';
+import 'package:dsfulfill_admin_app/views/components/image/load_asset_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';

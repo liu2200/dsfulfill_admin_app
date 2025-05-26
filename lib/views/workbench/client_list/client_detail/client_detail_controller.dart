@@ -1,13 +1,13 @@
-import 'package:dsfulfill_cient_app/config/base_controller.dart';
-import 'package:dsfulfill_cient_app/config/routers.dart';
-import 'package:dsfulfill_cient_app/events/application_event.dart';
-import 'package:dsfulfill_cient_app/events/client_list_event.dart';
-import 'package:dsfulfill_cient_app/events/list_refresh_event.dart';
-import 'package:dsfulfill_cient_app/models/area_code_model.dart';
-import 'package:dsfulfill_cient_app/models/custom_group_model.dart';
-import 'package:dsfulfill_cient_app/models/customer_model.dart';
-import 'package:dsfulfill_cient_app/services/custom_service.dart';
-import 'package:dsfulfill_cient_app/state/app_state.dart';
+import 'package:dsfulfill_admin_app/config/base_controller.dart';
+import 'package:dsfulfill_admin_app/config/routers.dart';
+import 'package:dsfulfill_admin_app/events/application_event.dart';
+import 'package:dsfulfill_admin_app/events/client_list_event.dart';
+import 'package:dsfulfill_admin_app/events/list_refresh_event.dart';
+import 'package:dsfulfill_admin_app/models/area_code_model.dart';
+import 'package:dsfulfill_admin_app/models/custom_group_model.dart';
+import 'package:dsfulfill_admin_app/models/customer_model.dart';
+import 'package:dsfulfill_admin_app/services/custom_service.dart';
+import 'package:dsfulfill_admin_app/state/app_state.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -35,20 +35,29 @@ class ClientDetailController extends BaseController {
   void onInit() {
     super.onInit();
     getCustomGroupList();
-    customerDetail.value = Get.arguments['item'];
-    isAutoPayment.value = customerDetail.value?.isAutoPayment ?? 1;
-    customNameController.text = customerDetail.value?.customName ?? '';
-    customEmailController.text = customerDetail.value?.customEmail ?? '';
-    customPhoneController.text = customerDetail.value?.customPhone ?? '';
-    staffId.value = customerDetail.value?.groupId.toString() == '0'
-        ? ''
-        : customerDetail.value?.groupId.toString() ?? '';
-    commissionRateController.text =
-        customerDetail.value?.commissionRate.toString() ?? '';
-    commissionAmountController.text =
-        customerDetail.value?.commissionAmount.toString() ?? '';
-    phoneAreaCodeController.value =
-        customerDetail.value?.phoneAreaCode.toString() ?? '0086';
+    if (Get.arguments['id'] != null) {
+      getCustomDetail(Get.arguments['id']);
+    }
+  }
+
+  getCustomDetail(id) async {
+    var result = await CustomService.getCustomDetail(id);
+    if (result != null) {
+      customerDetail.value = result;
+      isAutoPayment.value = customerDetail.value?.isAutoPayment ?? 1;
+      customNameController.text = customerDetail.value?.customName ?? '';
+      customEmailController.text = customerDetail.value?.customEmail ?? '';
+      customPhoneController.text = customerDetail.value?.customPhone ?? '';
+      staffId.value = customerDetail.value?.groupId.toString() == '0'
+          ? ''
+          : customerDetail.value?.groupId.toString() ?? '';
+      commissionRateController.text =
+          customerDetail.value?.commissionRate.toString() ?? '';
+      commissionAmountController.text =
+          customerDetail.value?.commissionAmount.toString() ?? '';
+      phoneAreaCodeController.value =
+          customerDetail.value?.phoneAreaCode.toString() ?? '0086';
+    }
   }
 
   updateAutoPayment(Map<String, dynamic> params) async {

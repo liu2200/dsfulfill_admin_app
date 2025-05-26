@@ -1,7 +1,7 @@
-import 'package:dsfulfill_cient_app/common/http_client.dart';
-import 'package:dsfulfill_cient_app/models/home_model.dart';
-import 'package:dsfulfill_cient_app/models/order_statistics.dart';
-import 'package:dsfulfill_cient_app/models/order_statistics_model.dart';
+import 'package:dsfulfill_admin_app/common/http_client.dart';
+import 'package:dsfulfill_admin_app/models/home_model.dart';
+import 'package:dsfulfill_admin_app/models/order_statistics.dart';
+import 'package:dsfulfill_admin_app/models/order_statistics_model.dart';
 
 class HomeService {
   static const String getHomeDataApi = 'home';
@@ -94,6 +94,8 @@ class HomeService {
       goodsCount: 0,
       orderCount: 0,
       rechargeCount: 0,
+      transferRechargeCount: 0,
+      onlineRechargeCount: 0,
     );
     await ApiConfig.instance.get(getHomeDataApi).then((response) {
       if (response.ok) {
@@ -103,6 +105,8 @@ class HomeService {
           goodsCount: list['goods_count'],
           orderCount: list['order_count'],
           rechargeCount: list['recharge_count'],
+          transferRechargeCount: list['transfer_recharge_count'],
+          onlineRechargeCount: list['online_recharge_count'],
           orderStatistics: OrderStatistics.fromJson(list['order_statistics']),
         );
       } else {

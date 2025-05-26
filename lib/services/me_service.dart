@@ -1,8 +1,8 @@
-import 'package:dsfulfill_cient_app/common/http_client.dart';
-import 'package:dsfulfill_cient_app/models/client_domain_model.dart';
-import 'package:dsfulfill_cient_app/models/company_model.dart';
-import 'package:dsfulfill_cient_app/models/custom_client_model.dart';
-import 'package:dsfulfill_cient_app/models/profile_model.dart';
+import 'package:dsfulfill_admin_app/common/http_client.dart';
+import 'package:dsfulfill_admin_app/models/client_domain_model.dart';
+import 'package:dsfulfill_admin_app/models/company_model.dart';
+import 'package:dsfulfill_admin_app/models/custom_client_model.dart';
+import 'package:dsfulfill_admin_app/models/profile_model.dart';
 
 class MeService {
   static const String getCompanyApi = 'company';

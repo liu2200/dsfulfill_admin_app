@@ -1,11 +1,11 @@
-import 'package:dsfulfill_cient_app/config/styles.dart';
-import 'package:dsfulfill_cient_app/views/components/base_scaffold.dart';
-import 'package:dsfulfill_cient_app/views/components/base_text.dart';
-import 'package:dsfulfill_cient_app/views/components/image/load_asset_image.dart';
-import 'package:dsfulfill_cient_app/views/components/input/base_input.dart';
-import 'package:dsfulfill_cient_app/views/components/select_dropdown.dart';
-import 'package:dsfulfill_cient_app/views/workbench/order_list/order_quotation/order_quotation_controller.dart';
-import 'package:dsfulfill_cient_app/views/workbench/widget/product_card_widget.dart';
+import 'package:dsfulfill_admin_app/config/styles.dart';
+import 'package:dsfulfill_admin_app/views/components/base_scaffold.dart';
+import 'package:dsfulfill_admin_app/views/components/base_text.dart';
+import 'package:dsfulfill_admin_app/views/components/image/load_asset_image.dart';
+import 'package:dsfulfill_admin_app/views/components/input/base_input.dart';
+import 'package:dsfulfill_admin_app/views/components/select_dropdown.dart';
+import 'package:dsfulfill_admin_app/views/workbench/order_list/order_quotation/order_quotation_controller.dart';
+import 'package:dsfulfill_admin_app/views/workbench/widget/product_card_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -231,9 +231,10 @@ class OrderQuotationView extends GetView<OrderQuotationController> {
                                   ),
                                   Obx(() {
                                     final order = controller.orderDetail.value;
-                                    if (order == null) return SizedBox();
+                                    if (order == null) return const SizedBox();
                                     return ProductCardWidget(
                                       order: order,
+                                      isShowRelated: true,
                                       onTap: (item, index) {
                                         controller.skuSelectResult(item, index);
                                       },
@@ -404,36 +405,29 @@ class OrderQuotationView extends GetView<OrderQuotationController> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         // 报价人
-                                        Row(
-                                          children: [
-                                            AppText(
-                                              text: '报价人'.tr,
-                                              fontSize: 15.sp,
-                                              color: AppStyles.textBlack,
-                                            ),
-                                            SizedBox(width: 16.w),
-                                            Expanded(
-                                              child: SelectDropdown(
-                                                hint: '请选择报价人'.tr,
-                                                items: controller.staffList,
-                                                showClear: false,
-                                                getId: (e) => e.id.toString(),
-                                                getName: (e) => e.name,
-                                                selectedId: controller
-                                                            .staffId.value ==
-                                                        0
-                                                    ? ''
-                                                    : controller.staffId.value
-                                                        .toString(),
-                                                onChanged: (id) {
-                                                  controller.staffId.value =
-                                                      int.parse(id);
-                                                },
-                                              ),
-                                            ),
-                                          ],
+                                        AppText(
+                                          text: '报价人'.tr,
+                                          fontSize: 15.sp,
+                                          color: AppStyles.textBlack,
                                         ),
-                                        const SizedBox(height: 16),
+                                        const SizedBox(height: 8),
+                                        SelectDropdown(
+                                          hint: '请选择报价人'.tr,
+                                          items: controller.staffList,
+                                          showClear: false,
+                                          getId: (e) => e.id.toString(),
+                                          getName: (e) => e.name,
+                                          selectedId:
+                                              controller.staffId.value == 0
+                                                  ? ''
+                                                  : controller.staffId.value
+                                                      .toString(),
+                                          onChanged: (id) {
+                                            controller.staffId.value =
+                                                int.parse(id);
+                                          },
+                                        ),
+                                        const SizedBox(height: 10),
                                         // 明细行
                                         _feeRow('商品总价'.tr,
                                             '${controller.currencyModel['code']} ${controller.goodsPrice.value}'),

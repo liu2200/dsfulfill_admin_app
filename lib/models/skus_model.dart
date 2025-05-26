@@ -9,7 +9,7 @@ class SkusModel {
   late String salePrice;
   late String specName;
   late String profit;
-  late int weight;
+  late double weight;
   Map<String, dynamic>? goods;
   SkusModel({
     required this.id,
@@ -30,6 +30,7 @@ class SkusModel {
     id = json['id'];
     skuId = json['sku_id'];
     quantity = json['quantity'];
+    ;
     images = json['images'];
     purchasePrice = json['purchase_price'];
     quotePrice = json['quote_price'];
@@ -48,8 +49,15 @@ class SkusModel {
     if (json['goods'] != null) {
       goods = json['goods'];
     }
-    if (json['weight'] != null) {
-      weight = json['weight'];
+    var weightRaw = json['weight'];
+    if (weightRaw is int) {
+      weight = weightRaw.toDouble();
+    } else if (weightRaw is double) {
+      weight = weightRaw;
+    } else if (weightRaw is String) {
+      weight = double.tryParse(weightRaw) ?? 0;
+    } else {
+      weight = 0;
     }
   }
 

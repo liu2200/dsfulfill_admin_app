@@ -1,4 +1,4 @@
-import 'package:dsfulfill_cient_app/config/routers.dart';
+import 'package:dsfulfill_admin_app/config/routers.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

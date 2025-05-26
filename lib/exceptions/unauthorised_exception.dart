@@ -1,4 +1,4 @@
-import 'package:dsfulfill_cient_app/exceptions/http_exception.dart';
+import 'package:dsfulfill_admin_app/exceptions/http_exception.dart';
 
 /// 401
 class UnauthorisedException extends HttpException {

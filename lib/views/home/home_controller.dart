@@ -1,12 +1,12 @@
-import 'package:dsfulfill_cient_app/config/base_controller.dart';
-import 'package:dsfulfill_cient_app/events/application_event.dart';
-import 'package:dsfulfill_cient_app/events/change_page_index_event.dart';
-import 'package:dsfulfill_cient_app/events/logined_event.dart';
-import 'package:dsfulfill_cient_app/events/set_team_event.dart';
-import 'package:dsfulfill_cient_app/models/home_model.dart';
-import 'package:dsfulfill_cient_app/services/home_service.dart';
-import 'package:dsfulfill_cient_app/services/me_service.dart';
-import 'package:dsfulfill_cient_app/state/app_state.dart';
+import 'package:dsfulfill_admin_app/config/base_controller.dart';
+import 'package:dsfulfill_admin_app/events/application_event.dart';
+import 'package:dsfulfill_admin_app/events/change_page_index_event.dart';
+import 'package:dsfulfill_admin_app/events/logined_event.dart';
+import 'package:dsfulfill_admin_app/events/set_team_event.dart';
+import 'package:dsfulfill_admin_app/models/home_model.dart';
+import 'package:dsfulfill_admin_app/services/home_service.dart';
+import 'package:dsfulfill_admin_app/services/me_service.dart';
+import 'package:dsfulfill_admin_app/state/app_state.dart';
 import 'package:get/get.dart';
 
 class HomeController extends BaseController {
@@ -14,13 +14,33 @@ class HomeController extends BaseController {
   final token = Get.find<AppState>().token.obs;
   final team = Get.find<AppState>().team.obs;
   final clientUrl = ''.obs;
+  final tabIndex = 0.obs;
   final homeModel = HomeModel(
     orderStatistics: null,
     expressLinesCount: 0,
     goodsCount: 0,
     orderCount: 0,
     rechargeCount: 0,
+    transferRechargeCount: 0,
+    onlineRechargeCount: 0,
   ).obs;
+
+  final rechargeListStatus = [
+    {
+      'label': '待审核转账充值',
+      'status': 0,
+      'count': 0,
+      'index': 1,
+      'type': 'transfer',
+    },
+    {
+      'label': '待核账在线充值',
+      'status': 0,
+      'count': 0,
+      'index': 1,
+      'type': 'online',
+    },
+  ].obs;
   final orderListStatus = [
     {
       'label': '待报价',
@@ -34,12 +54,12 @@ class HomeController extends BaseController {
       'count': 0,
       'index': 4,
     },
-    {
-      'label': '待配货',
-      'status': 4,
-      'count': 0,
-      'index': 5,
-    },
+    // {
+    //   'label': '待配货',
+    //   'status': 4,
+    //   'count': 0,
+    //   'index': 5,
+    // },
     {
       'label': '异常订单',
       'status': 'abnormal',
@@ -66,6 +86,8 @@ class HomeController extends BaseController {
           goodsCount: 0,
           orderCount: 0,
           rechargeCount: 0,
+          transferRechargeCount: 0,
+          onlineRechargeCount: 0,
         );
         token.value = Get.find<AppState>().token;
       }
@@ -92,6 +114,8 @@ class HomeController extends BaseController {
   getHomeData() async {
     var result = await HomeService.getHomeData();
     homeModel.value = result;
+    rechargeListStatus.value[0]['count'] = result.transferRechargeCount ?? 0;
+    rechargeListStatus.value[1]['count'] = result.onlineRechargeCount ?? 0;
   }
 
   getOrderCount() async {

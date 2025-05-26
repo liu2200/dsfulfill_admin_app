@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
-import 'package:dsfulfill_cient_app/config/app_config.dart';
+import 'package:dsfulfill_admin_app/config/http_config.dart';
+import 'package:dsfulfill_admin_app/config/app_config.dart';
 import 'package:flutter/foundation.dart';
-import 'package:dsfulfill_cient_app/config/http_config.dart';
-import 'package:dsfulfill_cient_app/interceptors/auth_interceptor.dart';
-import 'package:dsfulfill_cient_app/interceptors/response_interceptor.dart';
+import 'package:dsfulfill_admin_app/interceptors/auth_interceptor.dart';
+import 'package:dsfulfill_admin_app/interceptors/response_interceptor.dart';
 
 class BaseDio extends DioMixin implements Dio {
   BaseDio({BaseOptions? options, WebConfiguration? dioConfig}) {

@@ -1,4 +1,4 @@
-import 'package:dsfulfill_cient_app/config/styles.dart';
+import 'package:dsfulfill_admin_app/config/styles.dart';
 import 'package:flutter/cupertino.dart';
 
 class Indicator extends StatelessWidget {

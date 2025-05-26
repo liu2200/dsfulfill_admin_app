@@ -1,10 +1,11 @@
-import 'package:dsfulfill_cient_app/config/base_controller.dart';
-import 'package:dsfulfill_cient_app/events/application_event.dart';
-import 'package:dsfulfill_cient_app/events/list_refresh_event.dart';
-import 'package:dsfulfill_cient_app/models/recharge_model.dart';
-import 'package:dsfulfill_cient_app/services/finance_service.dart';
-import 'package:dsfulfill_cient_app/state/app_state.dart';
+import 'package:dsfulfill_admin_app/config/base_controller.dart';
+import 'package:dsfulfill_admin_app/events/application_event.dart';
+import 'package:dsfulfill_admin_app/events/list_refresh_event.dart';
+import 'package:dsfulfill_admin_app/models/recharge_model.dart';
+import 'package:dsfulfill_admin_app/services/finance_service.dart';
+import 'package:dsfulfill_admin_app/state/app_state.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 class RechargeDetailController extends BaseController {
@@ -33,6 +34,11 @@ class RechargeDetailController extends BaseController {
   getRechargeDetail(id) async {
     var result = await FinanceService.getRechargeDetail(id);
     rechargeDetail.value = result;
+  }
+
+  copySerialNo(String serialNo) async {
+    await Clipboard.setData(ClipboardData(text: serialNo));
+    showToast('复制成功'.tr);
   }
 
   confirm() async {

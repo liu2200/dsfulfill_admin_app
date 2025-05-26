@@ -1,11 +1,12 @@
-import 'package:dsfulfill_cient_app/config/routers.dart';
-import 'package:dsfulfill_cient_app/config/styles.dart';
-import 'package:dsfulfill_cient_app/storage/common_storage.dart';
-import 'package:dsfulfill_cient_app/views/components/action_sheet.dart';
-import 'package:dsfulfill_cient_app/views/me/me_controller.dart';
-import 'package:dsfulfill_cient_app/views/components/base_text.dart';
-import 'package:dsfulfill_cient_app/views/components/image/load_asset_image.dart';
-import 'package:dsfulfill_cient_app/views/components/image/load_network_image.dart';
+import 'package:dsfulfill_admin_app/config/routers.dart';
+import 'package:dsfulfill_admin_app/config/styles.dart';
+import 'package:dsfulfill_admin_app/storage/common_storage.dart';
+import 'package:dsfulfill_admin_app/views/components/action_sheet.dart';
+import 'package:dsfulfill_admin_app/views/components/input/base_input.dart';
+import 'package:dsfulfill_admin_app/views/me/me_controller.dart';
+import 'package:dsfulfill_admin_app/views/components/base_text.dart';
+import 'package:dsfulfill_admin_app/views/components/image/load_asset_image.dart';
+import 'package:dsfulfill_admin_app/views/components/image/load_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -345,8 +346,6 @@ class MeView extends GetView<MeController> {
               );
             },
           );
-        } else if (route == '') {
-          return;
         } else if (route == 'contactus') {
           launchUrl(Uri.parse('https://dsfulfill.com'));
         } else if (route == 'privacypolicy') {
@@ -424,24 +423,85 @@ class MeView extends GetView<MeController> {
           () => controller.isShow.value
               ? SizedBox(
                   width: double.infinity,
-                  height: 42.h,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      controller.onLogout(0);
+                  child: GestureDetector(
+                    onTap: () {
+                      // 显示确认弹窗
+                      showDialog(
+                        context: Get.context!,
+                        builder: (context) {
+                          return StatefulBuilder(
+                            builder: (context, setState) {
+                              return AlertDialog(
+                                title: AppText(
+                                  text: '注销账号'.tr,
+                                  fontSize: 16.sp,
+                                  fontWeight: FontWeight.bold,
+                                  textAlign: TextAlign.center,
+                                ),
+                                content: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    AppText(
+                                      text: '注销账号将删除您的所有数据，此操作不可恢复。'.tr,
+                                      fontSize: 14.sp,
+                                      color: Colors.red,
+                                    ),
+                                    SizedBox(height: 16.h),
+                                    AppText(
+                                      text: '请输入"ok"以确认注销操作：'.tr,
+                                      fontSize: 14.sp,
+                                    ),
+                                    SizedBox(height: 8.h),
+                                    BaseInput(
+                                      controller: controller.confirmController,
+                                      hintText: 'ok',
+                                      borderColor: AppStyles.textBlack,
+                                    ),
+                                  ],
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12.r),
+                                ),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: AppText(
+                                      text: '取消'.tr,
+                                      color: Colors.grey,
+                                      fontSize: 14.sp,
+                                    ),
+                                  ),
+                                  TextButton(
+                                    onPressed: () {
+                                      controller.confirmCancellation(context);
+                                    },
+                                    child: AppText(
+                                      text: '确认注销'.tr,
+                                      color: Colors.red,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 14.sp,
+                                    ),
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        },
+                      );
                     },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppStyles.white,
-                      elevation: 0,
-                      side: const BorderSide(color: AppStyles.line),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8.r),
+                    child: Container(
+                      alignment: Alignment.center,
+                      width: double.infinity,
+                      height: 42.h,
+                      child: AppText(
+                        text: '注销账号'.tr,
+                        color: AppStyles.primary,
+                        fontSize: 15.sp,
+                        fontWeight: FontWeight.w500,
                       ),
-                    ),
-                    child: AppText(
-                      text: '注销账号'.tr,
-                      color: Colors.black,
-                      fontSize: 15.sp,
-                      fontWeight: FontWeight.w500,
                     ),
                   ),
                 )

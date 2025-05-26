@@ -1,6 +1,6 @@
-import 'package:dsfulfill_cient_app/models/line_items_model.dart';
-import 'package:dsfulfill_cient_app/models/shipping_address_model.dart';
-import 'package:dsfulfill_cient_app/models/shop_model.dart';
+import 'package:dsfulfill_admin_app/models/line_items_model.dart';
+import 'package:dsfulfill_admin_app/models/shipping_address_model.dart';
+import 'package:dsfulfill_admin_app/models/shop_model.dart';
 
 class OrderModel {
   late int id;
@@ -16,33 +16,44 @@ class OrderModel {
   late int isShipping;
   late int financialStatus;
   late int abnormalStatus;
+  late String customerName;
+  late String countryCode;
+  late String stockStatus;
+  late int customerId;
   List<LineItemsModel>? lineItems;
   Map<String, dynamic>? quotePrice;
   List<AbnormalModel>? abnormal;
   ShippingAddressModel? shippingAddress;
   ShopModel? shop;
   List<LogsModel>? logs;
+  List<Map<String, dynamic>>? packages;
 
-  OrderModel(
-      {required this.id,
-      required this.platform,
-      required this.shopName,
-      required this.status,
-      required this.createdAt,
-      required this.name,
-      required this.orderId,
-      required this.country,
-      required this.currency,
-      required this.statusName,
-      required this.isShipping,
-      required this.financialStatus,
-      required this.abnormalStatus,
-      this.lineItems,
-      this.quotePrice,
-      this.abnormal,
-      this.shippingAddress,
-      this.shop,
-      this.logs});
+  OrderModel({
+    required this.id,
+    required this.platform,
+    required this.shopName,
+    required this.status,
+    required this.createdAt,
+    required this.name,
+    required this.orderId,
+    required this.country,
+    required this.currency,
+    required this.statusName,
+    required this.isShipping,
+    required this.financialStatus,
+    required this.abnormalStatus,
+    this.lineItems,
+    this.quotePrice,
+    this.abnormal,
+    this.shippingAddress,
+    this.shop,
+    this.logs,
+    required this.customerName,
+    required this.countryCode,
+    required this.stockStatus,
+    required this.customerId,
+    this.packages,
+  });
 
   OrderModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -68,8 +79,17 @@ class OrderModel {
         lineItems!.add(LineItemsModel.fromJson(v));
       });
     }
+    if (json['stock_status'] != null) {
+      stockStatus = json['stock_status'];
+    }
+    if (json['customer_name'] != null) {
+      customerName = json['customer_name'];
+    }
     if (json['quote_price'] != null) {
       quotePrice = json['quote_price'];
+    }
+    if (json['packages'] != null) {
+      packages = (json['packages'] as List).cast<Map<String, dynamic>>();
     }
     if (json['is_shipping'] != null) {
       isShipping = json['is_shipping'];
@@ -103,6 +123,12 @@ class OrderModel {
     } else {
       abnormalStatus = 0;
     }
+    if (json['country_code'] != null) {
+      countryCode = json['country_code'];
+    }
+    if (json['customer_id'] != null) {
+      customerId = json['customer_id'];
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -126,6 +152,11 @@ class OrderModel {
       'shop': shop?.toJson(),
       'logs': logs?.map((v) => v.toJson()).toList(),
       'abnormal_status': abnormalStatus,
+      'customer_name': customerName,
+      'country_code': countryCode,
+      'stock_status': stockStatus,
+      'customer_id': customerId,
+      'packages': packages,
     };
   }
 }

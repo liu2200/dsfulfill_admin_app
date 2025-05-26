@@ -1,11 +1,11 @@
-import 'package:dsfulfill_cient_app/common/http_response.dart';
-import 'package:dsfulfill_cient_app/models/token_model.dart';
-import 'package:dsfulfill_cient_app/common/http_client.dart';
-import 'package:dsfulfill_cient_app/services/base_service.dart';
-import 'package:dsfulfill_cient_app/state/app_state.dart';
-import 'package:dsfulfill_cient_app/storage/common_storage.dart';
-import 'package:dsfulfill_cient_app/exceptions/login_error_exception.dart';
-import 'package:dsfulfill_cient_app/models/area_code_model.dart';
+import 'package:dsfulfill_admin_app/common/http_response.dart';
+import 'package:dsfulfill_admin_app/models/token_model.dart';
+import 'package:dsfulfill_admin_app/common/http_client.dart';
+import 'package:dsfulfill_admin_app/services/base_service.dart';
+import 'package:dsfulfill_admin_app/state/app_state.dart';
+import 'package:dsfulfill_admin_app/storage/common_storage.dart';
+import 'package:dsfulfill_admin_app/exceptions/login_error_exception.dart';
+import 'package:dsfulfill_admin_app/models/area_code_model.dart';
 import 'package:get/get.dart';
 
 class UserService {

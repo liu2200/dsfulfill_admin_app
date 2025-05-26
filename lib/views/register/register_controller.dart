@@ -1,12 +1,12 @@
 import 'dart:async';
 
-import 'package:dsfulfill_cient_app/config/routers.dart';
-import 'package:dsfulfill_cient_app/models/area_code_model.dart';
-import 'package:dsfulfill_cient_app/services/user_service.dart';
+import 'package:dsfulfill_admin_app/config/routers.dart';
+import 'package:dsfulfill_admin_app/models/area_code_model.dart';
+import 'package:dsfulfill_admin_app/services/user_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:dsfulfill_cient_app/config/base_controller.dart';
+import 'package:dsfulfill_admin_app/config/base_controller.dart';
 
 class RegisterController extends BaseController {
   final TextEditingController emailController = TextEditingController();

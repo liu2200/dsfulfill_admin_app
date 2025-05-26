@@ -1,8 +1,8 @@
-import 'package:dsfulfill_cient_app/config/base_controller.dart';
-import 'package:dsfulfill_cient_app/events/application_event.dart';
-import 'package:dsfulfill_cient_app/events/change_page_index_event.dart';
-import 'package:dsfulfill_cient_app/events/un_authenticate_event.dart';
-import 'package:dsfulfill_cient_app/state/app_state.dart';
+import 'package:dsfulfill_admin_app/config/base_controller.dart';
+import 'package:dsfulfill_admin_app/events/application_event.dart';
+import 'package:dsfulfill_admin_app/events/change_page_index_event.dart';
+import 'package:dsfulfill_admin_app/events/un_authenticate_event.dart';
+import 'package:dsfulfill_admin_app/state/app_state.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
