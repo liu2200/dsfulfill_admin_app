@@ -2,6 +2,7 @@ import 'package:dsfulfill_admin_app/config/styles.dart';
 import 'package:dsfulfill_admin_app/utils/base_utils.dart';
 import 'package:dsfulfill_admin_app/views/components/base_scaffold.dart';
 import 'package:dsfulfill_admin_app/views/components/base_text.dart';
+import 'package:dsfulfill_admin_app/views/components/empty_box.dart';
 import 'package:dsfulfill_admin_app/views/workbench/finance/account_list/account_list_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -17,8 +18,10 @@ class AccountListView extends GetView<AccountListController> {
       hasBack: true,
       backgroundColor: AppStyles.background,
       body: Obx(() {
-        if (controller.accountList.isEmpty) {
+        if (controller.isLoading.value) {
           return const Center(child: CircularProgressIndicator());
+        } else if (controller.accountList.isEmpty) {
+          return emptyBox();
         }
 
         return ListView.builder(

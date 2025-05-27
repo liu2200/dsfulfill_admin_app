@@ -13,7 +13,6 @@ class CompanyView extends GetView<CompanyController> {
   Widget build(BuildContext context) {
     return BaseScafflod(
       title: '选择团队'.tr,
-      hasBack: true,
       backgroundColor: AppStyles.background,
       body: Container(
         decoration: const BoxDecoration(

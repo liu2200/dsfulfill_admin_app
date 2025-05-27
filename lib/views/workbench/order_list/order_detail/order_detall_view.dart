@@ -891,10 +891,11 @@ class OrderDetailView extends GetView<OrderDetailController> {
                         .map((element) => Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
-                                if (element['logistics_apply']
-                                        ['way_bill_number']
-                                    .toString()
-                                    .isNotEmpty)
+                                if (element['logistics_apply'] != null &&
+                                    element['logistics_apply']![
+                                            'way_bill_number']
+                                        .toString()
+                                        .isNotEmpty)
                                   AppText(
                                     text: element['logistics_apply']
                                             ['way_bill_number']
@@ -905,10 +906,11 @@ class OrderDetailView extends GetView<OrderDetailController> {
                                     textAlign: TextAlign.right,
                                   ),
                                 SizedBox(width: 8.w),
-                                if (element['logistics_apply']
-                                        ['way_bill_number']
-                                    .toString()
-                                    .isNotEmpty)
+                                if (element['logistics_apply'] != null &&
+                                    element['logistics_apply']![
+                                            'way_bill_number']
+                                        .toString()
+                                        .isNotEmpty)
                                   GestureDetector(
                                     onTap: () => BaseUtils.copy(
                                         element['logistics_apply']

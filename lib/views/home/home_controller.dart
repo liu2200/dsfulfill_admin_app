@@ -90,13 +90,19 @@ class HomeController extends BaseController {
           onlineRechargeCount: 0,
         );
         token.value = Get.find<AppState>().token;
+        for (var element in rechargeListStatus) {
+          element['count'] = 0;
+        }
+        for (var element in orderListStatus) {
+          element['count'] = 0;
+        }
       }
     });
     ApplicationEvent.getInstance().event.on<SetTeamEvent>().listen((event) {
       loadData();
     });
 
-    loadData();
+    // loadData();
   }
 
   @override
@@ -114,10 +120,8 @@ class HomeController extends BaseController {
   getHomeData() async {
     var result = await HomeService.getHomeData();
     homeModel.value = result;
-    // ignore: invalid_use_of_protected_member
-    rechargeListStatus.value[0]['count'] = result.transferRechargeCount ?? 0;
-    // ignore: invalid_use_of_protected_member
-    rechargeListStatus.value[1]['count'] = result.onlineRechargeCount ?? 0;
+    rechargeListStatus[0]['count'] = result.transferRechargeCount ?? 0;
+    rechargeListStatus[1]['count'] = result.onlineRechargeCount ?? 0;
   }
 
   getOrderCount() async {
@@ -142,8 +146,8 @@ class HomeController extends BaseController {
   }
 
   Future<void> loadData() async {
-    await getHomeData();
-    await getOrderCount();
-    await getAppConfig();
+    // await getHomeData();
+    // await getOrderCount();
+    // await getAppConfig();
   }
 }

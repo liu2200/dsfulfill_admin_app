@@ -18,6 +18,9 @@ class NewTeamController extends BaseController {
     if (Get.arguments != null) {
       type.value = Get.arguments['type']; //如果是登录
       isGuide.value = Get.arguments['isguide'];
+    } else if (Get.find<AppState>().team['company_id'] == 0) {
+      type.value = 'login';
+      isGuide.value = true;
     }
   }
 
@@ -49,7 +52,7 @@ class NewTeamController extends BaseController {
             'team_code': result['data']['team_code'],
           });
           if (isGuide.value) {
-            Routers.push(Routers.home);
+            Get.offAllNamed(Routers.home);
           } else {
             if (type.value == 'login') {
               Routers.pop();

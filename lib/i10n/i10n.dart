@@ -402,7 +402,9 @@ class I10N extends Translations {
           "物流服务商": "物流服务商",
           "账户列表": "账户列表",
           "复制全部": "复制全部",
-          "线下收款账号": "线下收款账号"
+          "线下收款账号": "线下收款账号",
+          "请先创建团队": "请先创建团队",
+          "重新发送": "重新发送"
         },
         'en_US': {
           '注册 DSFulfill': 'Register DSFulfill',
@@ -812,7 +814,9 @@ class I10N extends Translations {
           "物流服务商": "Logistics providers",
           "账户列表": "Account list",
           "复制全部": "Copy all",
-          "线下收款账号": "Offline payment account"
+          "线下收款账号": "Offline payment account",
+          "请先创建团队": "Please create a team",
+          "重新发送": "send again"
         },
       };
 }

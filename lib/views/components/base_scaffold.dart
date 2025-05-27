@@ -30,6 +30,7 @@ class BaseScafflod extends StatelessWidget {
       appBar: AppBar(
         leadingWidth: leadingWidth,
         elevation: 0,
+        automaticallyImplyLeading: leading != null || hasBack,
         leading: leading ??
             (hasBack
                 ? const BackButton(

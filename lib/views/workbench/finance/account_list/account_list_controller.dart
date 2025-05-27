@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 
 class AccountListController extends GetxController {
   final RxList<PaymentsModel> accountList = <PaymentsModel>[].obs; // 客户列表
+  final RxBool isLoading = true.obs;
 
   @override
   void onInit() {
@@ -13,8 +14,7 @@ class AccountListController extends GetxController {
 
   getPaymentList() async {
     var result = await FinanceService.getPaymentList();
-    if (result.isNotEmpty) {
-      accountList.value = result;
-    }
+    accountList.value = result;
+    isLoading.value = false;
   }
 }

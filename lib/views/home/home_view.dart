@@ -3,6 +3,7 @@ import 'package:dsfulfill_admin_app/state/app_state.dart';
 import 'package:dsfulfill_admin_app/views/components/base_text.dart';
 import 'package:dsfulfill_admin_app/views/components/image/load_asset_image.dart';
 import 'package:dsfulfill_admin_app/views/components/picker/language_picker.dart';
+import 'package:dsfulfill_admin_app/views/firebase/notification.dart';
 import 'package:dsfulfill_admin_app/views/home/home_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -33,7 +34,9 @@ class HomeView extends GetView<HomeController> {
                 ),
                 child: Center(
                   child: Text(
-                    (Get.find<AppState>().team['team_name'] ?? '-')[0],
+                    Get.find<AppState>().team['company_id'] == 0
+                        ? '-'
+                        : (Get.find<AppState>().team['team_name'] ?? '-')[0],
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 16.sp,
@@ -50,9 +53,14 @@ class HomeView extends GetView<HomeController> {
                   if (controller.token.value == '') {
                     Routers.push(Routers.restLogin);
                   }
+                  if (Get.find<AppState>().team['company_id'] == 0) {
+                    Routers.push(Routers.newTeam, {'type': 'no_team'});
+                  }
                 },
                 child: AppText(
-                  text: Get.find<AppState>().team['team_name'] ?? '请先登录'.tr,
+                  text: Get.find<AppState>().team['company_id'] == 0
+                      ? '请先创建团队'.tr
+                      : Get.find<AppState>().team['team_name'] ?? '请先登录'.tr,
                   fontSize: 16.sp,
                   fontWeight: FontWeight.w600,
                   overflow: TextOverflow.ellipsis,
@@ -148,8 +156,18 @@ class HomeView extends GetView<HomeController> {
                     SingleChildScrollView(
                       child: Row(
                         children: [
+                          GestureDetector(
+                            onTap: () {
+                              Notifications.getToken();
+                            },
+                            child: Container(
+                              width: 100.w,
+                              height: 32.h,
+                              color: Colors.red,
+                            ),
+                          ),
                           _buildTab(
-                              '${'订单'.tr} (${controller.homeModel.value.orderCount ?? 0})',
+                              '${'订单'.tr} (${controller.orderListStatus.fold(0, (sum, element) => sum + (element['count'] as int))})',
                               controller.tabIndex.value == 0,
                               0),
                           SizedBox(width: 12.w),

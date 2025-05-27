@@ -1,3 +1,4 @@
+import 'package:dsfulfill_admin_app/state/app_state.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -14,7 +15,6 @@ import 'package:dsfulfill_admin_app/i10n/i10n.dart';
 import 'package:dsfulfill_admin_app/storage/common_storage.dart';
 import 'package:event_bus/event_bus.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:get/route_manager.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -37,6 +37,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   late Locale _locale;
   StreamSubscription? paySub;
+  late bool isTeam = false;
 
   _MyAppState() {
     //监听事件
@@ -51,6 +52,9 @@ class _MyAppState extends State<MyApp> {
     initPayObserver();
     _locale = CommonStorage.getLanguage() ?? const Locale('en', 'US');
     // const Locale('zh', 'CN');
+    if (CommonStorage.getToken() != '') {
+      isTeam = Get.find<AppState>().team['company_id'] == 0 ? true : false;
+    }
     initLoadingConfig();
   }
 
@@ -95,7 +99,11 @@ class _MyAppState extends State<MyApp> {
           translations: I10N(),
           locale: _locale,
           getPages: Routers.pages,
-          initialRoute: CommonStorage.getGuide() ? Routers.guide : Routers.home,
+          initialRoute: CommonStorage.getGuide()
+              ? Routers.guide
+              : isTeam
+                  ? Routers.newTeam
+                  : Routers.home,
           builder: EasyLoading.init(builder: (context, child) {
             return MediaQuery(
               data: MediaQuery.of(context).copyWith(

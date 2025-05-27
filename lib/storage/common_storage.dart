@@ -7,6 +7,7 @@ class CommonStorage {
   static String userInfoKey = "userInfo";
   static String teamKey = "team";
   static String guideKey = "guide";
+  static String deviceTokenKey = 'device-token';
 
   static Locale? getLanguage() {
     String? code = GetStorage().read(languageKey);
@@ -62,5 +63,13 @@ class CommonStorage {
 
   static bool getGuide() {
     return GetStorage().read(guideKey) ?? true;
+  }
+
+  static void setDeviceToken(String data) {
+    GetStorage().write(deviceTokenKey, data);
+  }
+
+  static String getDeviceToken() {
+    return GetStorage().read(deviceTokenKey) ?? '';
   }
 }

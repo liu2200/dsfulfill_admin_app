@@ -51,7 +51,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyBAdWOiBFabCYkKc5IaGth6aLdrgRAnINk',
-    appId: '1:46936126497:android:17542d45da733854411f60',
+    appId: '1:46936126497:android:6bb17f928d11790e411f60',
     messagingSenderId: '46936126497',
     projectId: 'dsfulfill-damin-app',
     databaseURL: 'https://dsfulfill-damin-app-default-rtdb.firebaseio.com',
@@ -66,7 +66,7 @@ class DefaultFirebaseOptions {
     databaseURL: 'https://dsfulfill-damin-app-default-rtdb.firebaseio.com',
     storageBucket: 'dsfulfill-damin-app.firebasestorage.app',
     androidClientId:
-        '46936126497-7l9u8gsphrtbkur7sgmgfanu1t00qg81.apps.googleusercontent.com',
+        '46936126497-3005gb1etli7udeeuhoi6rqg4uke7rao.apps.googleusercontent.com',
     iosClientId:
         '46936126497-ul8fu94s1l0jt3d6r53sb0cpug5i9lle.apps.googleusercontent.com',
     iosBundleId: 'dsfulfill.com',
